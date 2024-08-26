@@ -16,21 +16,16 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+URL de Trello: https://trello.com/b/2eHn3QUM/digital-money
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+URL Figma sprint 1: https://www.figma.com/design/97PL2osKArAZLEvUjjtEt5/FRONT---SPRINT-1--Digital-Money-House?node-id=1316-6225&t=RucWLNVQJeHNuOEG-0
 
-## Learn More
+URL Figma sprint 2: https://www.figma.com/design/hrzb9zdwHR7jNphUuNiM1q/FRONT---SPRINT-2--Digital-Money-House?node-id=1316-6225&t=G48LaDcv6Io11IoB-0
 
-To learn more about Next.js, take a look at the following resources:
+URL Figma sprint 3: https://www.figma.com/design/qkyOYyOi1RCw6lT43ICUM7/FRONT---SPRINT-3--Digital-Money-House?node-id=1316-6225&t=ihYpzErokQ7u9Kqy-0
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+URL Figma sprint 4: https://www.figma.com/design/ZI7xSzYquZc6CowjMGb8wj/FRONT---SPRINT-4--Digital-Money-House?node-id=1316-6225&t=6gPQHAtw9F0tKItW-0
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Desktop: 1440 x 764
+Tablet: 834 x 1194
+Mobile: 390 x 905
