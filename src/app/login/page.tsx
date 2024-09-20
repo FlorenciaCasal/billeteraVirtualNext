@@ -1,17 +1,35 @@
-import Navbar from '@/Components/layout/Navbar'
-import logoGreen from '/public/img/logo2.png';
+'use client';
 
-const page = () => {
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '@/store';
+import { nextStep, resetSteps } from '@/store/stepsSlice';
+import Step1 from "@/Components/form/login/Step1"
+import Step2 from "@/Components/form/login/Step2"
+
+
+const LoginPage = () => {
+  const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(resetSteps());
+  }, [dispatch]);
+
+  const handleNextStep = () => {
+    dispatch(nextStep());
+  };
+  
+
   return (
-   <>
-    <Navbar
-       backgroundColor="bg-custom-green"
-       logo={logoGreen}
-       showLoginButton={false}
-       showRegisterButton={false}/>
-    
-    <div>Pagina de Login</div></>
+    <>
+      <section className="bg-[#272727] w-full bg-cover bg-center flex-grow flex justify-center items-center">
+        {currentStep === 1 && <Step1 onContinue={handleNextStep} />}
+        {currentStep === 2 && <Step2 />}
+      </section>
+
+    </>
   )
 }
 
-export default page
+export default LoginPage

@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { Provider } from 'react-redux';
+import stepsReducer from './stepsSlice';
+
 
 const store = configureStore({
   reducer: {
-    // Agregar los reducers aquí
+    steps: stepsReducer,
   },
 });
 
 export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

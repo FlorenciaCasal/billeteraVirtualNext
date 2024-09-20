@@ -1,45 +1,40 @@
-import Navbar from "@/Components/layout/Navbar"
-import Image from "next/image"
-import fondoDesktop from "../../public/img/fondoDesktop.png"
-import logo1 from '/public/img/logo1.png';
+import Navbar from "../../src/Components/layout/Navbar"
+import logo1 from '/public/img/Logo1.png';
+import { homeTexts } from "../Components/texts/HomeTexts";
+import Card from "@/Components/ui/Card";
 
 export default function Home() {
   return (
     <>
-      <Navbar
-        backgroundColor="bg-backgroundNavbar"
-        logo={logo1}
-        showLoginButton={true}
-        showRegisterButton={true}
-      />     
-      <div className=" block relative min-h-screen w-100 h-100">
-        <Image
-          src={fondoDesktop}
-          alt="Fondo del Home"
-          fill
-          priority
-          objectFit="cover"
-          placeholder="blur"
-          className="z-0"
+        <Navbar
+          backgroundColor="bg-backgroundNavbar"
+          logo={logo1}
+          showLoginButton={true}
+          showRegisterButton={true}
         />
-        <div className="absolute z-10 top-4 p-8 max-w-md mx-auto ml-5">
-          <h1 className="text-white">De ahora en adelante, hacés más con tu dinero</h1>
-          <h3 className="text-custom-green">Tu nueva <span className="font-bold">billetera virtual</span></h3>
-        </div>
-        <div className="absolute z-20 bottom-14 w-full flex justify-center gap-6">
-          <div className="bg-white p-8 max-w-md rounded-3xl">
-            <h2 className="text-black">Transferí dinero</h2>
-            <div className="border-t-2 border-custom-green my-2"></div>
-            <p className="text-black">Desde Digital Money House vas a poder transferir dinero a otras cuentas, asi como también recibir transferencias y nuclear tu capital en nuestra billetera virtual</p>
+
+        <section className="bg-fondo-home w-full bg-cover bg-center flex-grow flex flex-col justify-between relative">
+          <div className="p-4 max-w-md mx-5 mt-4">
+            <h1 className="text-[#fff] leading-none">{homeTexts.title}</h1>
+            <h3 className="text-custom-green">
+              {homeTexts.subtitle} <span className="font-bold">{homeTexts.negrita}</span>
+            </h3>
           </div>
-          <div className="bg-white p-8 max-w-md rounded-3xl">
-            <h2 className="text-black">Pago de servicios</h2>
-            <div className="border-t-2 border-custom-green my-2"></div>
-            <p className="text-black">Pagá mensualmente los servicios en 3 simples clicks. Facil, rápido y conveniente. Olvidate de las facturas en papel</p>
+
+          <div className="absolute z-20 bottom-8 w-full flex flex-col items-center custom-md:flex-row  custom-md:items-stretch justify-center gap-6">
+            <Card
+              title="Transferí dinero"
+              paragraph="Desde Digital Money House vas a poder transferir dinero a otras cuentas, asi como también recibir transferencias y nuclear tu capital en nuestra billetera virtual"
+            />
+            <Card
+              title="Pago de servicios"
+              paragraph="Pagá mensualmente los servicios en 3 simples clicks. Facil, rápido y conveniente. Olvidate de las facturas en papel"
+            />
           </div>
-        </div>
-        <div className="absolute bottom-0 z-10 w-full bg-custom-green h-24 rounded-t-3xl"></div>
-      </div>
+
+
+          <div className="w-full bg-crearCuentaNavbar h-2/5 rounded-t-3xl z-0 absolute bottom-0 custom-md:h-1/5"></div>
+        </section>
     </>
   )
 }

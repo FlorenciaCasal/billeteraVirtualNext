@@ -3,9 +3,13 @@
 import Image from 'next/image';
 import Button from '../ui/Button';
 import { NavbarType } from '@/types/navbar.types';
+import { usePathname } from 'next/navigation';
+
 
 
 const Navbar = ({ backgroundColor, logo, showLoginButton, showRegisterButton }: NavbarType) => {
+    const pathname = usePathname();
+    const isRegister = pathname === '/register'; 
 
     return <>
         <div className={`flex items-center justify-between p-4 ${backgroundColor}`}>
@@ -23,15 +27,15 @@ const Navbar = ({ backgroundColor, logo, showLoginButton, showRegisterButton }: 
                 {showLoginButton && (
                     <Button
                         href="/login"
-                        className="text-custom-green bg-backgroundNavbar border border-custom-green hover:bg-gray-500">
-                        Ingresar
-                    </Button>
+                        label={isRegister ? "Iniciar sesión" : "Ingresar"}
+                        className="text-crearCuentaNavbar bg-backgroundNavbar border border-crearCuentaNavbar hover:bg-hoverButtonBlack">
+                                </Button>
                 )}
                 {showRegisterButton && (
                     <Button
                         href="/register"
-                        className="text-black bg-custom-green hover:bg-custom-hover-green">
-                        Crear cuenta
+                        label="Crear cuenta"
+                        className="text-black bg-crearCuentaNavbar hover:bg-hoverButtonGreen">
                     </Button>
                 )}
             </div>

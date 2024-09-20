@@ -9,25 +9,38 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        'custom-green': '#C1FD35', // Color para el botón Crear cuenta
-        'custom-hover-green': '#A0E529', // Color para el hover del botón Crear cuenta
-        'backgroundNavbar' : '#201F22',
-        'backgroundFooter' : '#3A393E',
-
+      backgroundImage: {
+        'fondo-home': "url('/img/fondoHome.png')",
       },
-      fontFamily: {
-        sans: ['Open Sans', 'sans-serif'],
+      screens: {
+        'custom-md': '940px', 
       },
-      fontSize: {
-        '2xl': '44px',
-        xl: '26px',
-        lg: '22px',
-        md: '18px',
-        sm: '16px',
-        xs: '14px',
-      },
+    
+    colors: {
+      'crearCuentaNavbar': '#C1FD35', 
+      'hoverButtonGreen': '#A0E529', 
+      'hoverButtonBlack': '#6B7280',
+      'backgroundNavbar': '#201F22',
+      'backgroundFooter': '#3A393E',
+      'crearCuentaLogin': '#CECECE',
+      'error': '#DA0000'
     },
+    fontFamily: {
+      sans: ['Open Sans', 'sans-serif'],
+    },
+    fontSize: {
+      xs: '14px',
+      'msj': '15px',
+      sm: '16px',
+      md: '18px',
+      lg: '20px',
+      xl: '26px',
+      '2xl': '34px',
+      '3xl': '40px',
+      '4xl': '48px',
+      '5xl': '64px'
+    },
+  },
   },
   plugins: [],
 
