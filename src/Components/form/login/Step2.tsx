@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormData2 } from "@/types/formData/formLoginStep2.types";
 import { useRouter } from "next/navigation";
-import authApi from "@/services/auth/auth.service";
+import authApi from "@/services/auth/auth.api";
 import { AccessDeniedError } from "@/services/common/http.errors";
 import { LoginPasswordScheme } from "@/schemes/login.scheme";
 
