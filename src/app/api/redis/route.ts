@@ -3,11 +3,11 @@ import authService from "@/services/auth/auth.services";
 import { headers } from "next/headers";
 
 
-
 export async function GET(request: Request) {
 const headersList= headers()
 const authorization = headersList.get('Authorization')
-if( authorization !== `Bearer ${process.env.REDIS_API_TOKEN}`) {
+// if( authorization !== `Bearer ${process.env.REDIS_API_TOKEN}`) {
+    if( authorization !== process.env.REDIS_API_TOKEN) {
     return NextResponse.json({
         error: 'Unauthorized',
     }, {status: 401})

@@ -1,12 +1,14 @@
-import { UserType } from "@/types/user.types";
 import httpInternalApi from "../common/http.java.service";
-import httpExternalApi from "../common/http.next.service";
+import { ResponseAccountType } from "@/types/auth.types";
+import { FormRegisterData } from "@/types/FormRegisterData";
 
 class UserAPI {
 
-    getMeInternal = async (token: string): Promise<UserType> => httpInternalApi.httpGet(`/me`, undefined, token)
-    getUserData = async (id: number): Promise<UserType> => httpInternalApi.httpGetPublic(`/users/${id}`)
-  
+    // getMeInternal = async (token: string): Promise<UserType> => httpInternalApi.httpGet(`/account`, undefined, token)
+    getMeInternal = async (token: string): Promise<ResponseAccountType> => httpInternalApi.httpGet(`/account`, undefined, token)
+
+    getUserData = async (user_id: number): Promise<FormRegisterData> => httpInternalApi.httpGetPublic(`/users/${user_id}`)
+
 }
 
 const userApi = new UserAPI();

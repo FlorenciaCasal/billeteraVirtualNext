@@ -11,6 +11,7 @@ export class HttpBaseAPI {
     }
 
     async httpGet<T>(endpointSuffix: string, params?: URLSearchParams, token?: string): Promise<T> {
+        console.log(`Fetching URL: ${this.privateEndpoint}${endpointSuffix}`);
         const res = await fetch(`${this.privateEndpoint}${endpointSuffix}${params ? `?${params}` : ''}`, {
             cache: 'no-cache',
             headers: !token ? { 'Content-Type': 'application/json' } : {
@@ -25,8 +26,9 @@ export class HttpBaseAPI {
         return res.json();
     };
 
+
     async httpGetPublic<T>(endpointSuffix: string, params?: URLSearchParams): Promise<T> {
-        return this.httpGet(endpointSuffix, params);
+        return this.httpGet(`${endpointSuffix}`, params);
     }
 
     async httpPost<T>(endpointSuffix: string, body: object, token?: string): Promise<T> {
@@ -56,39 +58,7 @@ export class HttpBaseAPI {
     }
 
     async httpPostPublic<T>(endpointSuffix: string, body: object): Promise<T> {
-        return this.httpPost(`${this.publicEndpointSuffix}${endpointSuffix}`, body);
+        return this.httpPost(`${endpointSuffix}`, body);
     }
 }
 
-// export const httpPost = async <T>(
-//     endpoint: string,
-//     body: object,
-//     token?: string,
-//     skipAuthorization?: boolean
-// ): Promise<T> => {
-//     try {
-//         const res = await fetch(`${API_JAVA_URL}${endpoint}`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 ...(skipAuthorization ? {} : { 'Authorization': `Bearer ${token}` }),
-//             },
-//             body: JSON.stringify(body),
-//         });
-//         if (!res.ok) {
-//             const errorMessage = await res.text();
-//             if (res.status === 403) {
-//                 throw new AccessDeniedError("User has no access")
-//             }
-//             throw new Error(`Failed to post ${endpoint}: ${res.status} ${res.statusText} - ${errorMessage}`);
-//         }
-//         return res.json();
-//     } catch (error) {
-//         console.error(`Error in httpPost for endpoint ${endpoint}:`, error);
-//         throw error;
-//     }
-// }
-
-// export const httpPostPublic = async <T>(endpoint: string, body: object): Promise<T> => {
-//     return httpPost<T>(endpoint, body, undefined, true);
-// };

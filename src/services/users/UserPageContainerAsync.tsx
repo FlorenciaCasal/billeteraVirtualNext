@@ -3,23 +3,18 @@ import Link from "next/link";
 import userApi from "@/services/users/users.service";
 
 type UserPageContainerProps = {
-    id: number;
+    user_id: number;
 }
 
-const UserPageContainerAsync = async ({ id }: UserPageContainerProps) => {
-    console.log('console.log(id): ', id)
-    const userPromise = userApi.getUserData(id);
-     
-    // const [user] =
-    //     await Promise.all([userPromise,
-    //     ])
+const UserPageContainerAsync = async ({ user_id }: UserPageContainerProps) => {
+    console.log('console.log(user_id): ', user_id)
+    const userPromise = userApi.getUserData(user_id);
 
-      // Asegurarnos que el resultado de la API es serializable
-      const [userRaw] = await Promise.all([userPromise]);
+    const [user] =
+        await Promise.all([userPromise,
+        ])
 
-      // Transformamos el resultado en un objeto JSON serializable
-      const user = JSON.parse(JSON.stringify(userRaw));
-      console.log(user.id)
+    console.log(user.user_id)
 
     return <main className="flex flex-col bg-gray-100 p-8">
         <h1>Perfil</h1>
@@ -27,8 +22,8 @@ const UserPageContainerAsync = async ({ id }: UserPageContainerProps) => {
             {user.firstname}
         </h2>
         <div className="text-md mb-4 text-gray-600 cursor-pointer">
-            @<Link href={`/users/${user.id}`}>{user.email}</Link>
-            
+            @<Link href={`/users/${user.user_id}`}>{user.email}</Link>
+
         </div>
     </main>
 }

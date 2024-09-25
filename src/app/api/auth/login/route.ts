@@ -13,6 +13,8 @@ export async function POST(request: NextRequest) {
 
         const authCookie = `digitalMoneyID=${loginResponse.sessionId}; Expires=${loginResponse.expireAt}; Domain=localhost; HttpOnly; Path=/`;
 
+    
+
         // return new Response('', {
         return new Response(JSON.stringify(loginResponse.user), {
             status: 200,

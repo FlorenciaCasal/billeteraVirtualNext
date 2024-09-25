@@ -1,9 +1,9 @@
+import { FormRegisterData } from './../../types/FormRegisterData';
 import { RedisClientType, createClient } from 'redis';
 import { AccessDeniedError } from '../common/http.errors';
 import { v4 as uuidv4 } from 'uuid';
 import authApi from './auth.api';
 import { AuthResponseType } from '@/types/auth.types';
-
 
 const TEN_MINUTE = 60 * 10;
 
@@ -21,7 +21,7 @@ class AuthService {
         })
     }
 
-    async authenticate(email: string, password: string): Promise<AuthResponseType> {    
+    async authenticate(email: string, password: string): Promise<AuthResponseType> {
         const loginResponse = await authApi.loginJava(email, password);
         const sessionId = uuidv4();
         const now = new Date();
@@ -30,10 +30,9 @@ class AuthService {
         return {
             sessionId: sessionId,
             expireAt: expireAt,
-            user: loginResponse.user
+            // user: loginResponse.user
         };
     }
-
 
     async getToken(sessionId?: string): Promise<string> {
         if (!sessionId) throw new AccessDeniedError('Session ID is not valid anymore')
@@ -42,10 +41,11 @@ class AuthService {
         return token;
     }
 
-    async getRedisValue(key: string): Promise<string | null> {   
-        return await this.client.get(key);        
+    async getRedisValue(key: string): Promise<string | null> {
+        return await this.client.get(key);
     }
 }
+
 
 const authService = new AuthService();
 export default authService

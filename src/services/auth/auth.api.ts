@@ -12,6 +12,8 @@ class AuthAPI {
 
     loginJava = async (email: string, password: string): Promise<LoginResponseType> =>
         httpJavaApi.httpPostPublic(`/login`, { email, password })
+
+
 }
 
 const authApi = new AuthAPI();

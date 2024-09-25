@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import stepsReducer from './stepsSlice';
+import userReducer from './userSlice';
 
 
 const store = configureStore({
   reducer: {
     steps: stepsReducer,
+    user: userReducer,
   },
 });
 
