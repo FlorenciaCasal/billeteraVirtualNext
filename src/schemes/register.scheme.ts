@@ -24,14 +24,14 @@ export const RegisterScheme = yup.object({
         .string()
         .min(3, 'El apellido debe tener al menos 3 caracteres')
         .required('El apellido es obligatorio'),
-        email: yup
+    email: yup
         .string()
         .required("El correo electrónico es obligatorio")
         .matches(
             /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
             "Ingresa un correo electrónico válido"
         ),
-        password: yup
+    password: yup
         .string()
         .min(6, 'La contraseña debe tener al menos 6 caracteres')
         .max(20, 'La contraseña no debe exceder los 20 caracteres')

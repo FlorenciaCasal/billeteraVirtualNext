@@ -1,4 +1,3 @@
-import { FormRegisterData } from './../../types/FormRegisterData';
 import { RedisClientType, createClient } from 'redis';
 import { AccessDeniedError } from '../common/http.errors';
 import { v4 as uuidv4 } from 'uuid';

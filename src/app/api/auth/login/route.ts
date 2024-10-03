@@ -7,16 +7,12 @@ import authService from '@/services/auth/auth.services';
 export async function POST(request: NextRequest) {
     const { email, password } = await LoginFinalScheme.validate(await request.json());
 
-
     try {
         const loginResponse = await authService.authenticate(email, password)
-
         const authCookie = `digitalMoneyID=${loginResponse.sessionId}; Expires=${loginResponse.expireAt}; Domain=localhost; HttpOnly; Path=/`;
-
-    
-
         // return new Response('', {
-        return new Response(JSON.stringify(loginResponse.user), {
+        return new Response(JSON.stringify(loginResponse), {
+            // return new Response(JSON.stringify(loginResponse), {
             status: 200,
             headers: { 'Set-Cookie': authCookie },
         })

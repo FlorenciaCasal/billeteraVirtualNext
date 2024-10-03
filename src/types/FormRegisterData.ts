@@ -6,3 +6,4 @@ export type FormRegisterData = {
     password: string;
     phone: string;
   }
+  

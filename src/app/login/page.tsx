@@ -19,7 +19,7 @@ const LoginPage = () => {
   const handleNextStep = () => {
     dispatch(nextStep());
   };
-  
+
 
   return (
     <>

@@ -4,10 +4,10 @@ import httpJavaApi from "../common/http.java.service";
 
 class AuthAPI {
     getRedisValue = async (key: string): Promise<RedisResponseType> =>
-        httpNextApi.httpGet(`/redis`, new URLSearchParams({key: key}), process.env.REDIS_API_TOKEN)
+        httpNextApi.httpGet(`/api/redis`, new URLSearchParams({key: key}), process.env.REDIS_API_TOKEN)
 
     login = async (email: string, password: string): Promise<LoginResponseType> =>
-        httpNextApi.httpPost(`/auth/login`, { email, password })
+        httpNextApi.httpPost(`/api/auth/login`, { email, password })
     // {        return await httpNextApi.httpPost<LoginResponseType>(`/auth/login`, { email, password });
 
     loginJava = async (email: string, password: string): Promise<LoginResponseType> =>

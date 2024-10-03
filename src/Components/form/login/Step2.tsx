@@ -15,8 +15,10 @@ const Step2 = () => {
   const {
     register, handleSubmit,
     formState: { errors },
+    trigger, // Añadido para validación en tiempo real
   } = useForm<FormData2>({
     resolver: yupResolver(LoginPasswordScheme),
+    mode: "onChange", // Activar validación en tiempo real
   });
 
   const onSubmit = async (data: FormData2) => {
@@ -30,7 +32,7 @@ const Step2 = () => {
         router.refresh();
       } catch (e) {
         if (e instanceof AccessDeniedError) {
-          setServerError("Tus credenciales son inválidas")
+          setServerError("Correo electrónico o contraseña incorrectos")
         } else {
           setServerError("Ha ocurrido un error. Intente más tarde")
         }
@@ -49,10 +51,18 @@ const Step2 = () => {
             type="password"
             placeholder="Contraseña"
             {...register("password")}
+            autoFocus
+            onChange={(e) => {
+              register("password").onChange(e); // Ejecutar el onChange de RHF
+              trigger("password"); // Disparar validación en tiempo real
+            }}
           />
+           {errors.password && (
+            <p className="text-error text-[15px] mb-4">{errors.password.message}</p> // Mensaje de error
+          )}
           <Button
             type="submit"
-            className="w-64 h-12 mb-4 text-sm text-custom-green bg-crearCuentaNavbar border border-custom-green hover:bg-hoverButtonGreen"
+            className="w-64 h-12 mb-4 text-sm text-[#000] bg-crearCuentaNavbar border border-custom-green hover:bg-hoverButtonGreen"
           >
             Continuar
           </Button>

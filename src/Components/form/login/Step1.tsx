@@ -1,31 +1,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import Button from "@/Components/ui/Button";
 import { FormData1 } from "@/types/formData/formLoginStep1.types";
-
+import { LoginEmailScheme } from "@/schemes/login.scheme";
 interface Step1Props {
   onContinue: () => void;
 }
-
-const schema = yup.object({
-  email: yup
-    .string()
-    .required("El correo electrónico es obligatorio")
-    .matches(
-      /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
-      "Ingresa un correo electrónico válido"
-    ),
-});
 
 const Step1: React.FC<Step1Props> = ({ onContinue }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    trigger, // Añadido para validación en tiempo real
   } = useForm<FormData1>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(LoginEmailScheme),
+    mode: "onChange", // Activar validación en tiempo real
   });
 
   const onSubmit = (data: FormData1) => {
@@ -43,21 +34,27 @@ const Step1: React.FC<Step1Props> = ({ onContinue }) => {
             type="email"
             placeholder="Correo electrónico"
             {...register("email")}
+            autoFocus
+            onChange={(e) => {
+              register("email").onChange(e); // Ejecutar el onChange de RHF
+              trigger("email"); // Disparar validación en tiempo real
+            }}
           />
+          {errors.email && (
+            <p className="text-error text-[15px] mb-4">{errors.email.message}</p> // Mensaje de error
+          )}
           <Button
             type="submit"
-            className="w-64 h-12 mb-4 text-sm text-custom-green bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen"
+            className="w-64 h-12 mb-4 text-sm text-[#000] bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen"
            >
             Continuar
           </Button>
           <Button
             href="/register"
-            className="w-64 h-12 mb-4 text-sm text-custom-green bg-crearCuentaLogin border-custom-green hover:bg-hoverButtonBlack">
+            className="w-64 h-12 mb-4 text-sm text-[#000] bg-crearCuentaLogin border-custom-green hover:bg-hoverButtonBlack">
             Crear cuenta
           </Button>
-          {errors.email && (
-            <p className="text-error text-[15px] mb-4">{errors.email.message}</p> // Mensaje de error
-          )}
+  
         </form>
       </section>
     </>

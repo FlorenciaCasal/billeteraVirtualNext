@@ -1,7 +1,7 @@
 import { HttpBaseAPI } from "./http.service";
 
 // const API_URL = 'http://localhost:3000/api';
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:3000';
 const API_PUBLIC_ENDPOINT = '';
 
 class HttpNextAPI extends HttpBaseAPI {

@@ -11,9 +11,10 @@ const config: Config = {
     extend: {
       backgroundImage: {
         'fondo-home': "url('/img/fondoHome.png')",
+        'fondo-home-mobile': "url('/img/fondoHomeMobile.png')",
       },
       screens: {
-        'custom-md': '940px', 
+        'xs': '375px', 
       },
     
     colors: {
@@ -34,9 +35,14 @@ const config: Config = {
       sm: '16px',
       md: '18px',
       lg: '20px',
-      xl: '26px',
+      'mlg': '22px',
+      xl: '27px',
+      'mxl': '28px',
+      'mmxl': '30px',
       '2xl': '34px',
+      'm2xl': '38px',
       '3xl': '40px',
+      'm3xl': '42px',
       '4xl': '48px',
       '5xl': '64px'
     },

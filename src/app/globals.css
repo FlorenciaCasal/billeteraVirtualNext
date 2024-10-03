@@ -6,18 +6,19 @@
 
 @layer components {
   h1 {    
-    @apply font-normal text-4xl font-sans;       
-  }
-  h3 {
-    @apply font-normal text-2xl font-sans;
+    @apply font-normal text-xl sm:text-m3xl lg:text-4xl font-sans;       
   }
   h2 {
-    @apply font-bold text-3xl font-sans;
+    @apply font-bold text-mxl sm:text-m2xl lg:text-3xl font-sans;
+  }
+  h3 {
+    @apply font-normal text-mlg sm:text-mmxl lg:text-2xl font-sans;
   }
   p {
-    @apply font-normal text-lg font-sans;
+    @apply font-normal text-sm sm:text-lg font-sans;
   }
 }
+
 
 .swal-popup {
   background: rgba(0, 0, 0, 0) !important;

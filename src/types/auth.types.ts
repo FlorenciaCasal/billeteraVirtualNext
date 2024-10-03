@@ -11,7 +11,7 @@ export type LoginResponseType = {
 export type AuthResponseType = {
     sessionId: string;
     expireAt: string;
-    user: FormRegister
+    // user: FormRegister
 }
 
 export type RedisResponseType = {

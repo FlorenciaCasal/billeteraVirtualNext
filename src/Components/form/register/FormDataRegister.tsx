@@ -12,9 +12,7 @@ interface FormDataRegisterProps {
   onContinue: (data: FormRegister) => void;
 }
 
-
 const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
-
   const [isFormVisible, setIsFormVisible] = useState(true);
 
   const {
@@ -44,7 +42,7 @@ const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4 items-center justify-center">
 
-            <Input newType="text" newPlaceholder="Nombre" register={register} errors={errors} fieldName="firstname" />
+            <Input newType="text" newPlaceholder="Nombre" register={register} errors={errors} fieldName="firstname" autoFocus/>
             <Input newType="text" newPlaceholder="Apellido" register={register} errors={errors} fieldName="lastname" />
             <Input newType="number" newPlaceholder="DNI" register={register} errors={errors} fieldName="dni" />
             <Input newType="text" newPlaceholder="Correo electrónico" register={register} errors={errors} fieldName="email" />
@@ -58,7 +56,7 @@ const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
             <span className="flex flex-col h-22">
               <Button
                 type="submit"
-                className="w-full h-12 mb-1 !text-sm text-custom-green bg-crearCuentaNavbar border border-custom-green hover:bg-hoverButtonGreen"
+                className="w-full h-12 mb-1 !text-sm text-[#000] bg-crearCuentaNavbar border border-custom-green hover:bg-hoverButtonGreen"
                 onClick={handleSubmit(onSubmit)}
               >
                 Crear cuenta

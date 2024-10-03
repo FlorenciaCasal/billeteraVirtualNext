@@ -7,9 +7,10 @@ interface InputProps {
     errors: any;
     fieldName: string;
     className?: string;
+    autoFocus?: boolean;
   }
 
-const Input: React.FC<InputProps> = ({ newType, newPlaceholder, register, errors, fieldName, className }) => {
+const Input: React.FC<InputProps> = ({ newType, newPlaceholder, register, errors, fieldName, className, autoFocus = false }) => {
   return (
     <span className= "flex flex-col h-22">
       <input
@@ -17,6 +18,7 @@ const Input: React.FC<InputProps> = ({ newType, newPlaceholder, register, errors
         type={newType}
         placeholder={`${newPlaceholder}*`}
         {...register(fieldName)}
+        autoFocus={autoFocus}
       />
       <p className={`text-msj italic font-sans text-center text-error ${errors[fieldName] ? 'block' : 'invisible'}`}>
         {errors[fieldName]?.message || 'Placeholder'}

@@ -57,6 +57,25 @@ export class HttpBaseAPI {
         return {} as T;  // Devolvemos un objeto vacío como T si no hay contenido
     }
 
+    // async httpPost <T>(endpointSuffix: string, body: object, token?: string): Promise<T> {
+    //     const res = await fetch(`${this.privateEndpoint}${endpointSuffix}`, {
+    //         method: 'POST',
+    //         headers: !token ? {'Content-Type': 'application/json'} : {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': token
+    //         },
+    //         body: JSON.stringify(body)
+    //     });
+    //     if (!res.ok){
+    //         console.log(`${res.status} - ${res.statusText}`)
+    //         if (res.status === 403){
+    //             throw new AccessDeniedError("User has no access")
+    //         }
+    //         throw new Error("Failed to post: " + endpointSuffix)
+    //     }
+    //     return res.json();
+    // }    
+
     async httpPostPublic<T>(endpointSuffix: string, body: object): Promise<T> {
         return this.httpPost(`${endpointSuffix}`, body);
     }
