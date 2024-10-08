@@ -21,7 +21,7 @@ const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
     formState: { errors, isSubmitted }
   } = useForm<FormRegister>({
     resolver: yupResolver(RegisterScheme),
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const onSubmit = (data: FormRegister) => {
@@ -32,8 +32,6 @@ const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
     onContinue(data);
   };
 
-
-
   return (
     <>
       {isFormVisible && (
@@ -42,12 +40,12 @@ const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4 items-center justify-center">
 
-            <Input newType="text" newPlaceholder="Nombre" register={register} errors={errors} fieldName="firstname" autoFocus/>
+            <Input newType="text" newPlaceholder="Nombre" register={register} errors={errors} fieldName="firstname" autoFocus />
             <Input newType="text" newPlaceholder="Apellido" register={register} errors={errors} fieldName="lastname" />
             <Input newType="number" newPlaceholder="DNI" register={register} errors={errors} fieldName="dni" />
             <Input newType="text" newPlaceholder="Correo electrónico" register={register} errors={errors} fieldName="email" />
             <div className="col-span-2 mt-[-20px] text-center">
-              <p className="text-msj text-[#fff]">Usa entre 6 y 20 carácteres (debe contener al menos al menos 1 carácter especial, una mayúscula y un número</p>
+              <p className="text-msj text-[#fff]">Usa entre 6 y 20 carácteres (debe contener al menos al menos 1 carácter especial, una mayúscula y un número)</p>
             </div>
             <Input newType="password" newPlaceholder="Contraseña" register={register} errors={errors} fieldName="password" />
             <Input newType="password" newPlaceholder="Confirmar contraseña" register={register} errors={errors} fieldName="confirmPassword" />
@@ -61,8 +59,11 @@ const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
               >
                 Crear cuenta
               </Button>
-              <p className={`text-msj italic font-sans text-center text-error ${isSubmitted && Object.keys(errors).length > 0 ? 'block' : 'invisible'}`}>
+              {/* <p className={`text-msj italic font-sans text-center text-error ${isSubmitted && Object.keys(errors).length > 0 ? 'block' : 'invisible'}`}>
                 {"Completa los campos requeridos" || 'Placeholder'}
+              </p> */}
+              <p className={`text-msj italic font-sans text-center text-error ${isSubmitted && Object.keys(errors).length > 0 ? 'block' : 'invisible'}`}>
+                {Object.keys(errors).length > 0 ? "Completa los campos requeridos" : ""}
               </p>
             </span>
 
