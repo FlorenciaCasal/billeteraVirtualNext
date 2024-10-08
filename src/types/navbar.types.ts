@@ -6,4 +6,5 @@ export type NavbarType = {
     logo: StaticImageData;
     showLoginButton: boolean;
     showRegisterButton: boolean;
+    loggedEmailCookie?: string;
 }

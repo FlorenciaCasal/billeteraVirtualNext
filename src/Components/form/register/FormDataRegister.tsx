@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import Button from '@/Components/ui/Button';
 import { FormRegister } from '@/types/formData/formDataRegister.types';
 import Input from '@/Components/ui/Input';

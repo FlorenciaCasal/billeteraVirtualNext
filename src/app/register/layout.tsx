@@ -9,7 +9,8 @@ const RegisterLayout = ({ children }: RegisterLayoutProps) => {
                 backgroundColor="bg-crearCuentaNavbar"
                 logo={logoGreen}
                 showLoginButton={true}
-                showRegisterButton={false} />
+                showRegisterButton={false} 
+                loggedEmailCookie = '' />
             {children}
         </>
 

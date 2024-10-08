@@ -5,6 +5,7 @@ import Footer from "../../src/Components/layout/Footer";
 import { Provider } from "react-redux";
 import store from "../store/index";
 
+
 export default function RootLayout({
   children,
 }: Readonly<{

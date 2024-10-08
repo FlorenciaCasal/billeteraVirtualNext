@@ -6,6 +6,9 @@ import { FormRegister } from "@/types/formData/formDataRegister.types";
 import { useRouter } from "next/navigation";
 import Swal from 'sweetalert2';
 import emailjs from '@emailjs/browser';
+import { useState } from "react";
+import { ConflictError } from "@/services/common/http.errors";
+import authApi from "@/services/auth/auth.api";
 
 
 const MsjExito = (onRedirect: () => void) => {
@@ -43,10 +46,10 @@ const sendConfirmationEmail = async (formData: FormRegister) => {
     };
 
     const response = await emailjs.send(
-      'service_gmail',      
-      'template_6wyw4si',      
+      'service_gmail',
+      'template_6wyw4si',
       templateParams,
-      'vZsyj-irN-FDuKYXo'          
+      'vZsyj-irN-FDuKYXo'
     );
 
     if (response.status === 200) {
@@ -61,54 +64,77 @@ const sendConfirmationEmail = async (formData: FormRegister) => {
 
 const RegisterPage = () => {
   const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const handleContinue = async (data: FormRegister) => {
-    try {
-      const response = await fetch('https://digitalmoney.digitalhouse.com/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+    setServerError(null);
 
-      if (response.ok) {
-        if (response.status === 201) {
-          console.log("Cuenta creada con éxito");
-          // Llamar a la función para enviar el correo de confirmación
-          await sendConfirmationEmail(data);
-          MsjExito(() => {
-            router.push('/login');
-          });
-        } else {
-          console.log('Solicitud exitosa, pero no es una creación:', response.status);
-        }
+    try {
+      const registerResponse = await authApi.register(data.firstname, data.lastname, data.dni, data.email, data.password, data.confirmPassword, data.phone);
+      console.log(JSON.stringify(registerResponse));
+      router.push("/");
+      router.refresh();
+    } catch (e) {
+      if (e instanceof ConflictError) {
+        setServerError("Ya existe una cuante con ese email")
       } else {
-        const errorData = await response.json();
-        switch (response.status) {
-          case 400:
-            // Manejo del error 400
-            break;
-          case 409:
-            console.log("El email ingresado ya se encuentra registrado.");
-            break;
-          case 500:
-            // Manejo del error 500
-            break;
-          default:
-            // Manejo de errores genéricos
-            break;
-        }
+        setServerError("Ha ocurrido un error. Intente más tarde")
       }
-    } catch (error) {
-      console.error('Error al conectar con la API:', error);
+
     }
+
+
+    //   try {
+    //     const response = await fetch('https://digitalmoney.digitalhouse.com/api/users', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(data),
+    //     });
+
+    //     if (response.ok) {
+    //       if (response.status === 201) {
+    //         console.log("Cuenta creada con éxito");
+    //         // Llamar a la función para enviar el correo de confirmación
+    //         await sendConfirmationEmail(data);
+    //         MsjExito(() => {
+    //           router.push('/login');
+    //         });
+    //       } else {
+    //         console.log('Solicitud exitosa, pero no es una creación:', response.status);
+    //       }
+    //     } else {
+    //       const errorData = await response.json();
+    //       switch (response.status) {
+    //         case 400:
+    //           // Manejo del error 400
+    //           break;
+    //         case 409:
+    //           console.log("El email ingresado ya se encuentra registrado.");
+    //           break;
+    //         case 500:
+    //           // Manejo del error 500
+    //           break;
+    //         default:
+    //           // Manejo de errores genéricos
+    //           break;
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error('Error al conectar con la API:', error);
+    //   }
   };
 
   return (
     <>
       <section className="bg-[#272727] w-full bg-cover bg-center flex-grow flex justify-center items-center">
         <FormDataRegister onContinue={handleContinue} />
+        {serverError && (
+          <p className="text-error text-[15px] mb-4">
+            {serverError}
+          </p>
+        )}
       </section>
     </>
   );

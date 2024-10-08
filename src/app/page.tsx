@@ -2,8 +2,10 @@ import Navbar from "../../src/Components/layout/Navbar"
 import logo1 from '/public/img/Logo1.png';
 import { homeTexts } from "../Components/texts/HomeTexts";
 import Card from "@/Components/ui/Card";
+import { cookies } from "next/headers";
 
 export default function Home() {
+  const loggedEmailCookie = cookies().get('digitalMoneyEmail')?.value;
   return (
     <>
       <Navbar
@@ -11,6 +13,7 @@ export default function Home() {
         logo={logo1}
         showLoginButton={true}
         showRegisterButton={true}
+        loggedEmailCookie = {loggedEmailCookie}
       />
       <section className="relative bg-fondo-home-mobile w-full sm:bg-fondo-home bg-cover bg-[center_40%] sm:bg-[40%_center] xl:bg-[center_10%] flex-grow flex flex-col justify-between">
 

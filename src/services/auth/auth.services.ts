@@ -3,6 +3,7 @@ import { AccessDeniedError } from '../common/http.errors';
 import { v4 as uuidv4 } from 'uuid';
 import authApi from './auth.api';
 import { AuthResponseType } from '@/types/auth.types';
+import { UserTypeConId } from '@/types/user.types';
 
 const TEN_MINUTE = 60 * 10;
 
@@ -24,7 +25,7 @@ class AuthService {
         const loginResponse = await authApi.loginJava(email, password);
         const sessionId = uuidv4();
         const now = new Date();
-        const expireAt = new Date(now.getTime() + TEN_MINUTE * 1000).toUTCString();
+        const expireAt = new Date(now.getTime() + TEN_MINUTE * 1000).getTime();
         this.client.set(sessionId, loginResponse.token, { EX: TEN_MINUTE })
         return {
             sessionId: sessionId,
@@ -43,6 +44,21 @@ class AuthService {
     async getRedisValue(key: string): Promise<string | null> {
         return await this.client.get(key);
     }
+
+    async register(firstname: string, lastname: string, dni: number, email: string, password: string, confirmPassword: string, phone: string): Promise<UserTypeConId> {
+        const registerResponse = await authApi.registerJava(firstname, lastname, dni, email, password, confirmPassword, phone);
+
+        return {
+            account_id: registerResponse.account_id,
+            email: registerResponse.email,
+            user_id: registerResponse.user_id
+        };
+    }
+
+    async logout(sessionId: string): Promise<void> {
+        await this.client.del(sessionId);
+    }
+
 }
 
 

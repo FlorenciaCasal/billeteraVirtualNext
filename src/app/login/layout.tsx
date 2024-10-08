@@ -10,6 +10,7 @@ const LoginLayout = ({ children }: LoginLayoutProps) => {
             logo={logoGreen}
             showLoginButton={false}
             showRegisterButton={false}
+            loggedEmailCookie = ''
         />
         {children}
     </>
