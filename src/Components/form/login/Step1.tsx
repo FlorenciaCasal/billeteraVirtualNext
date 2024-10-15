@@ -4,11 +4,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@/Components/ui/Button";
 import { FormData1 } from "@/types/formData/formLoginStep1.types";
 import { LoginEmailScheme } from "@/schemes/login.scheme";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/userSlice";
+
 interface Step1Props {
   onContinue: () => void;
 }
 
 const Step1: React.FC<Step1Props> = ({ onContinue }) => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -19,8 +23,11 @@ const Step1: React.FC<Step1Props> = ({ onContinue }) => {
     mode: "onChange", // Activar validación en tiempo real
   });
 
+  
+
   const onSubmit = (data: FormData1) => {
-    localStorage.setItem("email", data.email || ""); // Guardar el email en sessionStorage
+    // localStorage.setItem("email", data.email || ""); // Guardar el email en sessionStorage
+    dispatch(setUser({ email: data.email, user_id: null}));
     onContinue(); // Proceder al siguiente paso
   };
 

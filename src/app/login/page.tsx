@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '@/store';
+import { RootState, AppDispatch } from '@/store/store';
 import { nextStep, resetSteps } from '@/store/stepsSlice';
 import Step1 from "@/Components/form/login/Step1"
 import Step2 from "@/Components/form/login/Step2"

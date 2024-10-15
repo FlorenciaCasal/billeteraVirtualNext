@@ -10,8 +10,6 @@ export async function POST(request: NextRequest) {
 
     try {
         const loginResponse = await authService.authenticate(email, password)
-        // const authCookie = `digitalMoneyID=${loginResponse.sessionId}; Expires=${loginResponse.expireAt}; Domain=localhost; HttpOnly; Path=/`;
-        // const emailCookie = `digitalMoneyEmail=${email}; Expires=${loginResponse.expireAt}; Domain=localhost; Path=/`;
 
         cookies().set('digitalMoneyID', loginResponse.sessionId, {
             expires: loginResponse.expireAt,
@@ -29,10 +27,15 @@ export async function POST(request: NextRequest) {
             path: '/'
         })
 
-        return new Response(JSON.stringify(loginResponse), {
-
+        return new Response(JSON.stringify({
+            token: loginResponse.sessionId, 
+            user: {
+                email, 
+            },
+        }), {
             status: 200,
-        })
+        });
+
     } catch (e) {
         if (e instanceof AccessDeniedError) {
             return NextResponse.json({

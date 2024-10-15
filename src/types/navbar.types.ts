@@ -7,4 +7,6 @@ export type NavbarType = {
     showLoginButton: boolean;
     showRegisterButton: boolean;
     loggedEmailCookie?: string;
+    firstname?: string | undefined;
+    lastname?: string | undefined;
 }

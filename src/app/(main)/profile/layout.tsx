@@ -11,8 +11,9 @@ const ProfileLayout = ({ children }: ProfileLayoutProps) => {
                 backgroundColor="bg-crearCuentaNavbar"
                 logo={logoGreen}
                 showLoginButton={false}
-                showRegisterButton={false} 
-                loggedEmailCookie = {loggedEmailCookie} />
+                showRegisterButton={false}
+                loggedEmailCookie=''
+            />
             {children}
         </>
 

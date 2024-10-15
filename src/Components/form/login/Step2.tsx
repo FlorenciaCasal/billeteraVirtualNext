@@ -4,14 +4,19 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormData2 } from "@/types/formData/formLoginStep2.types";
 import { useRouter } from "next/navigation";
-import authApi from "@/services/auth/auth.api";
 import { AccessDeniedError } from "@/services/common/http.errors";
 import { LoginPasswordScheme } from "@/schemes/login.scheme";
+import { loginUser } from "@/store/authSlice";
+import { RootState, AppDispatch } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Step2 = () => {
   const [serverError, setServerError] = useState<string | null>(null);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const authState = useSelector((state: RootState) => state.auth);
+  const user = useSelector((state: RootState) => state.user);
   const {
     register, handleSubmit,
     formState: { errors },
@@ -22,20 +27,17 @@ const Step2 = () => {
   });
 
   const onSubmit = async (data: FormData2) => {
-    const email = localStorage.getItem("email") || "";
+    const email = user.email || "";
     const password = data.password;
     setServerError(null);
     if (email && password) {
       try {
-        const loginReponse = await authApi.login(email, password);
-        router.push("/");
+        await dispatch(loginUser({ email, password })).unwrap();
+        router.push("/home");
         router.refresh();
-      } catch (e) {
-        if (e instanceof AccessDeniedError) {
-          setServerError("Correo electrónico o contraseña incorrectos")
-        } else {
-          setServerError("Ha ocurrido un error. Intente más tarde")
-        }
+      } catch (e: any) {
+        console.log("error step2", e); // Verifica cuál es el error real
+        setServerError(e);  // Aquí e será el mensaje devuelto desde authSlice
       }
     }
   };
@@ -57,7 +59,7 @@ const Step2 = () => {
               trigger("password"); // Disparar validación en tiempo real
             }}
           />
-           {errors.password && (
+          {errors.password && (
             <p className="text-error text-[15px] mb-4">{errors.password.message}</p> // Mensaje de error
           )}
           <Button

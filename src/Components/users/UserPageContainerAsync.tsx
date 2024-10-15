@@ -30,8 +30,11 @@ const UserPageContainerAsync = async ({ user_id }: UserPageContainerProps) => {
         <h2 className="mb-1">
             {user.firstname}
         </h2>
+        <h2 className="mb-1">
+           user_id: {user_id}
+        </h2>
         <div className="text-md mb-4 text-gray-600 cursor-pointer">
-            @<Link href={`/users/${user_id}`}>{user.email}</Link>
+            <Link href={`/users/${user_id}`}>{user.email}</Link>
 
         </div>
     </main>

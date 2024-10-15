@@ -1,17 +1,15 @@
-import { FormRegister } from "./formData/formDataRegister.types";
 import { FormRegisterData } from "./FormRegisterData";
 
 
 export type LoginResponseType = {
     token: string;
-    // user: FormRegister;
     status: number
+    email: string;
 }
 
 export type AuthResponseType = {
     sessionId: string;
     expireAt: number;
-    // user: FormRegister
 }
 
 export type RedisResponseType = {
@@ -28,5 +26,5 @@ export type ResponseAccountType= {
     available_amount: number;
     cvu: string;
     id: number;
-    user_id: number
+    user_id: number;
   }

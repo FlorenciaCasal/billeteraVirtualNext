@@ -40,5 +40,5 @@ const getAuthenticationHeaders = (request: NextRequest, token: string) => {
 }
 
 export const config = {
-    matcher: ['/profile', '/users/:path*'],
+    matcher: ['/profile', '/users/:path*', '/home'],
 }

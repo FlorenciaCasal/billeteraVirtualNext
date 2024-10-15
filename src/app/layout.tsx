@@ -3,7 +3,7 @@
 import "./globals.css";
 import Footer from "../../src/Components/layout/Footer";
 import { Provider } from "react-redux";
-import store from "../store/index";
+import { store } from "@/store/store";
 
 
 export default function RootLayout({

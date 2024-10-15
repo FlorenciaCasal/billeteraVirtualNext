@@ -50,7 +50,7 @@ const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
             <Input newType="password" newPlaceholder="Confirmar contraseña" register={register} errors={errors} fieldName="confirmPassword" />
             <Input newType="text" newPlaceholder="Teléfono" register={register} errors={errors} fieldName="phone" />
 
-            <span className="flex flex-col h-22">
+            <span className="flex flex-col h-22 self-start">
               <Button
                 type="submit"
                 className="w-full h-12 mb-1 !text-sm text-[#000] bg-crearCuentaNavbar border border-custom-green hover:bg-hoverButtonGreen"
@@ -58,9 +58,6 @@ const FormDataRegister: React.FC<FormDataRegisterProps> = ({ onContinue }) => {
               >
                 Crear cuenta
               </Button>
-              {/* <p className={`text-msj italic font-sans text-center text-error ${isSubmitted && Object.keys(errors).length > 0 ? 'block' : 'invisible'}`}>
-                {"Completa los campos requeridos" || 'Placeholder'}
-              </p> */}
               <p className={`text-msj italic font-sans text-center text-error ${isSubmitted && Object.keys(errors).length > 0 ? 'block' : 'invisible'}`}>
                 {Object.keys(errors).length > 0 ? "Completa los campos requeridos" : ""}
               </p>

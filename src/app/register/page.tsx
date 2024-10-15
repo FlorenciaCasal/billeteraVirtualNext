@@ -80,50 +80,7 @@ const RegisterPage = () => {
       } else {
         setServerError("Ha ocurrido un error. Intente más tarde")
       }
-
     }
-
-
-    //   try {
-    //     const response = await fetch('https://digitalmoney.digitalhouse.com/api/users', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(data),
-    //     });
-
-    //     if (response.ok) {
-    //       if (response.status === 201) {
-    //         console.log("Cuenta creada con éxito");
-    //         // Llamar a la función para enviar el correo de confirmación
-    //         await sendConfirmationEmail(data);
-    //         MsjExito(() => {
-    //           router.push('/login');
-    //         });
-    //       } else {
-    //         console.log('Solicitud exitosa, pero no es una creación:', response.status);
-    //       }
-    //     } else {
-    //       const errorData = await response.json();
-    //       switch (response.status) {
-    //         case 400:
-    //           // Manejo del error 400
-    //           break;
-    //         case 409:
-    //           console.log("El email ingresado ya se encuentra registrado.");
-    //           break;
-    //         case 500:
-    //           // Manejo del error 500
-    //           break;
-    //         default:
-    //           // Manejo de errores genéricos
-    //           break;
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.error('Error al conectar con la API:', error);
-    //   }
   };
 
   return (
