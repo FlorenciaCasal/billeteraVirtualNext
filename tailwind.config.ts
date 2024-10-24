@@ -44,7 +44,6 @@ const config: Config = {
       '3xl': '40px',
       'm3xl': '42px',
       '4xl': '48px',
-      '5xl': '64px'
     },
   },
   },

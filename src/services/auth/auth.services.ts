@@ -27,6 +27,7 @@ class AuthService {
         const now = new Date();
         const expireAt = new Date(now.getTime() + TEN_MINUTE * 1000).getTime();
         this.client.set(sessionId, loginResponse.token, { EX: TEN_MINUTE })
+        
         return {
             sessionId: sessionId,
             expireAt: expireAt,
@@ -47,16 +48,23 @@ class AuthService {
 
     async register(firstname: string, lastname: string, dni: number, email: string, password: string, confirmPassword: string, phone: string): Promise<UserTypeConId> {
         const registerResponse = await authApi.registerJava(firstname, lastname, dni, email, password, confirmPassword, phone);
+        console.log('Respuesta de registerJava:', registerResponse);
 
         return {
-            account_id: registerResponse.account_id,
-            email: registerResponse.email,
-            user_id: registerResponse.user_id
-        };
+             
+                account_id: registerResponse.account_id,
+                user_id: registerResponse.user_id,
+                email,
+            
+        }
     }
 
     async logout(sessionId: string): Promise<void> {
         await this.client.del(sessionId);
+    }
+
+    async setRedisValue(key: string, value: string): Promise<void> {
+        await this.client.set(key, value);
     }
 
 }

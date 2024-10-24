@@ -5,7 +5,7 @@ import Card from "@/Components/ui/Card";
 import { cookies } from "next/headers";
 
 export default function Home() {
-  const loggedEmailCookie = cookies().get('digitalMoneyEmail')?.value;
+  const loggedEmailCookie = cookies().get('digitalMoneyEmail')?.value 
   return (
     <>
       <Navbar

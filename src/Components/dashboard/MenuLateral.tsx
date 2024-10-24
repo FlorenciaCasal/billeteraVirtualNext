@@ -16,35 +16,35 @@ const MenuLateral = () => {
     return (
         <>
             {/* Menú lateral */}
-            <nav className="w-64 h-screen bg-crearCuentaNavbar p-4">
+            <nav className="w-64 bg-crearCuentaNavbar text-md py-12 px-8">
                 <ul>
-                <li>
-                        <Link href="" className="text-black font-bold">
-                         Inicio
+                    <li>
+                        <Link href="" className="pb-4 text-black font-bold">
+                            Inicio
                         </Link>
                     </li>
                     <li>
-                        <Link href="/profile" className="text-black">
-                         Actividad
+                        <Link href="/profile" className="pb-4 text-black">
+                            Actividad
                         </Link>
                     </li>
                     <li>
-                        <Link href="/profile" className="text-black">
-                         Tu perfil
+                        <Link href="/profile" className="pb-4 text-black">
+                            Tu perfil
                         </Link>
                     </li>
                     <li>
-                        <Link href="/load-money" className="text-black">
-                             Cargar dinero
+                        <Link href="/load-money" className="pb-4 text-black">
+                            Cargar dinero
                         </Link>
                     </li>
                     <li>
-                        <Link href="/pay-services" className="text-black">
-                             Pagar servicios
+                        <Link href="/pay-services" className="pb-4 text-black">
+                            Pagar servicios
                         </Link>
                     </li>
                     <li>
-                        <Link href="/cards" className="text-black">
+                        <Link href="/cards" className="pb-4 text-black">
                             Tarjetas
                         </Link>
                     </li>
@@ -52,7 +52,7 @@ const MenuLateral = () => {
                         <Button
                             onClick={() => logout()}
                             label="Cerrar sesión"
-                            className="text-gray-500 !px-0 bg-crearCuentaNavbar hover:bg-hoverButtonGreen">
+                            className="text-gray-500 !px-0 !text-md bg-crearCuentaNavbar hover:bg-hoverButtonGreen">
                         </Button>
                     </li>
                 </ul>

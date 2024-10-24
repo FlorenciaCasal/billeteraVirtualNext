@@ -28,3 +28,20 @@ export type ResponseAccountType= {
     id: number;
     user_id: number;
   }
+
+  export type ResponseRegisterType= {
+        user_id: number;
+        account_id: number;
+        email: string;
+  }
+
+  export type ResponseActivityType= {
+    account_id: number;
+    amount: number; 
+    dated: string;
+    description: string;
+    destination: string;
+    id: number;
+    origin: string;
+    type: string
+  }

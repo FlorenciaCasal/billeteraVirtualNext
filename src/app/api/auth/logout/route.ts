@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
 
         cookies().delete('digitalMoneyID')
         cookies().delete('digitalMoneyEmail')
+        cookies().delete('digitalMoneyAccountID')
 
         return new Response(JSON.stringify({}), {
             // return new Response(JSON.stringify(loginResponse), {

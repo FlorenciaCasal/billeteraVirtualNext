@@ -17,6 +17,12 @@
   p {
     @apply font-normal text-sm sm:text-lg font-sans;
   }
+  h4 {
+    @apply font-bold text-lg sm:text-lg lg:text-lg font-sans;
+  }
+  h5 {
+    @apply font-bold text-sm sm:text-sm lg:text-sm font-sans;
+  }
 }
 
 

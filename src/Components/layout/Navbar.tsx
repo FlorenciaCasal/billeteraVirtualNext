@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Button from '../ui/Button';
 import { NavbarType } from '@/types/navbar.types';
 import { usePathname } from 'next/navigation';
-import NombreUsuario from '../form/home/NombreUsuario';
+import NombreUsuario from '../dashboard/NombreUsuario';
 
 
 

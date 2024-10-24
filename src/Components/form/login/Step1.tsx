@@ -23,11 +23,8 @@ const Step1: React.FC<Step1Props> = ({ onContinue }) => {
     mode: "onChange", // Activar validación en tiempo real
   });
 
-  
-
   const onSubmit = (data: FormData1) => {
-    // localStorage.setItem("email", data.email || ""); // Guardar el email en sessionStorage
-    dispatch(setUser({ email: data.email, user_id: null}));
+    dispatch(setUser({ email: data.email, user_id: null }));
     onContinue(); // Proceder al siguiente paso
   };
 
@@ -53,7 +50,7 @@ const Step1: React.FC<Step1Props> = ({ onContinue }) => {
           <Button
             type="submit"
             className="w-64 h-12 mb-4 text-sm text-[#000] bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen"
-           >
+          >
             Continuar
           </Button>
           <Button
@@ -61,7 +58,7 @@ const Step1: React.FC<Step1Props> = ({ onContinue }) => {
             className="w-64 h-12 mb-4 text-sm text-[#000] bg-crearCuentaLogin border-custom-green hover:bg-hoverButtonBlack">
             Crear cuenta
           </Button>
-  
+
         </form>
       </section>
     </>

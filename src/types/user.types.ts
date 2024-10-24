@@ -6,7 +6,9 @@ export type UserType = FormRegister & {
 
 
 export type UserTypeConId = {
-	account_id: number;
-	email: string;
-	user_id: number
+	
+		account_id: number;
+		email: string;
+		user_id: number
+	
 }

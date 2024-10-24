@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormData2 } from "@/types/formData/formLoginStep2.types";
 import { useRouter } from "next/navigation";
-import { AccessDeniedError } from "@/services/common/http.errors";
 import { LoginPasswordScheme } from "@/schemes/login.scheme";
 import { loginUser } from "@/store/authSlice";
 import { RootState, AppDispatch } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 
 const Step2 = () => {
@@ -30,17 +30,40 @@ const Step2 = () => {
     const email = user.email || "";
     const password = data.password;
     setServerError(null);
+
+    // *** Leer la cookie del account_id ***
+    const account_id = Cookies.get('digitalMoneyAccountID');
+    console.log(`Account ID from cookie: ${account_id}`);
+
     if (email && password) {
       try {
         await dispatch(loginUser({ email, password })).unwrap();
-        router.push("/home");
-        router.refresh();
-      } catch (e: any) {
-        console.log("error step2", e); // Verifica cuál es el error real
-        setServerError(e);  // Aquí e será el mensaje devuelto desde authSlice
-      }
-    }
-  };
+        console.log(`Email used in API call: ${email}`); 
+
+         // Después del login exitoso, obtener el account_id
+         const accountIdResponse = await fetch(`/api/getAccountId?email=${email}`);
+         const accountIdData = await accountIdResponse.json();
+         
+         if (accountIdData && accountIdData.account_id) {
+           // Guardar la cookie con el account_id obtenido
+           Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
+             httpOnly: false,
+             secure: true,
+             domain: 'localhost',
+             path: '/',
+           });
+         } else {
+           console.error('Account ID not found for this user.');
+         }
+   
+         router.push("/dashboard");
+         router.refresh();
+       } catch (e) {
+         console.log("error step2", e);
+        // Manejo de errores...
+       }
+     }
+   };
 
   return (
     <>

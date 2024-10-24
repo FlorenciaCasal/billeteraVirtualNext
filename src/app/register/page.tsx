@@ -1,5 +1,4 @@
 'use client'
-
 import React from "react";
 import FormDataRegister from "@/Components/form/register/FormDataRegister"
 import { FormRegister } from "@/types/formData/formDataRegister.types";
@@ -8,6 +7,8 @@ import Swal from 'sweetalert2';
 import emailjs from '@emailjs/browser';
 import { useState } from "react";
 import { ConflictError } from "@/services/common/http.errors";
+// import authService from "@/services/auth/auth.services";
+import Cookies from 'js-cookie';
 import authApi from "@/services/auth/auth.api";
 
 
@@ -65,14 +66,43 @@ const sendConfirmationEmail = async (formData: FormRegister) => {
 const RegisterPage = () => {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
+  // const dispatch = useDispatch();
 
   const handleContinue = async (data: FormRegister) => {
     setServerError(null);
-
     try {
       const registerResponse = await authApi.register(data.firstname, data.lastname, data.dni, data.email, data.password, data.confirmPassword, data.phone);
-      console.log(JSON.stringify(registerResponse));
-      router.push("/");
+      console.log("Respuesta del registro", JSON.stringify(registerResponse));
+
+      if (registerResponse && registerResponse.account_id) {
+        const account_id: string = String(registerResponse.account_id);
+  
+        // Llamada a la API de Next.js para guardar el account_id
+        await fetch('/api/saveAccountId', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: data.email, account_id }),
+        });
+  
+        // Guardar la cookie en el cliente
+        Cookies.set('digitalMoneyAccountID', account_id, {
+          httpOnly: false,
+          secure: true,
+          domain: 'localhost',
+          path: '/',
+        });
+      }
+  
+
+      // Envía el correo de confirmación
+      await sendConfirmationEmail(data);
+
+      // Muestra el mensaje de éxito y redirige
+      MsjExito(() => router.push("/"));
+
+      // router.push("/");
       router.refresh();
     } catch (e) {
       if (e instanceof ConflictError) {
@@ -98,6 +128,3 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
-
-
-
