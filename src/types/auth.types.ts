@@ -5,6 +5,7 @@ export type LoginResponseType = {
     token: string;
     status: number
     email: string;
+    account_id: string | null;
 }
 
 export type AuthResponseType = {

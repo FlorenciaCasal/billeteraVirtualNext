@@ -6,6 +6,8 @@ import depositApi from '@/services/deposit/deposit.api';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import userApi from '@/services/users/users.service';
+import { useDispatch } from 'react-redux';
+// import { incrementAmount } from '@/store/amountSlice';
 
 
 interface CargarDineroProps {
@@ -23,14 +25,17 @@ const CargarDinero: React.FC<CargarDineroProps> = ({ token }) => {
     const [destination, setDestination] = useState<string>('');
     const [origin, setOrigin] = useState<string>('');
     const [depositError, setDepositError] = useState<string | null>(null);
-    const [balance, setBalance] = useState<number | null>(null); 
+    const [balance, setBalance] = useState<number | null>(null);
     // const account = useSelector((state: RootState) => state.account);
     const accountIdString = Cookies.get('digitalMoneyAccountID');
     const account_id: number = Number(accountIdString);
     const router = useRouter();
 
-     // Obtener el saldo actualizado después del depósito
-     const fetchUpdatedBalance = async () => {
+    const dispatch = useDispatch();
+    console.log("token en cargarDinero:", token)
+
+    // Obtener el saldo actualizado después del depósito
+    const fetchUpdatedBalance = async () => {
         try {
             const me = await userApi.getMeInternal(token);
             setBalance(me.available_amount);
@@ -46,21 +51,12 @@ const CargarDinero: React.FC<CargarDineroProps> = ({ token }) => {
         setAmount(inputValue === '' ? '' : Number(inputValue));
     };
 
-    //     // Si el valor es vacío, setear a string vacío
-    //     if (inputValue === '') {
-    //         setAmount('');
-    //     } else {
-    //         // Convertir el valor a número si no está vacío
-    //         setAmount(Number(inputValue));
-    //     }
-    // };
-
     const handleDeposit = async () => {
         setDepositError(null);
         const numericAmount = Number(amount);
 
         try {
-           if (isNaN(numericAmount) || numericAmount <= 0) {
+            if (isNaN(numericAmount) || numericAmount <= 0) {
                 setDepositError("El monto debe ser mayor que 0");
                 return;
             }
@@ -74,10 +70,14 @@ const CargarDinero: React.FC<CargarDineroProps> = ({ token }) => {
                 const response = await depositApi.makeDeposit(account_id, numericAmount, dated, destination, origin, token);
                 console.log("Depósito exitoso:", response);
                 alert("Depósito realizado con éxito.");
-                 // Fetch el saldo actualizado después de un depósito exitoso
-                 await fetchUpdatedBalance();
-                 router.push('/dashboard');
-                 
+
+                // // Dispatch la acción para incrementar el saldo
+                // dispatch(incrementAmount(numericAmount));
+
+                // Fetch el saldo actualizado después de un depósito exitoso
+                await fetchUpdatedBalance();
+                router.push('/dashboard');
+
             } else {
                 setDepositError("No se encontró una cuenta válida.");
             }

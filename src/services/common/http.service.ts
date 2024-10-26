@@ -57,5 +57,30 @@ export class HttpBaseAPI {
     async httpPostPublic<T>(endpointSuffix: string, body: object): Promise<T> {
         return this.httpPost(`${endpointSuffix}`, body);
     }
+
+    async httpPatch<T>(endpointSuffix: string, body: object, token?: string): Promise<T> {
+        const res = await fetch(`${this.privateEndpoint}${endpointSuffix}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': token } : {}),
+            },
+            body: JSON.stringify(body)
+        });
+        if (!res.ok) {
+            console.log(`${res.status} - ${res.statusText}`);
+            if (res.status === 401) {
+                throw new AccessDeniedError("User has no access");
+            }
+            throw new Error(`Failed to patch: ${this.privateEndpoint}${endpointSuffix}`);
+        }
+        // Verificar si la respuesta tiene contenido
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            return res.json() as Promise<T>;  // Si la respuesta tiene un cuerpo JSON, retornarlo como T
+        }
+        return {} as T;  // Devolvemos un objeto vacío como T si no hay contenido
+    }
+
 }
 

@@ -12,3 +12,13 @@ export type UserTypeConId = {
 		user_id: number
 	
 }
+
+export type ResponseUserPatch = {
+	firstname: string;
+    lastname: string; 
+    dni: number;
+    email: string;
+    password: string;
+    phone: string;
+
+}

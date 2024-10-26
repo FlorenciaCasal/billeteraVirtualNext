@@ -4,7 +4,6 @@ import userReducer from './userSlice';
 import authReducer from './authSlice'
 import accountReducer from './accountSlice'
 
-
 export const store = configureStore({
   reducer: {
     steps: stepsReducer,
