@@ -30,13 +30,6 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
         fetchBalance();
     }, [token]);
 
-    // // Función para manejar la búsqueda
-    // const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //     if (e.key === 'Enter' && searchTerm.trim()) {
-    //         router.push(`/mi-actividad?search=${encodeURIComponent(searchTerm)}`);
-    //     }
-    // };
-
     return (
         <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
             <div className='flex flex-col py-8 px-8 w-full bg-backgroundNavbar rounded-lg'>

@@ -44,7 +44,7 @@ const MenuLateral = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/cards" className="pb-4 text-black">
+                        <Link href="/card" className="pb-4 text-black">
                             Tarjetas
                         </Link>
                     </li>

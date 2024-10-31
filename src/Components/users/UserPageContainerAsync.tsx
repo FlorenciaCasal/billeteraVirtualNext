@@ -1,6 +1,5 @@
 import userApi from "@/services/users/users.service";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import CvuAlias from "../dashboard/CvuAlias";
 import Link from "next/link";

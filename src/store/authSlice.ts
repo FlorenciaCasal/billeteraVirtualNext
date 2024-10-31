@@ -27,11 +27,6 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await authApi.login(email, password);
 
-      // // Obtener el saldo del usuario
-      // const balanceResponse = await userApi.getMeInternal(response.token);
-      // // Despachar la acción para establecer el monto en el store de Redux
-      // thunkAPI.dispatch(setAmount(balanceResponse.available_amount));
-
       return response;
     } catch (error: any) {
       if (error instanceof AccessDeniedError) {

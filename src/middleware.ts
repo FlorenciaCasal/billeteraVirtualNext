@@ -40,5 +40,5 @@ const getAuthenticationHeaders = (request: NextRequest, token: string) => {
 }
 
 export const config = {
-    matcher: ['/profile', '/users/:path*', '/dashboard', '/cvu-alias', '/depositar'],
+    matcher: ['/profile', '/users/:path*', '/dashboard', '/cvu-alias', '/depositar', '/card', '/managePayments', '/createCard'],
 }

@@ -8,6 +8,7 @@ interface InputProps {
     fieldName: string;
     className?: string;
     autoFocus?: boolean;
+    onChange?: {}
   }
 
 const Input: React.FC<InputProps> = ({ newType, newPlaceholder, register, errors, fieldName, className, autoFocus = false }) => {
