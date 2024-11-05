@@ -5,7 +5,7 @@ import { ResponseCardType } from "@/types/card/card.types";
 class CardAPI {
     getCard = async (account_id: number, token: string): Promise<ResponseCardType[]> => {
         const endpoint = `/accounts/${account_id}/cards`;
-        return httpJavaApi.httpGet(endpoint, undefined, token); 
+        return httpJavaApi.httpGet(endpoint, undefined, token);
     }
 
     createCard = async (account_id: number, token: string, cardData: {
@@ -16,6 +16,11 @@ class CardAPI {
     }): Promise<ResponseCardType> => {
         const endpoint = `/accounts/${account_id}/cards`;
         return httpJavaApi.httpPost(endpoint, cardData, token);
+    }
+
+    deleteCard = async (account_id: number, card_id: number, token: string): Promise<Response> => {
+        const endpoint = `/accounts/${account_id}/cards/${card_id}`;
+        return await httpJavaApi.httpDelete(endpoint, token);
     }
 }
 

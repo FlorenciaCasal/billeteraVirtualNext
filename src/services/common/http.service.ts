@@ -82,5 +82,24 @@ export class HttpBaseAPI {
         return {} as T;  // Devolvemos un objeto vacío como T si no hay contenido
     }
 
+    async httpDelete(endpointSuffix: string, token?: string): Promise<Response> {
+        const res = await fetch(`${this.privateEndpoint}${endpointSuffix}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': token } : {}),
+            }
+        });
+
+        if (!res.ok) {
+            console.log(`${res.status} - ${res.statusText}`);
+            if (res.status === 401) {
+                throw new AccessDeniedError("User has no access");
+            }
+            throw new Error(`Failed to delete: ${this.privateEndpoint}${endpointSuffix}`);
+        }
+        return res;
+    }
+
 }
 

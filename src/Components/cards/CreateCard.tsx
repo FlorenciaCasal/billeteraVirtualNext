@@ -121,7 +121,7 @@ const CreateCard: React.FC<CreateCardProps> = ({ token, account_id }) => {
                             type="submit"
                             className={`h-12 px-4 rounded w-full ${isConfirmed ? 'bg-crearCuentaNavbar' : 'bg-crearCuentaLogin text-[#000]'}`}
                         >
-                            {isConfirmed ? 'Confirmar y Continuar' : 'Continuar'}
+                            {isConfirmed ? 'Continuar' : 'Continuar'}
                         </Button>
                     </div>
 

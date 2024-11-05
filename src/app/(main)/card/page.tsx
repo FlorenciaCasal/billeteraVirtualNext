@@ -1,4 +1,3 @@
-import AddCards from '@/Components/cards/AddCards';
 import Card from '@/Components/dashboard/Card';
 import { headers } from 'next/headers';
 
@@ -8,9 +7,7 @@ const Cardspage = () => {
     return (
         <>
             <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
-                <AddCards />
                 <Card token={token} />
-
             </main>
         </>
     )
