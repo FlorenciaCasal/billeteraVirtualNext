@@ -26,13 +26,13 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }: { email: string; password: string }, thunkAPI) => {
     try {
       const response = await authApi.login(email, password);
-
       return response;
     } catch (error: any) {
       if (error instanceof AccessDeniedError) {
-        return thunkAPI.rejectWithValue('Correo electrónico o contraseña incorrectos');
+        // Enviar mensaje personalizado del backend
+        return thunkAPI.rejectWithValue(error.message || 'Correo electrónico o contraseña incorrectos');
       }
-      return thunkAPI.rejectWithValue('Ha ocurrido un error. Intente más tarde');
+      return thunkAPI.rejectWithValue('Ha ocurrido un error inesperado. Intente más tarde.');
     }
   }
 );
@@ -45,11 +45,14 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.account_id = null;
+      state.error = null; 
+      state.status = 'idle'; 
     }
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
       state.status = 'loading';
+      state.error = null;
     });
     builder.addCase(loginUser.fulfilled, (state, action: PayloadAction<LoginResponseType>) => {
       state.status = 'succeeded';

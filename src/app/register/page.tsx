@@ -93,16 +93,13 @@ const RegisterPage = () => {
           domain: 'localhost',
           path: '/',
         });
-      }
-  
+      }  
 
       // Envía el correo de confirmación
       await sendConfirmationEmail(data);
 
-      // Muestra el mensaje de éxito y redirige
-      MsjExito(() => router.push("/"));
+      MsjExito(() => router.push("/login"));
 
-      // router.push("/");
       router.refresh();
     } catch (e) {
       if (e instanceof ConflictError) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@/Components/ui/Button"
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,7 @@ import { loginUser } from "@/store/authSlice";
 import { RootState, AppDispatch } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import { AccessDeniedError } from "@/services/common/http.errors";
 
 
 const Step2 = () => {
@@ -26,6 +27,13 @@ const Step2 = () => {
     mode: "onChange", // Activar validación en tiempo real
   });
 
+  // Cuando el estado de error en Redux cambia, actualiza el estado del componente
+  useEffect(() => {
+    if (authState.error) {
+      setServerError(authState.error); // Si hay un error en el estado global, se muestra
+    }
+  }, [authState.error]);
+
   const onSubmit = async (data: FormData2) => {
     const email = user.email || "";
     const password = data.password;
@@ -35,35 +43,39 @@ const Step2 = () => {
     const account_id = Cookies.get('digitalMoneyAccountID');
     console.log(`Account ID from cookie: ${account_id}`);
 
-    if (email && password) {
-      try {
-        await dispatch(loginUser({ email, password })).unwrap();
-        console.log(`Email used in API call: ${email}`); 
 
-         // Después del login exitoso, obtener el account_id
-         const accountIdResponse = await fetch(`/api/getAccountId?email=${email}`);
-         const accountIdData = await accountIdResponse.json();
-         
-         if (accountIdData && accountIdData.account_id) {
-           // Guardar la cookie con el account_id obtenido
-           Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
-             httpOnly: false,
-             secure: true,
-             domain: 'localhost',
-             path: '/',
-           });
-         } else {
-           console.error('Account ID not found for this user.');
-         }
-   
-         router.push("/dashboard");
-         router.refresh();
-       } catch (e) {
-         console.log("error step2", e);
-        // Manejo de errores...
-       }
-     }
-   };
+    try {
+      await dispatch(loginUser({ email, password })).unwrap();
+      console.log(`Email used in API call: ${email}`);
+
+      // Después del login exitoso, obtener el account_id
+      const accountIdResponse = await fetch(`/api/getAccountId?email=${email}`);
+      const accountIdData = await accountIdResponse.json();
+
+      if (accountIdData && accountIdData.account_id) {
+        // Guardar la cookie con el account_id obtenido
+        Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
+          httpOnly: false,
+          secure: true,
+          domain: 'localhost',
+          path: '/',
+        });
+      } else {
+        console.error('Account ID not found for this user.');
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch (e: any) {
+      if (e.response && e.response.status === 401) {
+        // Intentar extraer el mensaje del backend
+        const errorData = await e.response.json();
+        setServerError(errorData.message || "Correo electrónico o contraseña incorrectos");
+      } else {
+        setServerError("Ha ocurrido un error inesperado.");
+      }
+    }
+  };
 
   return (
     <>
@@ -91,11 +103,11 @@ const Step2 = () => {
           >
             Continuar
           </Button>
-          {serverError && (
-            <p className="text-error text-[15px] mb-4">
-              {serverError}
-            </p>
-          )}
+          {authState.error && (
+          <p className="text-error text-[15px] mb-4">
+            {authState.error} {/* Muestra el error desde el estado global de Redux */}
+          </p>
+        )}
         </form>
       </section>
     </>

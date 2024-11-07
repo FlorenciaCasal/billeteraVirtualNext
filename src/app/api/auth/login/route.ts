@@ -59,6 +59,7 @@ export async function POST(request: NextRequest) {
         if (e instanceof AccessDeniedError) {
             return NextResponse.json({
                 error: 'Invalid credentials for user',
+                message: "El correo electrónico o la contraseña son inválidos",
             }, {
                 status: 401,
             });

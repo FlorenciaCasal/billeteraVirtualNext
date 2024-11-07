@@ -3,6 +3,10 @@ import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons'; // Importar el ícono de tilde
 import userApi from '@/services/users/users.service';
+import Swal from 'sweetalert2';
+import * as yup from 'yup';
+import { profileScheme } from '@/schemes/profile.scheme';
+
 
 interface YourDataProps {
     token: string;
@@ -37,15 +41,17 @@ const YourData = ({ user, me, token }: YourDataProps) => {
     const inputRef = useRef<HTMLInputElement | null>(null); // Crear referencia
 
     const handleEdit = (field: string) => {
-        setEditingField(field);
-        // Actualizamos el estado solo si es diferente de "password"
-        if (field === 'password') {
-            setFormData(prev => ({
-                ...prev,
-                password: '' // Permitimos que el usuario ingrese la nueva contraseña en blanco
-            }));
+        if (field !== 'dni') { // Evitar que `dni` entre en modo de edición
+            setEditingField(field);
+            if (field === 'password') {
+                setFormData(prev => ({
+                    ...prev,
+                    password: ''
+                }));
+            }
         }
     };
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -56,27 +62,54 @@ const YourData = ({ user, me, token }: YourDataProps) => {
     };
 
     const handleSave = async () => {
+        if (!editingField) return;
         try {
+            await profileScheme.validateAt(editingField!, { [editingField!]: formData[editingField as keyof typeof formData] });
             // Crear dataToUpdate asegurando que dni es un número o excluyéndolo si es null
             const dataToUpdate = {
                 ...formData,
-                dni: formData.dni ? parseInt(formData.dni.toString(), 10) : undefined, // Excluir `dni` si no es un número
+                dni: undefined, // Excluir `dni`
                 password: formData.password !== '********' ? formData.password : undefined
             };
-    
             await userApi.updateUser(me.user_id, token, dataToUpdate);
+
             setEditingField(null);
             setFormData(prev => ({ ...prev, password: '********' })); // Reiniciar contraseña a asteriscos
+
+            Swal.fire({
+                title: 'Actualización exitosa',
+                text: `${editingField} ha sido actualizado correctamente.`,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                color: '#fff',
+                background: '#000',
+                backdrop: 'rgba(0, 0, 0, 0.8)',
+                customClass: {
+                    confirmButton: 'bg-crearCuentaNavbar text-black',
+                    title: 'text-[#fff] text-4xl font-semibold',
+                    popup: 'swal-popup',
+                }
+            });
+
         } catch (error) {
             console.error("Error updating user:", error);
+            if (error instanceof yup.ValidationError) {
+                Swal.fire({
+                    title: 'Error de validación',
+                    text: error.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                });
+            }
         }
     };
+
 
     useEffect(() => {
         if (editingField && inputRef.current) {
             inputRef.current.focus(); // Enfocar el input automáticamente
         }
-    }, [editingField]); 
+    }, [editingField]);
 
     return (
         <div className='flex flex-col py-8 px-8 w-full bg-white rounded-lg'>
@@ -88,7 +121,9 @@ const YourData = ({ user, me, token }: YourDataProps) => {
                             <p className="text-sm">{key.charAt(0).toUpperCase() + key.slice(1)}</p>
                         </div>
                         <div className="col-span-2 flex justify-between items-center">
-                            {editingField === key ? (
+                            {key === 'dni' ? (
+                                <span className="text-gray-500">{formData.dni}</span>
+                            ) : editingField === key ? (
                                 <>
                                     <input
                                         name={key}

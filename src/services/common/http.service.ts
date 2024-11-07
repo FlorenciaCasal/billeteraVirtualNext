@@ -43,7 +43,7 @@ export class HttpBaseAPI {
         if (!res.ok) {
             console.log(`${res.status} - ${res.statusText}`)
             if (res.status === 401) {
-                throw new AccessDeniedError("User has no access")
+                throw new AccessDeniedError("Correo electrónico o contraseña incorrectos")
             }
             throw new Error("Failed to post: " + this.privateEndpoint + endpointSuffix)
         }
@@ -54,6 +54,7 @@ export class HttpBaseAPI {
         }
         return {} as T;  // Devolvemos un objeto vacío como T si no hay contenido
     }
+
     async httpPostPublic<T>(endpointSuffix: string, body: object): Promise<T> {
         return this.httpPost(`${endpointSuffix}`, body);
     }
