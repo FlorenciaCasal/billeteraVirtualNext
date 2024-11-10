@@ -1,7 +1,7 @@
 import httpJavaApi from "../common/http.java.service"; // Suponiendo que tienes este servicio HTTP base
-
+import { ResponseDepositType } from "@/types/transactions/deposit.types";
 class DepositAPI {
-    async makeDeposit(account_id: number, amount: number, dated: string, destination: string, origin: string, token: string) {
+    public async makeDeposit(account_id: number, amount: number, dated: string, destination: string, origin: string, token: string): Promise<ResponseDepositType> {
         const endpoint = `/accounts/${account_id}/deposits`;
         const body = {
             amount,

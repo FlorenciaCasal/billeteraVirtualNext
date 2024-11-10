@@ -36,6 +36,7 @@ const config: Config = {
       md: '18px',
       lg: '20px',
       'mlg': '22px',
+      'mmlg': '24px',
       xl: '27px',
       'mxl': '28px',
       'mmxl': '30px',

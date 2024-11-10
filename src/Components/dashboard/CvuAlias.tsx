@@ -1,6 +1,7 @@
 'use client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 
 interface CvuAliasProps {
@@ -16,7 +17,14 @@ interface CvuAliasProps {
 const CvuAlias: React.FC<CvuAliasProps> = ({ me }) => {
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
-        alert("Copiado al portapapeles");
+        Swal.fire({
+            icon: 'success',
+            title: '¡Copiado al portapapeles!',
+            showConfirmButton: false,
+            timer: 2000,
+            position: 'top',
+            toast: true,
+        });
     };
 
     return (
@@ -34,19 +42,19 @@ const CvuAlias: React.FC<CvuAliasProps> = ({ me }) => {
                             onClick={() => copyToClipboard(me.cvu)}
                         />
                     </div>
-                    
-                    <hr className="border-t-0 border-white my-4" /> 
+
+                    <hr className="border-t-0 border-white my-4" />
 
                     <h4 className="text-crearCuentaNavbar font-bold">Alias</h4>
                     <div className="flex justify-between items-center">
-                    <p className="text-white !text-sm font-normal">{me.alias}</p>
+                        <p className="text-white !text-sm font-normal">{me.alias}</p>
                         <FontAwesomeIcon
                             icon={faCopy}
                             className="text-crearCuentaNavbar cursor-pointer w-5 h-5"
                             onClick={() => copyToClipboard(me.alias)}
                         />
                     </div>
-                   
+
                 </div>
             </main>
         </>

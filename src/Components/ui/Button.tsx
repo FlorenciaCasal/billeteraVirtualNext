@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ButtonType } from '../../../src/types/button.types';
 
-const Button = ({ href, children, label, className, onClick, type }: ButtonType) => {
+const Button = ({ href, children, label, className, onClick, type, disabled }: ButtonType) => {
     
 
     if (href) {
@@ -23,6 +23,7 @@ const Button = ({ href, children, label, className, onClick, type }: ButtonType)
             className={`flex items-center justify-center px-4 py-2 rounded-lg text-xs font-bold ${className}`}
             onClick={onClick}
             type={type}
+            disabled={disabled}
         >
             {label}
             {children}
