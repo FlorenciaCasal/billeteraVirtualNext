@@ -100,7 +100,7 @@ const RegisterPage = () => {
       await sendConfirmationEmail(data);
 
       // Muestra el mensaje de éxito y redirige
-      MsjExito(() => router.push("/"));
+      MsjExito(() => router.push("/login"));
 
       // router.push("/");
       router.refresh();

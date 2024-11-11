@@ -24,7 +24,7 @@ const MenuLateral = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/profile" className="pb-4 text-black">
+                        <Link href="/activity" className="pb-4 text-black">
                             Actividad
                         </Link>
                     </li>

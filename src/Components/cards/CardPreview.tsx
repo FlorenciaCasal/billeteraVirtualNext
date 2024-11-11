@@ -69,6 +69,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({
                                 alt={brand}
                                 width={size.width}  // Usa el tamaño especificado
                                 height={size.height} // Usa el tamaño especificado
+                                style={{ height: 'auto', width: '100%' }}
                             />
                         )}
                     </div>

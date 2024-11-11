@@ -17,32 +17,34 @@ const Activity = ({ token, searchTerm }: ActivityProps) => {
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;  // Número de actividades por página
-
     const accountIdString = Cookies.get('digitalMoneyAccountID');
     const account_id: number = Number(accountIdString);
 
+    console.log("token en Components/activity", token)
     console.log("account_id en Activity.tsx:", account_id);
     console.log("accountIdString en Activity.tsx:", accountIdString);
 
     useEffect(() => {
-        const fetchActivity = async () => {
-            setIsLoading(true);
-            try {
-                if (account_id) {
-                    const data = await activityApi.getActivity(account_id, token);
-                    const sortedActivities = data.sort((a, b) =>
-                        new Date(b.dated).getTime() - new Date(a.dated).getTime()
-                    );
-                    setActivities(sortedActivities);
+        if (token) {
+            const fetchActivity = async () => {
+                setIsLoading(true);
+                try {
+                    if (account_id) {
+                        const data = await activityApi.getActivity(account_id, token);
+                        const sortedActivities = data.sort((a, b) =>
+                            new Date(b.dated).getTime() - new Date(a.dated).getTime()
+                        );
+                        setActivities(sortedActivities);
+                    }
+                } catch (err) {
+                    console.error("Error fetching activities:", err);
+                    setError("No se pudo cargar la actividad.");
+                } finally {
+                    setIsLoading(false);
                 }
-            } catch (err) {
-                console.error("Error fetching activities:", err);
-                setError("No se pudo cargar la actividad.");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchActivity();
+            };
+            fetchActivity();
+        }
     }, [account_id, token]);
 
     // Restablecer a la primera página al cambiar el término de búsqueda

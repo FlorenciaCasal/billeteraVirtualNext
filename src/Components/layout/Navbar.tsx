@@ -18,7 +18,8 @@ const Navbar = ({ backgroundColor, logo, showLoginButton, showRegisterButton, lo
                     src={logo}
                     alt="Logo"
                     width={90}
-                    height={90}
+                    // height={90}
+                    style={{height: "auto"}}
                     placeholder="blur"
                 />
             </div>
