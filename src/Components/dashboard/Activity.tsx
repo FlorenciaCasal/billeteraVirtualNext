@@ -9,9 +9,11 @@ import Cookies from 'js-cookie';
 interface ActivityProps {
     token: string;
     searchTerm: string;
+    filterPeriod: string;
+    filterType: string;
 }
 
-const Activity = ({ token, searchTerm }: ActivityProps) => {
+const Activity = ({ token, searchTerm, filterPeriod, filterType }: ActivityProps) => {
     const [activities, setActivities] = useState<ResponseActivityType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -19,10 +21,6 @@ const Activity = ({ token, searchTerm }: ActivityProps) => {
     const itemsPerPage = 10;  // Número de actividades por página
     const accountIdString = Cookies.get('digitalMoneyAccountID');
     const account_id: number = Number(accountIdString);
-
-    console.log("token en Components/activity", token)
-    console.log("account_id en Activity.tsx:", account_id);
-    console.log("accountIdString en Activity.tsx:", accountIdString);
 
     useEffect(() => {
         if (token) {
@@ -47,32 +45,64 @@ const Activity = ({ token, searchTerm }: ActivityProps) => {
         }
     }, [account_id, token]);
 
-    // Restablecer a la primera página al cambiar el término de búsqueda
     useEffect(() => {
-        setCurrentPage(1);
-    }, [searchTerm]);
+        setCurrentPage(1); // Resetear a la primera página al cambiar búsqueda, período o tipo
+    }, [searchTerm, filterPeriod, filterType]);
 
-    // Filtrar actividades según el término de búsqueda en descripción o monto
-    const filteredActivities = activities.filter(activity => {
-        const amountAsString = activity.amount.toFixed(2); // Convertimos el monto a string con dos decimales
-        return (
-            activity.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            amountAsString.includes(searchTerm) // Filtramos por coincidencia parcial en el monto
-        );
-    });
+    // Lógica de filtrado combinada
+    const applyFilters = (activity: ResponseActivityType) => {
+        const activityDate = new Date(activity.dated);
+        const today = new Date();
 
-    // Calcular el total de páginas basado en las actividades filtradas
+        // Filtrar por período
+        const periodFilter = () => {
+            if (!filterPeriod) return true;
+            switch (filterPeriod) {
+                case 'today': return activityDate.toDateString() === today.toDateString();
+                case 'yesterday':
+                    const yesterday = new Date(today);
+                    yesterday.setDate(today.getDate() - 1);
+                    return activityDate.toDateString() === yesterday.toDateString();
+                case 'lastWeek':
+                    const lastWeek = new Date(today);
+                    lastWeek.setDate(today.getDate() - 7);
+                    return activityDate >= lastWeek && activityDate <= today;
+                case 'last15Days':
+                    const last15Days = new Date(today);
+                    last15Days.setDate(today.getDate() - 15);
+                    return activityDate >= last15Days && activityDate <= today;
+                case 'lastMonth':
+                    const lastMonth = new Date(today);
+                    lastMonth.setMonth(today.getMonth() - 1);
+                    return activityDate >= lastMonth && activityDate <= today;
+                case 'last3Months':
+                    const last3Months = new Date(today);
+                    last3Months.setMonth(today.getMonth() - 3);
+                    return activityDate >= last3Months && activityDate <= today;
+                default: return true;
+            }
+        };
+
+        // Filtrar por tipo de operación
+        const typeFilter = filterType
+            ? (filterType === 'income' ? activity.amount > 0 : activity.amount < 0)
+            : true;
+
+        // Filtrar por búsqueda
+        const searchFilter = activity.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            activity.amount.toFixed(2).includes(searchTerm);
+
+        return periodFilter() && typeFilter && searchFilter;
+    };
+
+    const filteredActivities = activities.filter(applyFilters);
+
+    // Paginación
     const totalPages = Math.ceil(filteredActivities.length / itemsPerPage);
-
-    // Calcular el índice del primer y último ítem en función de la página actual y el total de ítems por página
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-    // Obtener las actividades de la página actual basadas en las actividades filtradas
     const currentActivities = filteredActivities.slice(indexOfFirstItem, indexOfLastItem);
 
-
-    // Manejadores de cambio de página
     const handleNextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
@@ -126,7 +156,7 @@ const Activity = ({ token, searchTerm }: ActivityProps) => {
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Activity;
