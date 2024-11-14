@@ -1,6 +1,6 @@
 import httpJavaApi from "../common/http.java.service";
 
-interface TransactionResponse {
+export interface TransactionResponse {
     account_id: number;
     amount: number;
     dated: string;

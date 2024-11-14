@@ -17,6 +17,16 @@ const Step4 = ({ enteredAmount, cvu, transactionId, accountId, token }: Step4Pro
     const router = useRouter();
     const currentDate = new Date();
 
+    const activityTypes: Record<string, string> = {
+        Deposit: 'Depósito',
+        Transfer: 'Transferencia',
+    };
+
+    const activityDescriptions: Record<string, string> = {
+        Deposit: 'Depósito de dinero',
+        Transfer: 'Transferencia de dinero',
+    };
+
     const handleDownload = async () => {
         try {
             // Obtener los detalles de la transacción
@@ -31,6 +41,10 @@ const Step4 = ({ enteredAmount, cvu, transactionId, accountId, token }: Step4Pro
                 hour: '2-digit',
                 minute: '2-digit'
             });
+
+            const activityType = activityTypes[transaction.type] || 'Actividad desconocida';
+            const activityDescription = activityDescriptions[transaction.type] 
+
             // Crear el PDF
             const doc = new jsPDF();
             // Agregar contenido
@@ -40,11 +54,12 @@ const Step4 = ({ enteredAmount, cvu, transactionId, accountId, token }: Step4Pro
             doc.text(`ID Transacción: ${transaction.id}`, 10, 20);
             doc.text(`Fecha: ${formattedDate}`, 10, 30);
             doc.text(`Hora: ${formattedTime}`, 10, 40);
-            doc.text(`Monto: $${transaction.amount.toFixed(2)}`, 10, 50);
+            doc.text(`Monto: $${transaction.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 10, 50);
+
             doc.text(`Tarjeta origen: ${transaction.origin}`, 10, 60);
             doc.text(`CVU Destino: ${transaction.destination}`, 10, 70);
-            doc.text(`Descripción: ${transaction.description}`, 10, 80);
-            doc.text(`Tipo: ${transaction.type}`, 10, 90);
+            doc.text(`Descripción: ${activityDescription}`, 10, 80);
+            doc.text(`Tipo: ${activityType}`, 10, 90);
 
             // Usar output para obtener un blob y forzar la descarga manualmente
             const pdfBlob = doc.output('blob');
@@ -57,6 +72,8 @@ const Step4 = ({ enteredAmount, cvu, transactionId, accountId, token }: Step4Pro
             alert('Hubo un error al generar el comprobante.');
         }
     };
+
+
 
     return (
         <div className="flex flex-col w-full">

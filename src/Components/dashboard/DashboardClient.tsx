@@ -32,11 +32,13 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
     }, [token, initialBalance, dispatch]);
 
     return (
-        <main className="flex-grow min-h-screen bg-[#EEEAEA]">
-            <section className="py-8 px-16">
+        <main className="flex-grow bg-[#EEEAEA]">
+            <section>
                 <div className='flex flex-col py-8 px-8 w-full bg-backgroundNavbar rounded-lg'>
                     <div className="flex justify-end">
-                        <h5 className='text-white px-4 underline font-semibold'>Ver tarjetas</h5>
+                        <Link href="/card">
+                            <h5 className='text-white px-4 underline font-semibold'>Ver tarjetas</h5>
+                        </Link>
                         <Link href='/cvu-alias'>
                             <h5 className='text-white underline font-semibold'>Ver CVU</h5>
                         </Link>
@@ -59,7 +61,7 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
                 </div>
             </section>
 
-            <section className="py-0 px-0">
+            <section className="-my-8 -mx-16">
                 <ActivityPage />
             </section>
         </main>

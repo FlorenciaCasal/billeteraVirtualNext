@@ -19,7 +19,7 @@ const MenuLateral = () => {
             <nav className="w-64 bg-crearCuentaNavbar text-md py-12 px-8">
                 <ul>
                     <li>
-                        <Link href="" className="pb-4 text-black font-bold">
+                        <Link href="/dashboard" className="pb-4 text-black font-bold">
                             Inicio
                         </Link>
                     </li>

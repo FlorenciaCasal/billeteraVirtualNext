@@ -17,6 +17,7 @@
   p {
     @apply font-normal text-sm sm:text-lg font-sans;
   }
+  
   h6 {
     @apply font-bold text-mmlg sm:text-mlg lg:text-lg font-sans;
   }  

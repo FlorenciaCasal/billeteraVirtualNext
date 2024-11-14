@@ -5,15 +5,17 @@ import activityApi from "@/services/activity/activity.api";
 import { useEffect, useState } from "react";
 import { ResponseActivityType } from '@/types/auth.types';
 import Cookies from 'js-cookie';
+import { useRouter } from "next/navigation";
 
 interface ActivityProps {
     token: string;
     searchTerm: string;
     filterPeriod: string;
     filterType: string;
+    filterAmountRange: string;
 }
 
-const Activity = ({ token, searchTerm, filterPeriod, filterType }: ActivityProps) => {
+const Activity = ({ token, searchTerm, filterPeriod, filterType, filterAmountRange }: ActivityProps) => {
     const [activities, setActivities] = useState<ResponseActivityType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -21,19 +23,23 @@ const Activity = ({ token, searchTerm, filterPeriod, filterType }: ActivityProps
     const itemsPerPage = 10;  // Número de actividades por página
     const accountIdString = Cookies.get('digitalMoneyAccountID');
     const account_id: number = Number(accountIdString);
+    const router = useRouter();
+
+    const descriptionMap: Record<string, string> = {
+        "Transferiu para": "Transferencia para",
+        "Deposito de dinheiro": "Depósito de dinero",
+    };
 
     useEffect(() => {
-        if (token) {
+        if (token && account_id) {
             const fetchActivity = async () => {
                 setIsLoading(true);
                 try {
-                    if (account_id) {
-                        const data = await activityApi.getActivity(account_id, token);
-                        const sortedActivities = data.sort((a, b) =>
-                            new Date(b.dated).getTime() - new Date(a.dated).getTime()
-                        );
-                        setActivities(sortedActivities);
-                    }
+                    const data = await activityApi.getActivity(account_id, token);
+                    const sortedActivities = data.sort((a, b) =>
+                        new Date(b.dated).getTime() - new Date(a.dated).getTime()
+                    );
+                    setActivities(sortedActivities);
                 } catch (err) {
                     console.error("Error fetching activities:", err);
                     setError("No se pudo cargar la actividad.");
@@ -90,9 +96,21 @@ const Activity = ({ token, searchTerm, filterPeriod, filterType }: ActivityProps
 
         // Filtrar por búsqueda
         const searchFilter = activity.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            activity.amount.toFixed(2).includes(searchTerm);
+            activity.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).includes(searchTerm);
 
-        return periodFilter() && typeFilter && searchFilter;
+        // Filtro por rango de montos
+        const amountFilter = () => {
+            if (!filterAmountRange) return true;
+            const amount = Math.abs(activity.amount); // Asegura que el monto sea positivo
+            const [min, max] = filterAmountRange.includes('+')
+                ? [parseInt(filterAmountRange), Infinity]
+                : filterAmountRange.split('-').map(Number);
+
+            return amount >= min && amount <= max;
+        };
+
+        return periodFilter() && typeFilter && searchFilter && amountFilter();
+        // return periodFilter() && typeFilter && searchFilter;
     };
 
     const filteredActivities = activities.filter(applyFilters);
@@ -111,8 +129,21 @@ const Activity = ({ token, searchTerm, filterPeriod, filterType }: ActivityProps
         if (currentPage > 1) setCurrentPage(currentPage - 1);
     };
 
+    const handlePageClick = (page: number) => {
+        setCurrentPage(page);
+    };
+
+    const handleActivityClick = (activityId: number) => {
+        if (activityId && account_id) {
+            router.push(`/activityDetail?id=${activityId}&account_id=${account_id}`);
+        }
+    }
+
+
+
     if (isLoading) return <div>Cargando...</div>;
     if (error) return <div>{error}</div>;
+
 
     return (
         <div className="flex flex-col py-8 px-8 mt-4 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
@@ -120,18 +151,24 @@ const Activity = ({ token, searchTerm, filterPeriod, filterType }: ActivityProps
             <hr className="border-t-1 border-black mb-4" />
 
             {currentActivities.length > 0 ? (
-                currentActivities.map((activity, index) => (
-                    <div key={index}>
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center">
-                                <div className="w-4 h-4 bg-crearCuentaNavbar rounded-full mr-2"></div>
-                                <span>{activity.description}</span>
+                currentActivities.map((activity, index) => {
+                    // Mapeamos la descripción
+                    const translatedDescription = descriptionMap[activity.description] || activity.description;
+                    return (
+                        <div key={index}>
+                            <div className="flex items-center justify-between mb-4 cursor-pointer"  // Añadimos cursor pointer para indicar que es clickeable
+                                onClick={() => handleActivityClick(activity.id)}  // Llamamos a la función al hacer clic
+                            >
+                                <div className="flex items-center">
+                                    <div className="w-4 h-4 bg-crearCuentaNavbar rounded-full mr-2"></div>
+                                    <span>{translatedDescription}</span>
+                                </div>
+                                <span className="font-semibold">$ {activity.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                             </div>
-                            <span className="font-semibold">$ {activity.amount.toFixed(2)}</span>
+                            <hr className="border-t-1 border-black mb-4" />
                         </div>
-                        <hr className="border-t-1 border-black mb-4" />
-                    </div>
-                ))
+                    );
+                })
             ) : (
                 <div>No hay actividades registradas.</div>
             )}
@@ -146,6 +183,17 @@ const Activity = ({ token, searchTerm, filterPeriod, filterType }: ActivityProps
                     <FontAwesomeIcon icon={faArrowLeft} className="w-5 h-5 mr-2" />
                     Anterior
                 </button>
+                <div className="flex items-center gap-2">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                        <button
+                            key={page}
+                            onClick={() => handlePageClick(page)}
+                            className={`px-3 py-1 rounded-md ${page === currentPage ? 'font-bold text-black' : 'text-gray-500'}`}
+                        >
+                            {page}
+                        </button>
+                    ))}
+                </div>
                 <button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
