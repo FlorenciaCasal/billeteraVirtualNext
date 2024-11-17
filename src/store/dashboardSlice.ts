@@ -16,15 +16,15 @@ const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState,
   reducers: {
-      setSearchTerm: (state, action: PayloadAction<string>) => {
-          state.searchTerm = action.payload;
-      },
-      setToken: (state, action: PayloadAction<string>) => {
-          state.token = action.payload;
-      },
-      setBalance: (state, action: PayloadAction<number>) => {
-          state.balance = action.payload;
-      },
+    setSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload;
+    },
+    setToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
+    setBalance: (state, action: PayloadAction<number>) => {
+      state.balance = action.payload;
+    },  
   },
 });
 

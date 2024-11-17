@@ -32,7 +32,7 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
     }, [token, initialBalance, dispatch]);
 
     return (
-        <main className="flex-grow bg-[#EEEAEA]">
+        <main className="flex-grow min-h-screen bg-[#EEEAEA]">
             <section>
                 <div className='flex flex-col py-8 px-8 w-full bg-backgroundNavbar rounded-lg'>
                     <div className="flex justify-end">
@@ -62,7 +62,7 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
             </section>
 
             <section className="-my-8 -mx-16">
-                <ActivityPage />
+                <ActivityPage isDashboard={true} />
             </section>
         </main>
     );

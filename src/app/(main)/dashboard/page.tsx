@@ -8,7 +8,7 @@ const DashboardPage = async () => {
     const me = await userApi.getMeInternal(token);
 
     return (
-        <main className="flex-grow min-h-screen py-8 px-16 bg-[#EEEAEA]">
+        <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
             <DashboardClient initialBalance={me.available_amount} token={token} />
         </main>
     );

@@ -1,11 +1,6 @@
 'use client';
-import Activity from '@/Components/dashboard/Activity';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faSliders } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchTerm } from '@/store/dashboardSlice';
-import { RootState } from '@/store/store';
+import { useState } from 'react';
 import Button from '@/Components/ui/Button';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
