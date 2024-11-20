@@ -9,30 +9,26 @@ class AuthAPI {
 
     login = async (email: string, password: string): Promise<LoginResponseType> =>
         httpNextApi.httpPost(`/api/auth/login`, { email, password })
-    // {        return await httpNextApi.httpPost<LoginResponseType>(`/auth/login`, { email, password });
 
     loginJava = async (email: string, password: string): Promise<LoginResponseType> =>
         httpJavaApi.httpPostPublic(`/login`, { email, password })
 
-    // register = async (firstname: string, lastname: string, dni: number, email: string, password: string, confirmPassword: string, phone: string): Promise<UserTypeConId> =>
-    //     httpNextApi.httpPost(`/api/auth/register`, { firstname, lastname, dni, email, password, confirmPassword, phone })
-
-     registerJava = async (firstname: string, lastname: string, dni: number, email: string, password: string, confirmPassword: string, phone: string): Promise<UserTypeConId> =>
-         httpJavaApi.httpPostPublic(`/users`, { firstname, lastname, dni, email, password, confirmPassword, phone })
+    registerJava = async (firstname: string, lastname: string, dni: number, email: string, password: string, confirmPassword: string, phone: string): Promise<UserTypeConId> =>
+        httpJavaApi.httpPostPublic(`/users`, { firstname, lastname, dni, email, password, confirmPassword, phone })
 
     async register(firstname: string, lastname: string, dni: number, email: string, password: string, confirmPassword: string, phone: string): Promise<UserTypeConId> {
         const registerResponse = await authApi.registerJava(firstname, lastname, dni, email, password, confirmPassword, phone);
         console.log('Respuesta de registerJava:', registerResponse);
 
         return {
-             
-                account_id: registerResponse.account_id,
-                user_id: registerResponse.user_id,
-                email,
-            
+
+            account_id: registerResponse.account_id,
+            user_id: registerResponse.user_id,
+            email,
+
         }
     }
-   
+
     logout = async (): Promise<LoginResponseType> =>
         httpNextApi.httpPost(`/api/auth/logout`, {})
 

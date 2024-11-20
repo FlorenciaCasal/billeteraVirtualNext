@@ -7,9 +7,13 @@ export async function POST(request: NextRequest) {
   if (!email || !account_id) {
     return NextResponse.json({ error: 'Missing email or account_id' }, { status: 400 });
   }
-
-  // Usa el servicio de autenticación para guardar el valor en Redis
-  await authService.setRedisValue(email, account_id);
+  try {
+    // Usa el servicio de autenticación para guardar el valor en Redis
+    await authService.setRedisValue(email, account_id);
+  } catch (error) {
+    console.error('Error al guardar en Redis: ', error);
+    return NextResponse.json({ error: 'Failed to save to Redis' }, { status: 500 });
+  }
 
   return NextResponse.json({ message: 'Account ID saved successfully' }, { status: 200 });
 }

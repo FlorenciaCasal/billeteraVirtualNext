@@ -62,7 +62,7 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
             </section>
 
             <section className="-my-8 -mx-16">
-                <ActivityPage isDashboard={true} />
+                <ActivityPage />
             </section>
         </main>
     );

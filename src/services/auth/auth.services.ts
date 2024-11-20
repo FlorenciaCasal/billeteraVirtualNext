@@ -13,7 +13,7 @@ class AuthService {
 
     constructor() {
         this.client = createClient({
-            url: 'redis://default:digitalMoneyPass@redis:6379'
+            url: 'redis://default:digitalMoneyPass@digital-money-redis-1:6379'
         });
 
         this.client.connect().then(() => {

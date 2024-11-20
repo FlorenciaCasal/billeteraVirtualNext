@@ -1,16 +1,23 @@
 
 'use client';
 import Activity from '@/Components/dashboard/Activity';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
-interface ActivityPageProps {
-    isDashboard: boolean;
-}
 
-const ActivityPage = ({ isDashboard }: ActivityPageProps) => {
-    return (
-        <Activity isDashboard={isDashboard}
-        />
-    );
+const ActivityPage = () => {
+    const [isDashboard, setIsDashboard] = useState<boolean>(false);
+    const pathname = usePathname(); 
+
+    useEffect(() => {
+        if (pathname === '/dashboard') {
+            setIsDashboard(true);
+        } else {
+            setIsDashboard(false);
+        }
+    }, [pathname]);
+
+    return <Activity isDashboard={isDashboard} />;
 };
 
 export default ActivityPage;
