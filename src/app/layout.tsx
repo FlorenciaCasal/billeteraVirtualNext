@@ -1,7 +1,7 @@
 "use client"; // Esto convierte todo el componente en un Client Component
 
 import "./globals.css";
-import Footer from "../components/layout/Footer";
+import Footer from "../Components/layout/Footer";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 

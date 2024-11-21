@@ -1,6 +1,6 @@
 
 'use client';
-import Activity from '../../../components/dashboard/Activity';
+import Activity from '../../../Components/dashboard/Activity';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 

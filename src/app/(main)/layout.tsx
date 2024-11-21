@@ -1,10 +1,10 @@
-import Navbar from "@/components/layout/Navbar"
+import Navbar from '@/Components/layout/Navbar';
 import logo1 from '/public/img/Logo1.png';
 import { ProfileLayoutProps } from "@/types/profileLayout.types";
 import { cookies } from "next/headers";
 import userApi from '@/services/users/users.service';
 import { headers } from 'next/headers';
-import MenuLateral from "@/components/dashboard/MenuLateral";
+import MenuLateral from '@/Components/dashboard/MenuLateral';
 
 const ProfileLayout = async ({ children }: ProfileLayoutProps) => {
     const token = headers().get('digital-money-token') ?? '';

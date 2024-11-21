@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
-import Button from '../../../components/ui/Button'
+import Button from '../../../Components/ui/Button'
 import { useRouter } from "next/navigation";
 import jsPDF from 'jspdf';
 

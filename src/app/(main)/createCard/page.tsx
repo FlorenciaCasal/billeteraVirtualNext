@@ -1,4 +1,4 @@
-import CreateCard from '@/components/cards/CreateCard';
+import CreateCard from '@/Components/cards/CreateCard';
 import { headers } from 'next/headers';
 import { cookies } from 'next/headers'
 

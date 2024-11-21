@@ -1,5 +1,5 @@
 import userApi from '@/services/users/users.service';
-import UserPageContainerAsync from '@/components/users/UserPageContainerAsync';
+import UserPageContainerAsync from '@/Components/users/UserPageContainerAsync';
 import { headers } from 'next/headers';
 
 
