@@ -1,4 +1,4 @@
-import UserPageContainerAsync from "@/components/users/UserPageContainerAsync";
+import UserPageContainerAsync from "@/Components/users/UserPageContainerAsync";
 import { headers } from "next/headers";
 
 const UserPage = async ({ params }: { params: { id: string } }) => {

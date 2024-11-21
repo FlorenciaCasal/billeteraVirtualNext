@@ -1,4 +1,4 @@
-import LoadMoneyCard from '@/components/cards/LoadMoneyCard';
+import LoadMoneyCard from '@/Components/cards/LoadMoneyCard';
 import { headers } from 'next/headers';
 import userApi from '@/services/users/users.service';
 
