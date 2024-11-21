@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import Button from '@/components/ui/Button'
+import Button from '@/Components/ui/Button'
 import { useState } from 'react';
 import depositApi from '@/services/deposit/deposit.api';
 import Cookies from 'js-cookie';

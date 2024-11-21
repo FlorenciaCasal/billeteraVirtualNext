@@ -11,8 +11,8 @@ import { faMagnifyingGlass, faSliders } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchTerm } from '@/store/dashboardSlice';
 import { RootState } from '@/store/store';
-import Button from '../../components/ui/Button'
-import Filters from '@/components/dashboard/Filters';
+import Button from '../ui/Button';
+import Filters from '@/Components/dashboard/Filters';
 
 interface ActivityProps {
     isDashboard?: boolean;

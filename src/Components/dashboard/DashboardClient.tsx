@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import userApi from '@/services/users/users.service';
-import Monto from '../../components/dashboard/Monto'
+import Monto from './Monto'
 import Link from 'next/link';
 import ActivityPage from '@/app/(main)/activity/page';
-import Button from '../../components/ui/Button';
+import Button from '../ui/Button';
 import { useDispatch } from 'react-redux';
 import { setSearchTerm, setToken, setBalance } from '../../store/dashboardSlice'
 
