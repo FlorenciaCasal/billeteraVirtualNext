@@ -11,7 +11,7 @@ COPY package*.json ./
 # RUN npm install
 
 # Instala dependencias, solo las necesarias para producción
- RUN npm install --omit=dev
+ RUN npm install --omit=dev && npm cache clean --force
 
 # Copia el resto del código de la aplicación
 COPY . .

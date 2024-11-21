@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "@/Components/ui/Button"
+import Button from "@/components/ui/Button"
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormData2 } from "@/types/formData/formLoginStep2.types";

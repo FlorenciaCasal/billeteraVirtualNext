@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
 import { nextStep, resetSteps } from '@/store/stepsSlice';
-import Step1 from "@/Components/form/login/Step1"
-import Step2 from "@/Components/form/login/Step2"
+import Step1 from "@/components/form/login/Step1"
+import Step2 from "@/components/form/login/Step2"
 
 
 const LoginPage = () => {

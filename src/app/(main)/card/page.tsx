@@ -1,4 +1,4 @@
-import Card from '@/Components/dashboard/Card';
+import Card from '@/components/dashboard/Card';
 import { headers } from 'next/headers';
 
 

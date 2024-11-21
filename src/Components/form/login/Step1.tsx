@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Button from "@/Components/ui/Button";
+import Button from "@/components/ui/Button";
 import { FormData1 } from "@/types/formData/formLoginStep1.types";
 import { LoginEmailScheme } from "@/schemes/login.scheme";
 import { useDispatch } from "react-redux";

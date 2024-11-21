@@ -1,7 +1,7 @@
-import Navbar from "../../src/Components/layout/Navbar"
+import Navbar from "../components/layout/Navbar"
 import logo1 from '/public/img/Logo1.png';
-import { homeTexts } from "../Components/texts/HomeTexts";
-import Card from "@/Components/ui/Card";
+import { homeTexts } from "../components/texts/HomeTexts";
+import Card from "@/components/ui/Card";
 import { cookies } from "next/headers";
 
 export default function Home() {

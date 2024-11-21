@@ -36,6 +36,7 @@ version: '3.8'
 
 services:
   web:
+    container_name: digital-money-web-1
     image: digitalmoney_app  
     build:
       context: .
@@ -45,8 +46,12 @@ services:
       - redis
     networks:
       - digitalMoney_network
+    environment:
+      - REDIS_URL=${REDIS_URL}
+      - API_JAVA=${API_JAVA}
 
   redis:
+    container_name: digital-money-redis-1
     image: redis:6.2-alpine
     restart: always
     ports:

@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-import FormDataRegister from "@/Components/form/register/FormDataRegister"
+import FormDataRegister from "@/components/form/register/FormDataRegister"
 import { FormRegister } from "@/types/formData/formDataRegister.types";
 import { useRouter } from "next/navigation";
 import Swal from 'sweetalert2';

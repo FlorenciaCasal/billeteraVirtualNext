@@ -11,8 +11,8 @@ import { faMagnifyingGlass, faSliders } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchTerm } from '@/store/dashboardSlice';
 import { RootState } from '@/store/store';
-import Button from '@/Components/ui/Button';
-import Filters from '@/Components/dashboard/Filters';
+import Button from '../../components/ui/Button'
+import Filters from '@/components/dashboard/Filters';
 
 interface ActivityProps {
     isDashboard?: boolean;
@@ -126,8 +126,8 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
             ? (filterType === 'income' ? activity.amount > 0 : activity.amount < 0)
             : true;
         // Filtrar por búsqueda
-        const searchFilter = activity.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            activity.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace('.', '').replace(',', '.').includes(searchTerm.replace(',', '.'));
+        const searchFilter = activity.description.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
+            activity.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace('.', '').replace(',', '.').startsWith(searchTerm.replace(',', '.'));
         // Filtro por rango de montos
         const amountFilter = () => {
             if (!filterAmountRange) return true;

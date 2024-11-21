@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Button from '@/Components/ui/Button';
+import Button from '@/components/ui/Button';
 import authApi from '@/services/auth/auth.api';
 
 

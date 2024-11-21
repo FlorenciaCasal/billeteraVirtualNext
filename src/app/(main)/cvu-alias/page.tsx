@@ -1,4 +1,4 @@
-import CvuAlias from "@/Components/dashboard/CvuAlias"
+import CvuAlias from "@/components/dashboard/CvuAlias"
 import userApi from "@/services/users/users.service";
 import { headers } from "next/headers";
 

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ButtonType } from '../../../src/types/button.types';
+import { ButtonType } from '../../types/button.types';
 
 const Button = ({ href, children, label, className, onClick, type, disabled }: ButtonType) => {
     

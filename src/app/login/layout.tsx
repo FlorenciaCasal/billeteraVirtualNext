@@ -1,4 +1,4 @@
-import Navbar from '@/Components/layout/Navbar'
+import Navbar from '@/components/layout/Navbar'
 import logoGreen from '/public/img/Logo2.png';
 import { LoginLayoutProps } from '@/types/loginLayout.types';
 
