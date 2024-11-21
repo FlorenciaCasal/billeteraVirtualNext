@@ -48,6 +48,7 @@ services:
     environment:
       - REDIS_URL=${REDIS_URL}
       - API_JAVA=${API_JAVA}
+      - REDIS_API_TOKEN=${REDIS_API_TOKEN}
 
   redis:
     image: redis:6.2-alpine
