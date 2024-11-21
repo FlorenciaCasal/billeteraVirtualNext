@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSearchTerm } from '@/store/dashboardSlice';
 import { RootState } from '@/store/store';
 import Button from '../ui/Button'
-import Filters from '@/temp_components/dashboard/Filters';
+import Filters from '@/components/dashboard/Filters';
 
 interface ActivityProps {
     isDashboard?: boolean;

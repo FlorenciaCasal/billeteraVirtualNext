@@ -1,7 +1,7 @@
 'use client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import Button from '@/temp_components/ui/Button';
+import Button from '@/components/ui/Button';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 interface FiltersProps {
