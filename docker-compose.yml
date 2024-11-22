@@ -1,54 +1,16 @@
 
-# services:
-#   web:
-#     build:
-#       context: .
-#     ports:
-#       - "3000:3000"
-#     volumes:
-#       - .:/app
-#     depends_on:
-#       - redis
-#     networks:
-#       - digitalMoney_network
-
-#   redis:
-#     image: redis:6.2-alpine
-#     restart: always
-#     ports:
-#       - 6379:6379
-#     command: redis-server --save 20 1 --loglevel warning --requirepass digitalMoneyPass
-#     volumes:
-#       - redis:/data
-#     networks:
-#       - digitalMoney_network
-
-# networks:
-#   digitalMoney_network:
-#     driver: bridge
-
-# volumes:
-#   redis:
-
-
-  # Para produccion:
-version: '3.8'
-
 services:
   web:
-    image: digitalmoney_app  
     build:
       context: .
     ports:
       - "3000:3000"
+    volumes:
+      - .:/app
     depends_on:
       - redis
     networks:
       - digitalMoney_network
-    environment:
-      - REDIS_URL=${REDIS_URL}
-      - API_JAVA=${API_JAVA}
-      - REDIS_API_TOKEN=${REDIS_API_TOKEN}
 
   redis:
     image: redis:6.2-alpine
@@ -66,4 +28,42 @@ networks:
     driver: bridge
 
 volumes:
-  redis:    
+  redis:
+
+
+  # Para produccion:
+# version: '3.8'
+
+# services:
+#   web:
+#     image: digitalmoney_app  
+#     build:
+#       context: .
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - redis
+#     networks:
+#       - digitalMoney_network
+#     environment:
+#       - REDIS_URL=${REDIS_URL}
+#       - API_JAVA=${API_JAVA}
+#       - REDIS_API_TOKEN=${REDIS_API_TOKEN}
+
+#   redis:
+#     image: redis:6.2-alpine
+#     restart: always
+#     ports:
+#       - 6379:6379
+#     command: redis-server --save 20 1 --loglevel warning --requirepass digitalMoneyPass
+#     volumes:
+#       - redis:/data
+#     networks:
+#       - digitalMoney_network
+
+# networks:
+#   digitalMoney_network:
+#     driver: bridge
+
+# volumes:
+#   redis:    
