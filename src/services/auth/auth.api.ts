@@ -5,12 +5,8 @@ import { UserTypeConId } from "@/types/user.types";
 
 class AuthAPI {
     getRedisValue = async (key: string): Promise<RedisResponseType> =>
-        // httpNextApi.httpGet(`/api/redis`, new URLSearchParams({ key: key }), process.env.REDIS_API_TOKEN)
-    {
-        const token = process.env.NODE_ENV === 'development' ? process.env.REDIS_API_TOKEN : '';
-        return httpNextApi.httpGet(`/api/redis`, new URLSearchParams({ key: key }), token);
-    }
-    
+        httpNextApi.httpGet(`/api/redis`, new URLSearchParams({ key: key }), process.env.REDIS_API_TOKEN)
+
     login = async (email: string, password: string): Promise<LoginResponseType> =>
         httpNextApi.httpPost(`/api/auth/login`, { email, password })
 
