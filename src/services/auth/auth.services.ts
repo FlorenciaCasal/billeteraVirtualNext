@@ -13,7 +13,8 @@ class AuthService {
 
     constructor() {
         this.client = createClient({
-            url: 'redis://default:digitalMoneyPass@digital-money-redis-1:6379'
+            // url: 'redis://default:digitalMoneyPass@digital-money-redis-1:6379'
+            url: process.env.REDIS_URL,
         });
 
         this.client.connect().then(() => {
