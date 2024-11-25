@@ -76,7 +76,7 @@ const RegisterPage = () => {
 
       if (registerResponse && registerResponse.account_id) {
         const account_id: string = String(registerResponse.account_id);
-  
+
         // Llamada a la API de Next.js para guardar el account_id
         await fetch('/api/saveAccountId', {
           method: 'POST',
@@ -85,16 +85,19 @@ const RegisterPage = () => {
           },
           body: JSON.stringify({ email: data.email, account_id }),
         });
-  
+
         // Guardar la cookie en el cliente
-        Cookies.set('digitalMoneyAccountID', account_id, {
-          httpOnly: false,
-          secure: true,
-          domain: process.env.NEXT_PUBLIC_API_URL,
-          path: '/',
-        });
+        if (account_id) {
+          Cookies.set('digitalMoneyAccountID', account_id, {
+            httpOnly: false,
+            secure: true,
+            // domain: process.env.NEXT_PUBLIC_API_URL,
+            path: '/',
+          });
+          console.log('Cookie set with account_id:', account_id);
+        }
       }
-  
+
 
       // Envía el correo de confirmación
       await sendConfirmationEmail(data);
