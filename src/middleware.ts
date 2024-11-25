@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
     try {
         const sessionId = request.cookies.get('digitalMoneyID')?.value ?? '';
         console.log('Session ID en el middleware:', sessionId);  // Debugging
-        if (!sessionId) throw new AccessDeniedError('Session ID is not valid anymore')
+        if (!sessionId) throw new AccessDeniedError('Session ID is not valid anymore') && console.warn('Middleware: No sessionId found in cookies.');
         const token = await getToken(sessionId);
         console.log('Token obtenido en el middleware:', token);  // Debugging
         if (!token) throw new AccessDeniedError('Session ID is not valid anymore')

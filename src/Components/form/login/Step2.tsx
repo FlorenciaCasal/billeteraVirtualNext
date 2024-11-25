@@ -57,7 +57,7 @@ const Step2 = () => {
          }
    
          router.push("/dashboard");
-         router.refresh();
+        //  router.refresh();
        } catch (e) {
          console.log("error step2", e);
         // Manejo de errores...
