@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
             expires: loginResponse.expireAt,
             httpOnly: true,
             secure: true,
-            domain: 'localhost',
+            domain: process.env.NEXT_PUBLIC_API_URL,
             path: '/'
         })
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
             expires: loginResponse.expireAt,
             httpOnly: false,
             secure: true,
-            domain: 'localhost',
+            domain: process.env.NEXT_PUBLIC_API_URL,
             path: '/'
         })
 
@@ -36,12 +36,9 @@ export async function POST(request: NextRequest) {
             cookies().set('digitalMoneyAccountID', account_id.toString(), {
                 httpOnly: false,
                 secure: true,
-                domain: 'localhost',
+                domain: process.env.NEXT_PUBLIC_API_URL,
                 path: '/',
             });
-            console.log("REDIS_URL:", process.env.REDIS_URL);
-            console.log("API_JAVA:", process.env.API_JAVA);
-            console.log("REDIS_API_TOKEN:", process.env.REDIS_API_TOKEN);
         } else {
             // Manejar el caso donde no se puede obtener accountId
             console.error('No se pudo obtener accountId');
