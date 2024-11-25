@@ -39,6 +39,9 @@ export async function POST(request: NextRequest) {
                 domain: 'localhost',
                 path: '/',
             });
+            console.log("REDIS_URL:", process.env.REDIS_URL);
+            console.log("API_JAVA:", process.env.API_JAVA);
+            console.log("REDIS_API_TOKEN:", process.env.REDIS_API_TOKEN);
         } else {
             // Manejar el caso donde no se puede obtener accountId
             console.error('No se pudo obtener accountId');

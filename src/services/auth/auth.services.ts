@@ -17,9 +17,9 @@ class AuthService {
             url: process.env.REDIS_URL,
         });
 
-        this.client.connect().then(() => {
-            console.log('connected to redis')
-        })
+        this.client.connect()
+            .then(() => console.log('Conexión exitosa a Redis'))
+            .catch((err) => console.error('Error conectando a Redis:', err));
     }
 
     async authenticate(email: string, password: string): Promise<AuthResponseType> {
@@ -28,7 +28,7 @@ class AuthService {
         const now = new Date();
         const expireAt = new Date(now.getTime() + TEN_MINUTE * 1000).getTime();
         this.client.set(sessionId, loginResponse.token, { EX: TEN_MINUTE })
-        
+
         return {
             sessionId: sessionId,
             expireAt: expireAt,
@@ -52,11 +52,11 @@ class AuthService {
         console.log('Respuesta de registerJava:', registerResponse);
 
         return {
-             
-                account_id: registerResponse.account_id,
-                user_id: registerResponse.user_id,
-                email,
-            
+
+            account_id: registerResponse.account_id,
+            user_id: registerResponse.user_id,
+            email,
+
         }
     }
 
