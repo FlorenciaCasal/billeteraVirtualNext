@@ -16,7 +16,7 @@ interface DashboardClientProps {
 
 const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token }) => {
     const dispatch = useDispatch();
-
+console.log("en el dashboard, antes del useEffect")
     useEffect(() => {
         dispatch(setToken(token));
         dispatch(setBalance(initialBalance));
