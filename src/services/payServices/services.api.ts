@@ -3,7 +3,7 @@ import httpJavaApi from "../common/http.java.service";
 class ServicesAPI {
     getservices = async () => {
         const endpoint = `/service`;
-        return httpJavaApi.httpGet(endpoint);
+        return httpJavaApi.httpGetFromSecondary(endpoint);
     }
     searchServices = async (query: string) => {
         const endpoint = `/service`;
@@ -12,7 +12,7 @@ class ServicesAPI {
     };
      getServiceById = async(id: number) => {
         const endpointSuffix = `/service/${id}`;
-        return httpJavaApi.httpGet(endpointSuffix, undefined);
+        return httpJavaApi.httpGetFromSecondary(endpointSuffix, undefined);
     }
 }
 
