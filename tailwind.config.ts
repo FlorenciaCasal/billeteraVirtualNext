@@ -30,6 +30,7 @@ const config: Config = {
         sans: ['Open Sans', 'sans-serif'],
       },
       fontSize: {
+        xxs: '12px',
         xs: '14px',
         'msj': '15px',
         sm: '16px',
