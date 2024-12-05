@@ -1,12 +1,13 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import userApi from '@/services/users/users.service';
 import Monto from './Monto'
 import Link from 'next/link';
 import ActivityPage from '@/app/(main)/activity/page';
-import Button from '../ui/Button';
 import { useDispatch } from 'react-redux';
-import { setSearchTerm, setToken, setBalance } from '../../store/dashboardSlice'
+import { setToken, setBalance } from '../../store/dashboardSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 
 interface DashboardClientProps {
@@ -16,6 +17,7 @@ interface DashboardClientProps {
 
 const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token }) => {
     const dispatch = useDispatch();
+    const balance = useSelector((state: RootState) => state.dashboard.balance);
 
     useEffect(() => {
         dispatch(setToken(token));
@@ -46,7 +48,7 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
                     <div className='pb-4 px-4'>
                         <h5 className='text-white'>Dinero disponible</h5>
                     </div>
-                    <Monto availableAmount={initialBalance} />
+                    <Monto availableAmount={balance} />
                 </div>
 
                 <div className='flex py-4 w-full'>
@@ -56,7 +58,9 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
                         </Link>
                     </span>
                     <span className='flex justify-center py-6 ml-2 w-full bg-crearCuentaNavbar rounded-lg'>
-                        <Button><h6>Pagar servicios</h6></Button>
+                        <Link href="/pay-services" className="text-black">
+                            <h6> Pagar servicios</h6>
+                        </Link>
                     </span>
                 </div>
             </section>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ServiceDetails } from '@/types/services/services.types';
+import { ServiceDetails } from '@/types/typesServices/services.types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -19,10 +19,11 @@ const EXPECTED_ACCOUNT_SUFFIX = '12345678910';
 
 const schema = yup.object().shape({
     accountNumber: yup
-        .string()
-        .required('El número de cuenta es obligatorio')
-        .length(11, 'El número debe tener exactamente 11 dígitos'),
-});
+      .string()
+      .required('El número de cuenta es obligatorio')
+      .matches(/^[0-9]{11}$/, 'Debe tener exactamente 11 dígitos numéricos.')
+      .test('match-suffix', 'Los últimos dígitos no coinciden', (value) => value?.endsWith(EXPECTED_ACCOUNT_SUFFIX)),
+  });
 
 const Step2: React.FC<Step2Props> = ({ selectedService, handleContinue }) => {
     const [showError, setShowError] = useState(false);
@@ -64,23 +65,24 @@ const Step2: React.FC<Step2Props> = ({ selectedService, handleContinue }) => {
                             Número de cuenta sin el primer 2
                         </h4>
                         <form onSubmit={(e) => e.preventDefault()}>
-                            <div className="flex flex-col mt-8 w-80">
+                            <div className="flex flex-col mt-8 w-80 ">
                                 <Input
                                     newType="text"
                                     newPlaceholder="Ingresa los últimos 11 dígitos"
                                     fieldName="accountNumber"
                                     register={register}
                                     errors={errors}
+                                    className='!mb-0'
                                 />
                             </div>
-                            <p className="text-xxs text-white pt-2">
+                            <p className="text-xxs text-white ">
                                 Son 11 números sin espacios, sin el “2” inicial. Agregá ceros adelante si tenés menos.
                             </p>
                             <div className="flex justify-end">
                                 <Button
                                     type="button"
                                     onClick={validateBeforeSubmit}
-                                    className="w-64 h-12 mb-4 text-sm text-[#000] bg-crearCuentaNavbar"
+                                    className="w-64 h-12 text-sm text-[#000] bg-crearCuentaNavbar"
                                 >
                                     Continuar
                                 </Button>

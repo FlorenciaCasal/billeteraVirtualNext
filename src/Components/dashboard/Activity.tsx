@@ -74,9 +74,11 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                         new Date(b.dated).getTime() - new Date(a.dated).getTime()
                     );
                     setActivities(sortedActivities);
+                    setIsLoading(false); 
                 } catch (err) {
                     console.error("Error fetching activities:", err);
                     setError("No se pudo cargar la actividad.");
+                    setIsLoading(false);
                 } finally {
                     setIsLoading(false);
                 }
@@ -177,14 +179,15 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
         ? filteredActivities
         : currentActivities;
 
-    if (isLoading) return <div>Cargando...</div>;
-    if (error) return <div>{error}</div>;
+    // if (isLoading) return <div>Cargando...</div>;
+    // if (error) return <div>{error}</div>;
 
 
     return (
         <>
             <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
-                {/* Buscador */}
+                {/* Buscador y mensajes de estado*/}
+            
                 <div className="flex">
                     <div className="relative w-full">
                         <FontAwesomeIcon
@@ -210,6 +213,10 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                         </Button>
                     )}
                 </div>
+                <div className="flex flex-col mb-4">
+                {isLoading && <div className="text-gray-500">Cargando...</div>}  {/* Mensaje de carga */}
+                {error && <div className="text-error">{error}</div>}  {/* Mensaje de error */}
+            </div>
 
                 {/* Filtros */}
                 {showFilters && (

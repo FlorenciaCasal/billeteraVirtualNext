@@ -50,11 +50,11 @@ const Step3 = ({ selectedCardId, enteredAmount, onConfirm, cvu, token }: Step3Pr
                 depositData.dated,
                 depositData.destination,
                 depositData.origin,
-                token ?? "" // En caso de que el token sea nulo
+                token ?? ""
             );
             const transaction_id = depositResponse.id;
             console.log("Depósito exitoso");
-            onConfirm(transaction_id, account_id); // Llama a la función de confirmación, si existe
+            onConfirm(transaction_id, account_id); 
         } catch (error) {
             console.error("Error al realizar el depósito:", error);
             setError("Ocurrió un error al intentar realizar el depósito. Por favor, inténtalo nuevamente.");

@@ -25,6 +25,7 @@ const Step4 = ({ enteredAmount, cvu, transactionId, accountId, token }: Step4Pro
     const activityDescriptions: Record<string, string> = {
         Deposit: 'Depósito de dinero',
         Transfer: 'Transferencia de dinero',
+
     };
 
     const handleDownload = async () => {
@@ -43,7 +44,7 @@ const Step4 = ({ enteredAmount, cvu, transactionId, accountId, token }: Step4Pro
             });
 
             const activityType = activityTypes[transaction.type] || 'Actividad desconocida';
-            const activityDescription = activityDescriptions[transaction.type] 
+            const activityDescription = activityDescriptions[transaction.type]
 
             // Crear el PDF
             const doc = new jsPDF();

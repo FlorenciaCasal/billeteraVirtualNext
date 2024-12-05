@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import servicesApi from '@/services/payServices/services.api';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { Service, ServiceDetails } from '../../../types/services/services.types';
+import { Service, ServiceDetails } from '../../../types/typesServices/services.types';
 import Step1 from '@/Components/payServices/Step1';
 import Step2 from '@/Components/payServices/Step2';
 import Step3 from '@/Components/payServices/Step3';
+import Step4 from '@/Components/payServices/Step4';
 import userApi from '@/services/users/users.service';
 
 
@@ -20,6 +21,17 @@ const PayServicesPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<ServiceDetails | null>(null);
   const [step, setStep] = useState(1); // Controla los pasos
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  const [cardNumberId, setCardNumberId] = useState<number | null>(null);
+  const [transaction_id, setTransaction_id] = useState<number | null>(null);
+  const [account_id, setAccount_id] = useState<number | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'account' | null>(null);
+
+  const isPaymentButtonDisabled = 
+  !paymentMethod || 
+  (paymentMethod === 'card' && !selectedCardId) || 
+  (paymentMethod === 'account' && !selectedService?.invoice_value);
+  console.log('Estado botón deshabilitado:', isPaymentButtonDisabled);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -60,7 +72,35 @@ const PayServicesPage = () => {
     }
   };
 
+  const handleSelectCard = (cardId: number) => {
+    setSelectedCardId(cardId);
+    setPaymentMethod('card');
+    console.log("Tarjeta seleccionada:", cardId);
+  };
+
+  const handleSelectAccount = () => {
+    setPaymentMethod('account'); // Al elegir pagar con cuenta, se establece el método como 'account'
+    console.log("Pagar con dinero en cuenta");
+  };
+
   const handleContinue = () => setStep(3);
+
+  const handleConfirm = (transaction_id: number, account_id: number, cardNumberId?: number) => {
+    if (
+      transaction_id &&
+      account_id &&
+      ((paymentMethod === 'card' && cardNumberId) || paymentMethod === 'account')
+    ) {
+      setTransaction_id(transaction_id);
+      setAccount_id(account_id);
+      setCardNumberId(cardNumberId || null);
+      setStep(4);
+    } else {
+      console.error('Faltan datos para continuar al Step 4');
+    }
+  };
+
+
 
   return (
     <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
@@ -75,11 +115,33 @@ const PayServicesPage = () => {
         />
       )}
       {step === 2 && selectedService && (
-        <Step2 selectedService={selectedService} handleContinue={handleContinue} />
+        <Step2 selectedService={selectedService}
+          handleContinue={handleContinue}
+        />
       )}
       {step === 3 && selectedService && (
-  <Step3 token={token} selectedService={selectedService} />
-)}
+        <Step3
+          token={token}
+          selectedService={selectedService}
+          onConfirm={handleConfirm}
+          onSelectCard={handleSelectCard}
+          onSelectAccount={handleSelectAccount}
+          selectedCardId={selectedCardId}
+          setSelectedCardId={setSelectedCardId}
+          isPaymentButtonDisabled={isPaymentButtonDisabled}
+          paymentMethod={paymentMethod}
+        />
+      )}
+      {step === 4 && selectedService && (
+        <Step4
+          token={token}
+          selectedService={selectedService}
+          selectedCardId={selectedCardId}
+          cardNumberId={cardNumberId}
+          accountId={account_id}
+          transactionId={transaction_id}
+        />
+      )}
     </main>
   );
 };

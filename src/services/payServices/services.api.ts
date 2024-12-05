@@ -1,5 +1,5 @@
 import httpJavaApi from "../common/http.java.service";
-import { ServiceDetails } from "@/types/services/services.types";
+import { ServiceDetails } from "@/types/typesServices/services.types";
 
 class ServicesAPI {
     getServices = async () => {
