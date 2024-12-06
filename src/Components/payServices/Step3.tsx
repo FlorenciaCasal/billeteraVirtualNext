@@ -43,6 +43,27 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
   const dispatch = useDispatch();
   const [payWithAccountSelected, setPayWithAccountSelected] = useState(false);
 
+  const handleCardSelection = (cardId: number) => {
+    // Si ya está seleccionada, desmarcarla
+    if (selectedCardId === cardId) {
+      setSelectedCardId(null);
+    } else {
+      setSelectedCardId(cardId);
+      onSelectCard(cardId);
+    }
+  };
+
+  const handleAccountSelection = () => {
+    // Si ya está seleccionada, desmarcarla
+    if (payWithAccountSelected) {
+      setPayWithAccountSelected(false);
+      onSelectAccount();  // Desmarcar saldo
+    } else {
+      setPayWithAccountSelected(true);
+      onSelectAccount();  // Seleccionar saldo
+    }
+  };
+
   const handleCreateCard = () => {
     if (cards.length >= 10) {
       setShowLimitMessage(true);
@@ -207,7 +228,7 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
           <CardList
             cards={cards}
             selectedCardId={selectedCardId}
-            onSelectCard={onSelectCard}
+            onSelectCard={handleCardSelection}
           />
         )}
         <div className={`flex items-center py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer ${cards.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -217,16 +238,16 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
           <h4 className=" font-bold">Nueva tarjeta</h4>
         </div>
 
-        <div className="flex items-center py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer">
+        <div className="flex items-center py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer"
+        onClick={handleAccountSelection}
+        >
           <input
             type="radio"
             name="paymentMethod"
             checked={payWithAccountSelected}
-            onChange={() => {
-              setPayWithAccountSelected(!payWithAccountSelected);
-              onSelectAccount(); 
-            }}
+            onChange={handleAccountSelection}
             className="w-6 h-6 border-2 border-gray-700 rounded-full bg-transparent mr-4"
+            disabled={selectedCardId !== null} 
           />
           <h4 className="font-bold">Pagar con saldo en cuenta</h4>
         </div>
