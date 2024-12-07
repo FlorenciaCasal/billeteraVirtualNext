@@ -16,6 +16,9 @@ import { useDispatch } from 'react-redux';
 import { setBalance } from '../../store/dashboardSlice';
 import userApi from '@/services/users/users.service';
 import transferApi from '@/services/transfers/transfer.api';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 interface Step3Props {
   onSelectCard: (cardId: number) => void;
@@ -44,6 +47,9 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
   const [payWithAccountSelected, setPayWithAccountSelected] = useState(false);
 
   const handleCardSelection = (cardId: number) => {
+    if (payWithAccountSelected) {
+      setPayWithAccountSelected(false);
+    }
     // Si ya está seleccionada, desmarcarla
     if (selectedCardId === cardId) {
       setSelectedCardId(null);
@@ -54,14 +60,12 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
   };
 
   const handleAccountSelection = () => {
-    // Si ya está seleccionada, desmarcarla
-    if (payWithAccountSelected) {
-      setPayWithAccountSelected(false);
-      onSelectAccount();  // Desmarcar saldo
-    } else {
-      setPayWithAccountSelected(true);
-      onSelectAccount();  // Seleccionar saldo
+    if (selectedCardId !== null) {
+      setSelectedCardId(null); // Desmarcar tarjeta si se selecciona saldo
     }
+    // Alternar selección de saldo
+    setPayWithAccountSelected(!payWithAccountSelected);
+    onSelectAccount();
   };
 
   const handleCreateCard = () => {
@@ -167,6 +171,11 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
       console.error('No hay servicio seleccionado');
       return;
     }
+    const invoiceValue = Number(selectedService.invoice_value);
+    if (invoiceValue <= 0) {
+      alert('El valor del servicio debe ser mayor a $0 para continuar con el pago.');
+      return; // Detener el flujo si el valor es 0 o negativo
+    }
     try {
       const transferData: TransferRequest = {
         amount: -Number(selectedService.invoice_value),
@@ -231,42 +240,53 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
             onSelectCard={handleCardSelection}
           />
         )}
-        <div className={`flex items-center py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer ${cards.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
+        <div className={`flex items-center justify-between py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer ${cards.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={handleCreateCard}
         >
-          <FontAwesomeIcon icon={faPlus} className=" w-7 h-7 border-2 border-gray-700 rounded-full bg-transparent p-1 mr-4" />
-          <h4 className=" font-bold">Nueva tarjeta</h4>
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faPlus} className=" w-7 h-7 border-2 border-gray-700 rounded-full bg-transparent p-1 mr-4" />
+            <h4 className=" font-bold">Nueva tarjeta</h4>
+          </div>
+          <span>
+            <FontAwesomeIcon icon={faArrowRight} className="text-gray-700 w-5 h-5" />
+          </span>
         </div>
-
-        <div className="flex items-center py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer"
-        onClick={handleAccountSelection}
+        <div className="flex items-center justify-between py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer"
+          onClick={handleAccountSelection}
         >
+          <div className="flex items-center">
+            <div className="w-5 h-5 bg-crearCuentaNavbar rounded-full mr-2"></div>
+            <span><h4 className="font-bold mr-2">Pagar con saldo en cuenta</h4></span>
+            <p className='text-sm'>(Disponible ${useSelector((state: RootState) => state.dashboard.balance).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</p>
+          </div>
+          <div
+            className={`w-4 h-4 border-2 rounded-full cursor-pointer 
+      ${payWithAccountSelected ? 'bg-[#000] border-2 border-crearCuentaNavbar ring-1 ring-black' : 'border-gray-400'}`}
+          ></div>
+          {/* Input radio oculto */}
           <input
             type="radio"
             name="paymentMethod"
             checked={payWithAccountSelected}
             onChange={handleAccountSelection}
-            className="w-6 h-6 border-2 border-gray-700 rounded-full bg-transparent mr-4"
-            disabled={selectedCardId !== null} 
+            className="hidden" // Ocultamos el input
+            disabled={selectedCardId !== null}
           />
-          <h4 className="font-bold">Pagar con saldo en cuenta</h4>
-        </div>
-
-        <div className="flex justify-end mt-2">
-          <Button
-            type="button"
-            className={`w-64 h-12 text-sm ${selectedCardId !== null || payWithAccountSelected
-              ? 'bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen'
-              : 'bg-gray-300 cursor-not-allowed'
-              }`}
-            onClick={selectedCardId !== null ? handlePayService : handlePayWithAccount}
-            disabled={isPaymentButtonDisabled}          
-          >
-            Pagar
-          </Button>
         </div>
       </div>
-
+      <div className="flex justify-end mt-2">
+        <Button
+          type="button"
+          className={`w-64 h-12 text-sm ${selectedCardId !== null || payWithAccountSelected
+            ? 'bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen'
+            : 'bg-crearCuentaNavbar cursor-not-allowed'
+            }`}
+          onClick={selectedCardId !== null ? handlePayService : handlePayWithAccount}
+          disabled={!selectedCardId && !payWithAccountSelected}
+        >
+          Pagar
+        </Button>
+      </div>
     </div>
   );
 };

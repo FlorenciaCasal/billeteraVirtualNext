@@ -18,37 +18,37 @@ const MenuLateral = () => {
             {/* Menú lateral */}
             <nav className="w-64 bg-crearCuentaNavbar text-md py-12 px-8">
                 <ul>
-                    <li>
-                        <Link href="/dashboard" className="pb-4 text-black font-bold">
+                    <li className="pb-3">
+                        <Link href="/dashboard" className=" text-black font-bold">
                             Inicio
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/activity" className="pb-4 text-black">
+                    <li className="pb-3">
+                        <Link href="/activity" className="pb-6 text-black">
                             Actividad
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/profile" className="pb-4 text-black">
+                    <li className="pb-3">
+                        <Link href="/profile" className="pb-6 text-black">
                             Tu perfil
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/load-money" className="pb-4 text-black">
+                    <li className="pb-3">
+                        <Link href="/load-money" className="pb-6 text-black">
                             Cargar dinero
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/pay-services" className="pb-4 text-black">
+                    <li className="pb-3">
+                        <Link href="/pay-services" className="!pb-6 text-black">
                             Pagar servicios
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/card" className="pb-4 text-black">
+                    <li className="pb-3">
+                        <Link href="/card" className="!pb-6 text-black">
                             Tarjetas
                         </Link>
                     </li>
-                    <li>
+                    <li className="pb-3">
                         <Button
                             onClick={() => logout()}
                             label="Cerrar sesión"
