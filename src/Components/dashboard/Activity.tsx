@@ -58,10 +58,10 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
         };
     }, [dispatch]);
 
-
     const descriptionMap: Record<string, string> = {
-        "Transferiu para": "Transferencia para",
-        "Deposito de dinheiro": "Depósito de dinero",
+        Deposit: 'Ingresaste dinero',
+        Transaction: 'Pagaste',
+        Transfer: 'Le transferiste a',
     };
 
     useEffect(() => {
@@ -74,7 +74,8 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                         new Date(b.dated).getTime() - new Date(a.dated).getTime()
                     );
                     setActivities(sortedActivities);
-                    setIsLoading(false); 
+                    setIsLoading(false);
+                    setError(null);
                 } catch (err) {
                     console.error("Error fetching activities:", err);
                     setError("No se pudo cargar la actividad.");
@@ -179,15 +180,11 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
         ? filteredActivities
         : currentActivities;
 
-    // if (isLoading) return <div>Cargando...</div>;
-    // if (error) return <div>{error}</div>;
-
-
     return (
         <>
             <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
                 {/* Buscador y mensajes de estado*/}
-            
+
                 <div className="flex">
                     <div className="relative w-full">
                         <FontAwesomeIcon
@@ -214,9 +211,8 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                     )}
                 </div>
                 <div className="flex flex-col mb-4">
-                {isLoading && <div className="text-gray-500">Cargando...</div>}  {/* Mensaje de carga */}
-                {error && <div className="text-error">{error}</div>}  {/* Mensaje de error */}
-            </div>
+                    {isLoading ? <div>Cargando...</div> : error ? <div>{error}</div> : null}
+                </div>
 
                 {/* Filtros */}
                 {showFilters && (
@@ -245,7 +241,7 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                     {displayedActivities.length > 0 ? (
                         displayedActivities.map((activity, index) => {
                             // Mapeamos la descripción, usando el mapa si es necesario
-                            const translatedDescription = descriptionMap[activity.description] || activity.description;
+                            const translatedDescription = descriptionMap[activity.type] || activity.description;
 
                             return (
                                 <div key={index}>
@@ -255,7 +251,14 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                                     >
                                         <div className="flex items-center">
                                             <div className="w-4 h-4 bg-crearCuentaNavbar rounded-full mr-2"></div>
-                                            <span>{translatedDescription}</span>
+                                            <span>
+                                                {translatedDescription}
+                                                {activity.type === 'Deposit'
+                                                    ? ''
+                                                    : activity.type === 'Transfer'
+                                                        ? ` ${activity.destination || ''}`
+                                                        : ` ${activity.description || ''}`}
+                                            </span>
                                         </div>
                                         <span className="font-semibold">
                                             ${activity.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}

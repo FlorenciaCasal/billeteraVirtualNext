@@ -66,7 +66,7 @@ const Step3 = ({ selectedCardId, enteredAmount, onConfirm, cvu, token }: Step3Pr
     return (
         <div className="flex flex-col py-8 px-8 w-full bg-backgroundNavbar rounded-lg">
             <p className="font-bold text-crearCuentaNavbar text-mlg mb-4">Revisá que está todo bien</p>
-            <p className="text-white ">Vas a transferir  <FontAwesomeIcon className="text-crearCuentaNavbar pl-2 w-7 h-7" icon={faPenToSquare} /> </p>
+            <p className="text-white ">Vas a ingresar  <FontAwesomeIcon className="text-crearCuentaNavbar pl-2 w-7 h-7" icon={faPenToSquare} /> </p>
             <h5 className="text-white">${enteredAmount}</h5>
             <p className="text-white text-sm pt-8">Para</p>
             <h4 className="text-white">Cuenta propia</h4>

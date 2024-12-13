@@ -71,7 +71,7 @@ const Step2 = () => {
         <p className="text-[#FFF] font-bold mb-4">Ingresá tu contraseña</p>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center">
           <input
-            className={`w-64 h-12 mb-4 px-4 text-black border border-gray-500 rounded focus:outline-none ${errors.password ? "border-red-500" : ""
+            className={`w-64 h-12 mb-4 px-4 text-black border border-gray-500 rounded-lg focus:outline-none ${errors.password ? "border-red-500" : ""
               }`}
             type="password"
             placeholder="Contraseña"

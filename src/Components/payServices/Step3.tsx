@@ -19,6 +19,10 @@ import transferApi from '@/services/transfers/transfer.api';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { useMemo } from 'react';
+import Error from './Error';
+import Swal from 'sweetalert2';
+import { setCardNumberId } from '@/store/paymentSlice';
 
 interface Step3Props {
   onSelectCard: (cardId: number) => void;
@@ -30,10 +34,12 @@ interface Step3Props {
   setSelectedCardId: (cardId: number | null) => void;
   isPaymentButtonDisabled: boolean;
   paymentMethod: 'card' | 'account' | null;
+  setPaymentMethod: (method: 'card' | 'account' | null) => void;
+  onTransferData: (data: TransferRequest) => void;
 }
 
-const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccount, selectedCardId, setSelectedCardId, isPaymentButtonDisabled, paymentMethod }: Step3Props) => {
-  const me = userApi.getMeInternal(token);
+const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccount, selectedCardId, setSelectedCardId, isPaymentButtonDisabled, paymentMethod, setPaymentMethod, onTransferData }: Step3Props) => {
+  const me = useMemo(() => userApi.getMeInternal(token), [token]);
   const [service, setService] = useState<ServiceDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,13 +50,33 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
   const router = useRouter();
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const dispatch = useDispatch();
-  const [payWithAccountSelected, setPayWithAccountSelected] = useState(false);
+  const balance = useSelector((state: RootState) => state.dashboard.balance);
+  const title = 'Hubo un problema con tu pago';
+  const paragraph1 = 'Puede deberse a fondos insuficientes.';
+  const paragraph2 = 'Comunicate con la entidad emisora de la tarjeta';
+  
+  
+
+  const handleRetry = () => {
+    // Resetea el estado del error y vuelve al flujo principal
+    setPaymentStatus('idle');
+    setError(null);
+  };
+
+  const renderError = () => {
+    if (paymentStatus === 'error') {
+      return (
+        <Error title={title} paragraph1={paragraph1} paragraph2={paragraph2} >
+        </Error>
+      )
+    }
+    return null;
+  };
 
   const handleCardSelection = (cardId: number) => {
-    if (payWithAccountSelected) {
-      setPayWithAccountSelected(false);
+    if (paymentMethod === 'account') {
+      setPaymentMethod(null);
     }
-    // Si ya está seleccionada, desmarcarla
     if (selectedCardId === cardId) {
       setSelectedCardId(null);
     } else {
@@ -61,10 +87,9 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
 
   const handleAccountSelection = () => {
     if (selectedCardId !== null) {
-      setSelectedCardId(null); // Desmarcar tarjeta si se selecciona saldo
+      setSelectedCardId(null);
     }
-    // Alternar selección de saldo
-    setPayWithAccountSelected(!payWithAccountSelected);
+    setPaymentMethod('card');
     onSelectAccount();
   };
 
@@ -112,32 +137,24 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
     fetchCards();
   }, [account_id, token]);
 
-  const fetchAccountBalance = async () => {
-    try {
-      const me = await userApi.getMeInternal(token);
-      const newBalance = me.available_amount
-      if (newBalance) {
-        return newBalance;
-      } else {
-        throw new Error('No se pudo obtener el balance de la cuenta');
-      }
-    }
-    catch (error) {
-      console.error('Error al obtener el balance:', error);
-      setError('Error al obtener el balance de la cuenta.');
-    }
-  };
-
   const handlePayService = async () => {
     console.log("Intentando pagar...");
     setPaymentStatus('loading');
     if (!selectedService) {
-      console.error('No hay servicio seleccionado');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No hay servicio seleccionado para pagar.',
+      });
       return;
     }
     const invoiceValue = Number(selectedService.invoice_value);
     if (invoiceValue <= 0) {
-      alert('El valor del servicio debe ser mayor a $0 para continuar con el pago.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Monto inválido',
+        text: 'El valor del servicio debe ser mayor a $0 para continuar con el pago.',
+      });
       return; // Detener el flujo si el valor es 0 o negativo
     }
     try {
@@ -145,20 +162,19 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
         // Pago con tarjeta
         const cardDetails = await cardApi.getCardDetails(account_id, selectedCardId, token);
         const cardNumberId = cardDetails.number_id;
+        dispatch(setCardNumberId(cardNumberId || null));
         const response = await transactionApi.createTransaction(account_id, token, {
           amount: -invoiceValue,
           dated: new Date().toISOString(),
-          description: `Pago de servicio: ${selectedService.name}`,
+          description: selectedService.name,
         });
         console.log('Transacción realizada:', response);
+        setPaymentStatus('success');
         onConfirm(response.id, account_id, cardNumberId);
       } else if (paymentMethod === 'account') {
-        onSelectAccount();
         await handlePayWithAccount();
-      } else {
-        throw new Error('Método de pago no seleccionado');
+        onSelectAccount();
       }
-      setPaymentStatus('success');
     } catch (error) {
       console.error('Error al realizar el pago:', error);
       setPaymentStatus('error');
@@ -168,25 +184,37 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
   // Realizar el pago con saldo en cuenta
   const handlePayWithAccount = async () => {
     if (!selectedService) {
-      console.error('No hay servicio seleccionado');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No hay servicio seleccionado para pagar.',
+      });
       return;
     }
     const invoiceValue = Number(selectedService.invoice_value);
     if (invoiceValue <= 0) {
-      alert('El valor del servicio debe ser mayor a $0 para continuar con el pago.');
-      return; // Detener el flujo si el valor es 0 o negativo
+      Swal.fire({
+        icon: 'warning',
+        title: 'Monto inválido',
+        text: 'El valor del servicio debe ser mayor a $0 para continuar con el pago.',
+      });
+      return;
+    }
+    if (invoiceValue > balance) {
+      setPaymentStatus('error');
+      return; // Detener el flujo si el saldo no es suficiente
     }
     try {
       const transferData: TransferRequest = {
         amount: -Number(selectedService.invoice_value),
         dated: new Date().toISOString(),
-        destination: `Pago de servicio con saldo en cuenta: ${selectedService.name}`,
+        destination: selectedService.name,
         origin: (await me).cvu
       };
+      onTransferData(transferData);
       const response = await transferApi.makeTransfer(account_id, token, transferData);
       console.log('Pago con saldo en cuenta realizado:', response);
-      // Si la transferencia es exitosa, obtenemos el nuevo balance
-      const newBalance = await fetchAccountBalance();
+      const newBalance = balance;
       if (newBalance !== undefined) {
         dispatch(setBalance(newBalance));
         setPaymentStatus('success');
@@ -198,96 +226,117 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
       setPaymentStatus('error');
     }
   };
+  console.log("onTransferData", onTransferData)
 
   return (
-    <div className="flex flex-col w-full">
-      {/* Div superior */}
-      <div className="flex flex-col bg-backgroundNavbar rounded-lg py-4 px-8">
-        {loading ? (
-          <div>Cargando servicio...</div> // Aquí puedes mostrar un loader mientras se cargan los datos
-        ) : (
-          selectedService && (
-            <>
-              <div className="flex justify-between pb-6">
-                <h4 className="text-crearCuentaNavbar text-mmlg">{selectedService.name}</h4>
-                <Button
-                  onClick={() => console.log('Ver detalles del pago')}
-                  className="text-sm !p-0 text-[#fff] "
-                >
-                  Ver detalles del pago
-                </Button>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white"><h4 className="text-mmlg">Total a pagar:</h4></span>
-                <span className="text-white">
-                  <h4 className="text-mmlg">
-                    ${Number(selectedService.invoice_value).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </h4>
+    <>
+      <div className="flex flex-col w-full">
+        {renderError() || (
+          <>
+            {/* Div superior */}
+            <div className="flex flex-col bg-backgroundNavbar rounded-lg py-8 px-8">
+              {/* {renderError()} */}
+              {loading ? (
+                <div>Cargando servicio...</div> // Aquí puedes mostrar un loader mientras se cargan los datos
+              ) : (
+                selectedService && (
+                  <>
+                    <div className="flex justify-between pb-6">
+                      <h4 className="text-crearCuentaNavbar text-mmlg">{selectedService.name}</h4>
+                      <Button
+                        onClick={() => console.log('Ver detalles del pago')}
+                        className="text-sm !p-0 text-[#fff] "
+                      >
+                        Ver detalles del pago
+                      </Button>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-white"><h4 className="text-mmlg">Total a pagar:</h4></span>
+                      <span className="text-white">
+                        <h4 className="text-mmlg">
+                          ${Number(selectedService.invoice_value).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </h4>
+                      </span>
+                    </div>
+                  </>
+                )
+              )}
+            </div>
+            {/* Div inferior - tarjetas */}
+            <div>
+              {error ? (
+                <div className="text-red-500">{error}</div>
+              ) : (
+                <CardList
+                  cards={cards}
+                  selectedCardId={selectedCardId}
+                  onSelectCard={handleCardSelection}
+                />
+              )}
+              <div className={`flex items-center justify-between py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer ${cards.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                onClick={handleCreateCard}
+              >
+                <div className="flex items-center">
+                  <FontAwesomeIcon icon={faPlus} className=" w-7 h-7 border-2 border-gray-700 rounded-full bg-transparent p-1 mr-4" />
+                  <h4 className=" font-bold">Nueva tarjeta</h4>
+                </div>
+                <span>
+                  <FontAwesomeIcon icon={faArrowRight} className="text-gray-700 w-5 h-5" />
                 </span>
               </div>
-            </>
-          )
+              <div className="flex items-center justify-between py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer"
+                onClick={handleAccountSelection}
+              >
+                <div className="flex items-center">
+                  <div className="w-5 h-5 bg-crearCuentaNavbar rounded-full mr-2"></div>
+                  <span><h4 className="font-bold mr-2">Pagar con saldo en cuenta</h4></span>
+                  <p className='text-sm'>(Disponible ${balance.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</p>
+                </div>
+                <div
+                  className={`w-4 h-4 border-2 rounded-full cursor-pointer 
+      ${paymentMethod === 'account' ? 'bg-[#000] border-2 border-crearCuentaNavbar ring-1 ring-black' : 'border-gray-400'}`}
+                ></div>
+                {/* Input radio oculto */}
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  checked={paymentMethod === 'account'}
+                  onChange={handleAccountSelection}
+                  className="hidden" // Ocultamos el input
+                  disabled={selectedCardId !== null}
+                />
+              </div>
+            </div>
+            <div className="flex justify-end mt-2">
+              <Button
+                type="button"
+                className={`w-64 h-12 text-sm ${selectedCardId !== null || paymentMethod === 'account'
+                  ? 'bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen'
+                  : 'bg-crearCuentaNavbar cursor-not-allowed'
+                  }`}
+                onClick={selectedCardId !== null ? handlePayService : handlePayWithAccount}
+                disabled={!selectedCardId && paymentMethod !== 'account'}
+              >
+                Pagar
+              </Button>
+
+            </div>
+          </>
         )}
       </div>
-      {/* Div inferior - tarjetas */}
-      <div>
-        {error ? (
-          <div className="text-red-500">{error}</div>
-        ) : (
-          <CardList
-            cards={cards}
-            selectedCardId={selectedCardId}
-            onSelectCard={handleCardSelection}
-          />
-        )}
-        <div className={`flex items-center justify-between py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer ${cards.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
-          onClick={handleCreateCard}
-        >
-          <div className="flex items-center">
-            <FontAwesomeIcon icon={faPlus} className=" w-7 h-7 border-2 border-gray-700 rounded-full bg-transparent p-1 mr-4" />
-            <h4 className=" font-bold">Nueva tarjeta</h4>
-          </div>
-          <span>
-            <FontAwesomeIcon icon={faArrowRight} className="text-gray-700 w-5 h-5" />
-          </span>
+
+      {renderError() && (
+        <div className="flex justify-end mt-4 w-full bg-transparent">
+          <Button
+            type="button"
+            onClick={handleRetry}
+            className="w-64 h-12 text-sm text-[#000] bg-crearCuentaNavbar"
+          >
+            Volver
+          </Button>
         </div>
-        <div className="flex items-center justify-between py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer"
-          onClick={handleAccountSelection}
-        >
-          <div className="flex items-center">
-            <div className="w-5 h-5 bg-crearCuentaNavbar rounded-full mr-2"></div>
-            <span><h4 className="font-bold mr-2">Pagar con saldo en cuenta</h4></span>
-            <p className='text-sm'>(Disponible ${useSelector((state: RootState) => state.dashboard.balance).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</p>
-          </div>
-          <div
-            className={`w-4 h-4 border-2 rounded-full cursor-pointer 
-      ${payWithAccountSelected ? 'bg-[#000] border-2 border-crearCuentaNavbar ring-1 ring-black' : 'border-gray-400'}`}
-          ></div>
-          {/* Input radio oculto */}
-          <input
-            type="radio"
-            name="paymentMethod"
-            checked={payWithAccountSelected}
-            onChange={handleAccountSelection}
-            className="hidden" // Ocultamos el input
-            disabled={selectedCardId !== null}
-          />
-        </div>
-      </div>
-      <div className="flex justify-end mt-2">
-        <Button
-          type="button"
-          className={`w-64 h-12 text-sm ${selectedCardId !== null || payWithAccountSelected
-            ? 'bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen'
-            : 'bg-crearCuentaNavbar cursor-not-allowed'
-            }`}
-          onClick={selectedCardId !== null ? handlePayService : handlePayWithAccount}
-          disabled={!selectedCardId && !payWithAccountSelected}
-        >
-          Pagar
-        </Button>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 export default Step3;

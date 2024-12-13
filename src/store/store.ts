@@ -4,6 +4,7 @@ import userReducer from './userSlice';
 import authReducer from './authSlice';
 import accountReducer from './accountSlice';
 import dashboardReducer from './dashboardSlice';
+import paymentReducer from './paymentSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     auth: authReducer,
     account: accountReducer,
     dashboard: dashboardReducer,
+    payment: paymentReducer,
   },
 });
 

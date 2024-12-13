@@ -8,12 +8,11 @@ import Step1 from '@/Components/payServices/Step1';
 import Step2 from '@/Components/payServices/Step2';
 import Step3 from '@/Components/payServices/Step3';
 import Step4 from '@/Components/payServices/Step4';
-import userApi from '@/services/users/users.service';
+import { TransferRequest } from '@/types/transactions/transactions.types';
 
 
 const PayServicesPage = () => {
   const token = useSelector((state: RootState) => state.dashboard.token);
-  const me = userApi.getMeInternal(token);
   const [services, setServices] = useState<Service[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredServices, setFilteredServices] = useState(services);
@@ -26,11 +25,14 @@ const PayServicesPage = () => {
   const [transaction_id, setTransaction_id] = useState<number | null>(null);
   const [account_id, setAccount_id] = useState<number | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'account' | null>(null);
+  const [transferData, setTransferData] = useState<TransferRequest | null>(null);
+  // Valor esperado de los 11 dígitos
+  const EXPECTED_ACCOUNT_SUFFIX = '12345678910';
 
-  const isPaymentButtonDisabled = 
-  !paymentMethod || 
-  (paymentMethod === 'card' && !selectedCardId) || 
-  (paymentMethod === 'account' && !selectedService?.invoice_value);
+  const isPaymentButtonDisabled =
+    !paymentMethod ||
+    (paymentMethod === 'card' && !selectedCardId) ||
+    (paymentMethod === 'account' && !selectedService?.invoice_value);
   console.log('Estado botón deshabilitado:', isPaymentButtonDisabled);
 
   useEffect(() => {
@@ -100,7 +102,9 @@ const PayServicesPage = () => {
     }
   };
 
-
+  const handleTransferData = (data: TransferRequest) => {
+    setTransferData(data); // Almacena los datos de la transferencia
+  };
 
   return (
     <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
@@ -117,6 +121,7 @@ const PayServicesPage = () => {
       {step === 2 && selectedService && (
         <Step2 selectedService={selectedService}
           handleContinue={handleContinue}
+          EXPECTED_ACCOUNT_SUFFIX= {EXPECTED_ACCOUNT_SUFFIX}
         />
       )}
       {step === 3 && selectedService && (
@@ -130,6 +135,8 @@ const PayServicesPage = () => {
           setSelectedCardId={setSelectedCardId}
           isPaymentButtonDisabled={isPaymentButtonDisabled}
           paymentMethod={paymentMethod}
+          setPaymentMethod={setPaymentMethod}
+          onTransferData={handleTransferData}
         />
       )}
       {step === 4 && selectedService && (
@@ -140,6 +147,8 @@ const PayServicesPage = () => {
           cardNumberId={cardNumberId}
           accountId={account_id}
           transactionId={transaction_id}
+          transferData={transferData}
+          EXPECTED_ACCOUNT_SUFFIX= {EXPECTED_ACCOUNT_SUFFIX}
         />
       )}
     </main>

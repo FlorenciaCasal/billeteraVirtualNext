@@ -23,10 +23,9 @@ const UserPageContainerAsync = async ({ user_id, token }: UserPageContainerProps
         <>
             <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
                 {/* Tus datos */}
-                <YourData user= {user} me= {me} token= {token}/>
-
+                <YourData user={user} me={me} token={token} />
                 {/* Gestiona... */}
-                <Link href="/managePayments">
+                <Link href="/card">
                     <div className='flex justify-between py-8 px-8 my-4 w-full bg-crearCuentaNavbar rounded-lg'>
 
                         <h4 className="font-bold ">Gestioná los medios de pago</h4>

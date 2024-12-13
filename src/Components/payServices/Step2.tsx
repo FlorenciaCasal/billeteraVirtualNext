@@ -5,28 +5,30 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
-
+import Error from './Error';
 
 interface Step2Props {
     selectedService: ServiceDetails;
     handleContinue: () => void;
+    EXPECTED_ACCOUNT_SUFFIX: string;
 }
 
-// Valor esperado de los 11 dígitos
-const EXPECTED_ACCOUNT_SUFFIX = '12345678910';
 
-const schema = yup.object().shape({
-    accountNumber: yup
-      .string()
-      .required('El número de cuenta es obligatorio')
-      .matches(/^[0-9]{11}$/, 'Debe tener exactamente 11 dígitos numéricos.')
-      .test('match-suffix', 'Los últimos dígitos no coinciden', (value) => value?.endsWith(EXPECTED_ACCOUNT_SUFFIX)),
-  });
 
-const Step2: React.FC<Step2Props> = ({ selectedService, handleContinue }) => {
+const schema = (EXPECTED_ACCOUNT_SUFFIX: string) =>
+    yup.object().shape({
+        accountNumber: yup
+            .string()
+            .required('El número de cuenta es obligatorio')
+            .matches(/^[0-9]{11}$/, 'Debe tener exactamente 11 dígitos numéricos.')
+            .test('match-suffix', 'Los últimos dígitos no coinciden', (value) => value?.endsWith(EXPECTED_ACCOUNT_SUFFIX)),
+    });
+
+const Step2: React.FC<Step2Props> = ({ selectedService, handleContinue, EXPECTED_ACCOUNT_SUFFIX }) => {
     const [showError, setShowError] = useState(false);
+    const title = 'No encontramos facturas asociadas a este dato';
+    const paragraph1 = 'Revisá el dato ingresado. Si es correcto, es posible';
+    const paragraph2 = 'que la empresa aún no haya cargado tu factura.'
     const {
         register,
         handleSubmit,
@@ -34,7 +36,7 @@ const Step2: React.FC<Step2Props> = ({ selectedService, handleContinue }) => {
         getValues,
         setError,
     } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(schema(EXPECTED_ACCOUNT_SUFFIX)),
         mode: 'onChange', // Validación en tiempo real
     });
 
@@ -91,20 +93,7 @@ const Step2: React.FC<Step2Props> = ({ selectedService, handleContinue }) => {
                     </>
                 ) : (
                     <>
-                        <div className=" flex flex-col text-center w-full bg-backgroundNavbar rounded-lg">
-                            <div className="relative w-full pb-16">
-                                <FontAwesomeIcon
-                                    icon={faCircleXmark}
-                                    className="text-error w-16 h-16 absolute top left-1/2 transform -translate-x-1/2"
-                                />
-                            </div>
-                            <h4 className="text-white text-mmlg mt-8">
-                                No encontramos facturas asociadas a este dato
-                            </h4>
-                            <p className="text-sm text-crearCuentaLogin mt-4 leading-tight">
-                                Revisá el dato ingresado. Si es correcto, es posible <br /> que la empresa aún no haya cargado tu factura.
-                            </p>
-                        </div>
+                        <Error title={title} paragraph1={paragraph1} paragraph2={paragraph2} />
                     </>
                 )}
             </div>
