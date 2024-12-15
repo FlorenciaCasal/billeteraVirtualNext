@@ -12,10 +12,12 @@ import Cookies from "js-cookie";
 
 
 const Step2 = () => {
-  const [serverError, setServerError] = useState<string | null>(null);
+  // const [serverError, setServerError] = useState<string | null>(null);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const authState = useSelector((state: RootState) => state.auth);
+  // const authState = useSelector((state: RootState) => state.auth);
+  const authError = useSelector((state: RootState) => state.auth.error);
+
   const user = useSelector((state: RootState) => state.user);
   const {
     register, handleSubmit,
@@ -29,7 +31,7 @@ const Step2 = () => {
   const onSubmit = async (data: FormData2) => {
     const email = user.email || "";
     const password = data.password;
-    setServerError(null);
+    // setServerError(null);
 
     // *** Leer la cookie del account_id ***
     const account_id = Cookies.get('digitalMoneyAccountID');
@@ -38,32 +40,32 @@ const Step2 = () => {
     if (email && password) {
       try {
         await dispatch(loginUser({ email, password })).unwrap();
-        console.log(`Email used in API call: ${email}`); 
+        console.log(`Email used in API call: ${email}`);
 
-         // Después del login exitoso, obtener el account_id
-         const accountIdResponse = await fetch(`/api/getAccountId?email=${email}`);
-         const accountIdData = await accountIdResponse.json();
-         
-         if (accountIdData && accountIdData.account_id) {
-           // Guardar la cookie con el account_id obtenido
-           Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
-             httpOnly: false,
-             secure: true,
-             domain: 'localhost',
-             path: '/',
-           });
-         } else {
-           console.error('Account ID not found for this user.');
-         }
-   
-         router.push("/dashboard");
-         router.refresh();
-       } catch (e) {
-         console.log("error step2", e);
-        // Manejo de errores...
-       }
-     }
-   };
+        // Después del login exitoso, obtener el account_id
+        const accountIdResponse = await fetch(`/api/getAccountId?email=${email}`);
+        const accountIdData = await accountIdResponse.json();
+
+        if (accountIdData && accountIdData.account_id) {
+          // Guardar la cookie con el account_id obtenido
+          Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
+            httpOnly: false,
+            secure: true,
+            domain: 'localhost',
+            path: '/',
+          });
+        } else {
+          console.error('Account ID not found for this user.');
+        }
+
+        router.push("/dashboard");
+        router.refresh();
+      } catch (e) {
+        console.log("error step2", e);
+      }
+    }
+  };
+  
 
   return (
     <>
@@ -91,9 +93,9 @@ const Step2 = () => {
           >
             Continuar
           </Button>
-          {serverError && (
+          {authError && (
             <p className="text-error text-[15px] mb-4">
-              {serverError}
+              {authError}
             </p>
           )}
         </form>

@@ -19,13 +19,13 @@
   }
   
   h6 {
-    @apply font-bold text-mmlg sm:text-mlg lg:text-lg font-sans;
+    @apply font-bold text-mlg font-sans;
   }  
   h4 {
     @apply font-bold text-lg sm:text-lg lg:text-lg font-sans;
   }
   h5 {
-    @apply font-bold text-sm sm:text-sm lg:text-sm font-sans;
+    @apply font-bold text-md md:text-lg lg:text-mlg  font-sans;
   }
 }
 

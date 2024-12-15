@@ -15,8 +15,8 @@ const MenuLateral = () => {
 
     return (
         <>
-            {/* Menú lateral */}
-            <nav className="w-64 bg-crearCuentaNavbar text-md py-12 px-8">
+           {/* Menú lateral: visible en pantallas grandes, controlado por el menú hamburguesa en pantallas pequeñas */}
+           <nav className="w-64 bg-crearCuentaNavbar min-h-full text-md py-12 px-8 ">
                 <ul>
                     <li className="pb-3">
                         <Link href="/dashboard" className=" text-black font-bold">
@@ -35,7 +35,7 @@ const MenuLateral = () => {
                     </li>
                     <li className="pb-3">
                         <Link href="/load-money" className="pb-6 text-black">
-                            Cargar dinero
+                            Ingresar dinero
                         </Link>
                     </li>
                     <li className="pb-3">
@@ -48,7 +48,7 @@ const MenuLateral = () => {
                             Tarjetas
                         </Link>
                     </li>
-                    <li className="pb-3">
+                    <li >
                         <Button
                             onClick={() => logout()}
                             label="Cerrar sesión"

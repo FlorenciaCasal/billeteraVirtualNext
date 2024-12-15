@@ -61,7 +61,7 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
     const descriptionMap: Record<string, string> = {
         Deposit: 'Ingresaste dinero',
         Transaction: 'Pagaste',
-        Transfer: 'Le transferiste a',
+        Transfer: 'Pagaste',
     };
 
     useEffect(() => {
@@ -182,11 +182,11 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
 
     return (
         <>
-            <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
+            <main className="flex-grow py-8 px-0 tablet:px-16 bg-[#EEEAEA]">
                 {/* Buscador y mensajes de estado*/}
 
                 <div className="flex">
-                    <div className="relative w-full">
+                    <div className="relative w-full shadow-md rounded-lg border border-blue-300">
                         <FontAwesomeIcon
                             icon={faMagnifyingGlass}
                             className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"
@@ -194,7 +194,7 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                         <input
                             type="text"
                             placeholder="Buscar en tu actividad"
-                            className="w-full bg-white pl-12 pr-4 py-4 text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300"
+                            className="w-full bg-white pl-12 pr-4 py-6 sm:py-4 text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300"
                             value={searchTerm}
                             onChange={(e) => handleSearchChange(e.target.value)}
                         />
@@ -233,9 +233,12 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                 )}
 
 
-                <div className="flex flex-col py-8 px-8 mt-4 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
-                    <h5 className='mb-2'>Tu actividad</h5>
-                    <hr className="border-t-1 border-black mb-4" />
+                <div className="flex flex-col pt-6 pb-8 px-4 sm:py-8 sm:px-8 mt-4 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
+                    <h5 className='mb-8 sm:mb-2'>Tu actividad</h5>
+                    <div className="hidden sm:block">
+                        <hr className="border-t-1 border-black mb-4" />
+                    </div>
+
 
                     {/* Mostrar las actividades paginadas */}
                     {displayedActivities.length > 0 ? (
@@ -264,7 +267,7 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                                             ${activity.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                         </span>
                                     </div>
-                                    <hr className="border-t-1 border-black mb-4" />
+                                    <hr className="border-t-0.5 sm:border-t-1 border-gray-300 sm:border-black mb-4" />
                                 </div>
                             );
                         })
@@ -309,7 +312,7 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
 
                     {isDashboard && (
                         <Link href="/activity">
-                            <div className='flex justify-between w-full '>
+                            <div className='flex justify-between w-full pt-4 sm:pt-0'>
                                 <h5 className="font-bold ">Ver todas tus actividades</h5>
                                 <span>
                                     <FontAwesomeIcon icon={faArrowRight}
