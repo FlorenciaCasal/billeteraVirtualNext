@@ -248,14 +248,6 @@ const Step4: React.FC<Step4Props> = ({ token, selectedService, selectedCardId, a
                     doc.setTextColor(0, 0, 0); // Negro
                     doc.text(` ${EXPECTED_ACCOUNT_SUFFIX}`, contentX + 20 + doc.getTextWidth('Número de cuenta:'), yCursor);
                 } 
-                // else if (transaction.type === 'Deposit') {
-                //     doc.setFont('helvetica', 'normal');
-                //     doc.setTextColor(128, 128, 128); // Gris
-                //     doc.text('CVU:', contentX + 20, yCursor);
-                //     doc.setTextColor(0, 0, 0); // Negro
-                //     doc.text(` ${transaction.destination}`, contentX + 20 + doc.getTextWidth('CVU:'), yCursor);
-                // }
-
                 yCursor += 5;
     
 
@@ -303,12 +295,12 @@ const Step4: React.FC<Step4Props> = ({ token, selectedService, selectedCardId, a
     if (selectedService) {
         return (
             <div className="flex flex-col w-full">
-                <div className="bg-crearCuentaNavbar text-center py-8 rounded-t-lg">
-                    <FontAwesomeIcon className="w-14 h-14" icon={faCircleCheck} />
-                    <p className="font-bold text-black text-mmlg">Ya realizaste tu pago</p>
+                <div className="bg-crearCuentaNavbar text-center py-6 rounded-t-lg">
+                    <FontAwesomeIcon className="w-10 h-10 md:w-14 md:h-14" icon={faCircleCheck} />
+                    <h6 className="text-black">Ya realizaste tu pago</h6>
                 </div>
-                <div className="bg-backgroundNavbar py-8 px-16 mt-4 rounded-lg">
-                    <p className="text-white text-sm pb-1">
+                <div className="bg-backgroundNavbar py-6 px-4 tablet:py-8 tablet:px-16 mt-4 rounded-lg">
+                    <p className="text-white text-xxs md:text-xs lg:text-sm pb-1">
                         {currentDate.toLocaleDateString('es-ES', {
                             day: '2-digit',
                             month: 'long',
@@ -321,8 +313,8 @@ const Step4: React.FC<Step4Props> = ({ token, selectedService, selectedCardId, a
                             maximumFractionDigits: 2
                         })}
                     </h4>
-                    <p className="text-white text-sm mt-4 pb-1">Para:</p>
-                    <h4 className="text-crearCuentaNavbar text-mmlg">{selectedService.name}</h4>
+                    <p className="text-white mt-4 pb-1">Para:</p>
+                    <h4 className="text-crearCuentaNavbar">{selectedService.name}</h4>
 
                     {transferData ? (
                         <>
@@ -331,28 +323,28 @@ const Step4: React.FC<Step4Props> = ({ token, selectedService, selectedCardId, a
                         </>
                     ) : (
                         <>
-                            <h5 className="text-white mt-4 pb-1">Tarjeta</h5>
-                            <h5 className="text-white">
+                            <p className="text-white mt-4 pb-1">Tarjeta</p>
+                            <p className="text-white">
                                 {/* {brand} {cardNumberId?.toString().replace(/\d{12}(\d{4})/, '************$1')} */}
                                 <span className="inline-block align-middle">{brand}</span>
                                 <span className="inline-block align-middle">
                                     {cardNumberId?.toString().replace(/\d{12}(\d{4})/, '************$1')}
                                 </span>
-                            </h5>
+                            </p>
                         </>
                     )}
                 </div>
-                <div className="flex justify-end mt-4">
+                <div className="flex flex-col md:flex-row justify-end mt-4">
                     <Button
                         type="button"
-                        className="w-64 h-12 mr-4 bg-[#CECECE] hover:bg-hoverButtonGreen"
+                        className="w-full md:w-1/2 xl:w-1/4 md:h-16 h-12 md:mr-4 !text-sm shadow-md bg-[#CECECE] hover:bg-hoverButtonGreen md:order-none order-last"
                         onClick={() => router.push('/dashboard')}
                     >
                         Ir al inicio
                     </Button>
                     <Button
                         type="button"
-                        className="w-64 h-12 bg-crearCuentaNavbar hover:bg-hoverButtonGreen"
+                        className="w-full md:w-1/2 xl:w-1/4 md:h-16 mb-4 h-12 !text-sm shadow-md bg-crearCuentaNavbar hover:bg-hoverButtonGreen md:order-none order-first"
                         onClick={handleDownload}
                     >
                         Descargar comprobante

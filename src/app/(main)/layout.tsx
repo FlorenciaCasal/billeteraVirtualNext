@@ -24,7 +24,7 @@ const ProfileLayout = async ({ children }: ProfileLayoutProps) => {
                 showInitialBurger={true}
             />
             <div className="flex w-full bg-cover bg-center flex-grow overflow-hidden">
-                {/* MenuLateral solo se renderiza en pantallas pequeñas */}
+                {/* MenuLateral solo se renderiza en pantallas medianas-grandes */}
                 <div className="hidden sm:block">
                     <MenuLateral />
                 </div>

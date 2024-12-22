@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import userApi from '@/services/users/users.service';
 import Monto from './Monto'
 import Link from 'next/link';
-import ActivityPage from '@/app/(main)/activity/page';
+import Activity from './Activity';
 import { useDispatch } from 'react-redux';
 import { setToken, setBalance } from '../../store/dashboardSlice';
 import { useSelector } from 'react-redux';
@@ -65,8 +65,8 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
                 </div>
             </section>
 
-            <section className="-my-8 -mx-0 tablet:-mx-16">
-                <ActivityPage />
+            <section className="flex justify-center ">
+                <Activity />
             </section>
         </main>
     );

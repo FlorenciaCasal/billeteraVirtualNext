@@ -77,7 +77,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({
                     <div className="bg-gray-300 w-12 h-8 rounded"></div> // Rectángulo gris cuando no está confirmado
                 )}
             </div>
-            <div className={`flex justify-between my-4 text-lg tracking-[0.1em] ${isConfirmed ? 'text-white' : 'text-black/50'}`}>
+            <div className={`flex justify-between mt-2 mb-4 text-lg tracking-[0.1em] ${isConfirmed ? 'text-white' : 'text-black/50'}`}>
                 {displayNumber.split(' ').map((group, index) => (
                     <span key={index}>{group}</span>
                 ))}

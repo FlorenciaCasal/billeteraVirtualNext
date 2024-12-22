@@ -40,26 +40,28 @@ const Step2 = ({ onContinue }: Step2Props) => {
     };
 
     return (
-        <div className='flex flex-col py-8 px-8 w-full bg-backgroundNavbar rounded-lg'>
-            <p className="text-crearCuentaNavbar text-mmlg font-bold">¿Cuánto querés ingresar a la cuenta?</p>
+        <>
+        <div className='flex flex-col py-4 px-4 sm:py-6 sm:px-6 s:px-8 s:py-8 tablet:py-12 tablet:px-12 w-full bg-backgroundNavbar rounded-lg'>
+            <h4 className="font-bold text-crearCuentaNavbar">¿Cuánto querés ingresar a la cuenta?</h4>
             {/* Formulario con React Hook Form */}
             <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Campo de monto */}
-                <div className="flex flex-col mt-8 w-80">
+                <div className="flex flex-col mt-8  lg:w-80">
                     <Input
                         newType="text" // Usamos texto para permitir el filtrado
                         newPlaceholder="$0"
-                        register= {register}
+                        register={register}
                         errors={errors}
                         fieldName="amount"
+                        className="sm:!h-16 !w-full lg:!w-96"
                     />
                     {errors.amount && <div className="text-red-500 text-sm">{errors.amount.message}</div>}
                 </div>
-                <div className="flex justify-end">
+                <div className="flex lg:justify-end">
                     <Button
                         type="submit"
                         disabled={!isValid}
-                        className={`w-64 h-12 mb-4 text-sm text-[#000] ${isValid ? 'bg-crearCuentaNavbar' : 'bg-[#CECECE]'} 
+                        className={`hidden sm:block sm:w-full lg:w-64 h-16 mb-4 !text-sm text-[#000] ${isValid ? 'bg-crearCuentaNavbar' : 'bg-[#CECECE]'} 
                             border-custom-green hover:bg-hoverButtonGreen`}
                     // Deshabilita el botón si no es válido
                     >
@@ -68,6 +70,19 @@ const Step2 = ({ onContinue }: Step2Props) => {
                 </div>
             </form>
         </div>
+         <div className="flex justify-end">
+         <Button
+             type="button"
+             disabled={!isValid}
+             onClick={handleSubmit(onSubmit)}
+             className={`block sm:hidden w-1/2 h-12 mt-6 shadow-md !text-sm text-[#000] ${isValid ? 'bg-crearCuentaNavbar' : 'bg-[#CECECE]'} 
+                 border-custom-green hover:bg-hoverButtonGreen`}
+         // Deshabilita el botón si no es válido
+         >
+             Continuar
+         </Button>
+     </div>
+     </>
     );
 }
 

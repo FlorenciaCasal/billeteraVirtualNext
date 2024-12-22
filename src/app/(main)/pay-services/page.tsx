@@ -9,6 +9,8 @@ import Step2 from '@/Components/payServices/Step2';
 import Step3 from '@/Components/payServices/Step3';
 import Step4 from '@/Components/payServices/Step4';
 import { TransferRequest } from '@/types/transactions/transactions.types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
 const PayServicesPage = () => {
@@ -107,7 +109,12 @@ const PayServicesPage = () => {
   };
 
   return (
-    <main className="flex-grow py-8 px-16 bg-[#EEEAEA]">
+    <main className="flex-grow min-h-screen sm:w-[70vw] menu:w-[calc(100vw-16rem)] py-8 px-4 sm:px-10 sm:py-12 md:px-12 md:py-16 xl:px-20 xl:py-16 bg-[#EEEAEA]">
+      {/* Encabezado visible solo en pantallas pequeñas */}
+      <div className="flex items-center mb-6 sm:hidden">
+        <FontAwesomeIcon icon={faArrowRight} className="text-gray-700" style={{ transform: 'scaleX(1.4)' }} />
+        <p className="pl-2 text-sm font-medium underline text-black">Cargar dinero</p>
+      </div>
       {step === 1 && (
         <Step1
           searchTerm={searchTerm}
@@ -121,7 +128,7 @@ const PayServicesPage = () => {
       {step === 2 && selectedService && (
         <Step2 selectedService={selectedService}
           handleContinue={handleContinue}
-          EXPECTED_ACCOUNT_SUFFIX= {EXPECTED_ACCOUNT_SUFFIX}
+          EXPECTED_ACCOUNT_SUFFIX={EXPECTED_ACCOUNT_SUFFIX}
         />
       )}
       {step === 3 && selectedService && (
@@ -148,7 +155,7 @@ const PayServicesPage = () => {
           accountId={account_id}
           transactionId={transaction_id}
           transferData={transferData}
-          EXPECTED_ACCOUNT_SUFFIX= {EXPECTED_ACCOUNT_SUFFIX}
+          EXPECTED_ACCOUNT_SUFFIX={EXPECTED_ACCOUNT_SUFFIX}
         />
       )}
     </main>

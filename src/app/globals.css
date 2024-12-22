@@ -15,14 +15,14 @@
     @apply font-normal text-mlg sm:text-mmxl lg:text-2xl font-sans;
   }
   p {
-    @apply font-normal text-sm sm:text-lg font-sans;
+    @apply font-normal text-xs sm:text-sm md:text-lg font-sans;
   }
   
   h6 {
-    @apply font-bold text-mlg font-sans;
+    @apply font-bold text-sm text-mlg font-sans;
   }  
   h4 {
-    @apply font-bold text-lg sm:text-lg lg:text-lg font-sans;
+    @apply font-bold text-lg tablet:text-mlg lg:text-mmlg font-sans;
   }
   h5 {
     @apply font-bold text-md md:text-lg lg:text-mlg  font-sans;

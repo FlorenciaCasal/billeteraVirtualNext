@@ -54,8 +54,8 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
   const title = 'Hubo un problema con tu pago';
   const paragraph1 = 'Puede deberse a fondos insuficientes.';
   const paragraph2 = 'Comunicate con la entidad emisora de la tarjeta';
-  
-  
+
+
 
   const handleRetry = () => {
     // Resetea el estado del error y vuelve al flujo principal
@@ -234,28 +234,35 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
         {renderError() || (
           <>
             {/* Div superior */}
-            <div className="flex flex-col bg-backgroundNavbar rounded-lg py-8 px-8">
+            <div className="flex flex-col bg-backgroundNavbar rounded-lg py-6 px-6 md:px-10 xl:px-16">
               {/* {renderError()} */}
               {loading ? (
                 <div>Cargando servicio...</div> // Aquí puedes mostrar un loader mientras se cargan los datos
               ) : (
                 selectedService && (
                   <>
-                    <div className="flex justify-between pb-6">
-                      <h4 className="text-crearCuentaNavbar text-mmlg">{selectedService.name}</h4>
+                    <div className="flex flex-col md:flex-row items-stretch justify-between pb-6">
                       <Button
                         onClick={() => console.log('Ver detalles del pago')}
-                        className="text-sm !p-0 text-[#fff] "
+                        className="block md:hidden ml-auto !text-sm items-start !p-0 text-[#fff] "
+                      >
+                        Ver detalles del pago
+                      </Button>
+                      <h4 className="text-crearCuentaNavbar sm:mt-0">{selectedService.name}</h4>
+                      <Button
+                        onClick={() => console.log('Ver detalles del pago')}
+                        className="hidden md:block !text-sm items-start !p-0 text-[#fff] "
                       >
                         Ver detalles del pago
                       </Button>
                     </div>
+                    <hr className="border-t-1 sm:border-t-1/2 border-solid border-white mb-4 w-full" />
                     <div className="flex justify-between">
-                      <span className="text-white"><h4 className="text-mmlg">Total a pagar:</h4></span>
+                      <span className="text-white"><h5>Total a pagar:</h5></span>
                       <span className="text-white">
-                        <h4 className="text-mmlg">
+                        <h5>
                           ${Number(selectedService.invoice_value).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </h4>
+                        </h5>
                       </span>
                     </div>
                   </>
@@ -273,24 +280,24 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
                   onSelectCard={handleCardSelection}
                 />
               )}
-              <div className={`flex items-center justify-between py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer ${cards.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              <div className={`flex items-center justify-between py-6 px-6 my-4 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer ${cards.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={handleCreateCard}
               >
                 <div className="flex items-center">
-                  <FontAwesomeIcon icon={faPlus} className=" w-7 h-7 border-2 border-gray-700 rounded-full bg-transparent p-1 mr-4" />
-                  <h4 className=" font-bold">Nueva tarjeta</h4>
+                  <FontAwesomeIcon icon={faPlus} className=" w-6 h-6 border-2 border-gray-700 rounded-full bg-transparent p-1 mr-4" />
+                  <h5 className=" font-bold">Nueva tarjeta</h5>
                 </div>
                 <span>
                   <FontAwesomeIcon icon={faArrowRight} className="text-gray-700 w-5 h-5" />
                 </span>
               </div>
-              <div className="flex items-center justify-between py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer"
+              <div className="flex items-center justify-between py-4 px-6 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black cursor-pointer"
                 onClick={handleAccountSelection}
               >
                 <div className="flex items-center">
                   <div className="w-5 h-5 bg-crearCuentaNavbar rounded-full mr-2"></div>
-                  <span><h4 className="font-bold mr-2">Pagar con saldo en cuenta</h4></span>
-                  <p className='text-sm'>(Disponible ${balance.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</p>
+                  <span><h5 className="mr-2">Pagar con saldo en cuenta</h5></span>
+                  {/* <p className='text-sm mr-2'>(Disponible ${balance.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</p> */}
                 </div>
                 <div
                   className={`w-4 h-4 border-2 rounded-full cursor-pointer 
@@ -310,7 +317,7 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
             <div className="flex justify-end mt-2">
               <Button
                 type="button"
-                className={`w-64 h-12 text-sm ${selectedCardId !== null || paymentMethod === 'account'
+                className={`w-1/2 md:w-64 h-12 tablet:h-16 !font-bold shadow-md !text-sm ${selectedCardId !== null || paymentMethod === 'account'
                   ? 'bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen'
                   : 'bg-crearCuentaNavbar cursor-not-allowed'
                   }`}

@@ -54,7 +54,7 @@ const Step3 = ({ selectedCardId, enteredAmount, onConfirm, cvu, token }: Step3Pr
             );
             const transaction_id = depositResponse.id;
             console.log("Depósito exitoso");
-            onConfirm(transaction_id, account_id); 
+            onConfirm(transaction_id, account_id);
         } catch (error) {
             console.error("Error al realizar el depósito:", error);
             setError("Ocurrió un error al intentar realizar el depósito. Por favor, inténtalo nuevamente.");
@@ -64,19 +64,33 @@ const Step3 = ({ selectedCardId, enteredAmount, onConfirm, cvu, token }: Step3Pr
     };
 
     return (
-        <div className="flex flex-col py-8 px-8 w-full bg-backgroundNavbar rounded-lg">
-            <p className="font-bold text-crearCuentaNavbar text-mlg mb-4">Revisá que está todo bien</p>
-            <p className="text-white ">Vas a ingresar  <FontAwesomeIcon className="text-crearCuentaNavbar pl-2 w-7 h-7" icon={faPenToSquare} /> </p>
-            <h5 className="text-white">${enteredAmount}</h5>
-            <p className="text-white text-sm pt-8">Para</p>
-            <h4 className="text-white">Cuenta propia</h4>
-            <p className="text-white text-sm pt-2">Brubank</p>
-            <p className="text-white text-sm">CVU {cvu}</p>
-            {error && <p className="text-red-500 mt-4">{error}</p>}
+        <>
+            <div className="flex flex-col pt-6 pb-8 px-4 sm:py-6 sm:px-6 s:px-8 s:py-8 tablet:pb-8 tablet:pt-12 tablet:px-12 w-full bg-backgroundNavbar rounded-lg">
+                <h4 className="text-crearCuentaNavbar mb-6">Revisá que está todo bien</h4>
+                <hr className="block sm:hidden border-t-1 border-gray-300 mb-4" />
+                <p className="text-white text-sm">Vas a ingresar  <FontAwesomeIcon className="text-crearCuentaNavbar pl-2 w-7 h-7" icon={faPenToSquare} /> </p>
+                <h5 className="text-white">${enteredAmount}</h5>
+                <p className="text-white text-sm pt-8">Para</p>
+                <h4 className="text-white lg:mb-4">Cuenta propia</h4>
+                <p className="text-white text-sm pt-2">Brubank</p>
+                <p className="text-white lg:mt-1">CVU {cvu}</p>
+                {error && <p className="text-red-500 mt-4">{error}</p>}
+                <div className="flex lg:justify-end">
+                    <Button
+                        type="button"
+                        className={`hidden sm:block sm:w-full lg:w-64 h-16 mt-8 lg:mb-4 lg:mt-0 !text-sm ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen"
+                            }`}
+                        onClick={handleDeposit}
+                        disabled={loading}
+                    >
+                        {loading ? "Procesando..." : "Continuar"}
+                    </Button>
+                </div>
+            </div>
             <div className="flex justify-end">
                 <Button
                     type="button"
-                    className={`w-64 h-12 mb-4 !text-sm ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen"
+                    className={`block sm:hidden  w-1/2 h-12 mt-6 shadow-md !text-sm ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-crearCuentaNavbar border-custom-green hover:bg-hoverButtonGreen"
                         }`}
                     onClick={handleDeposit}
                     disabled={loading}
@@ -84,7 +98,7 @@ const Step3 = ({ selectedCardId, enteredAmount, onConfirm, cvu, token }: Step3Pr
                     {loading ? "Procesando..." : "Continuar"}
                 </Button>
             </div>
-        </div>
+        </>
     );
 };
 export default Step3;

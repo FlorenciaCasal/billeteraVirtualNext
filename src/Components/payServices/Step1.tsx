@@ -45,8 +45,8 @@ const Step1: React.FC<Step1Props> = ({
   return (
     <main >
       {/* Buscador */}
-      <div className="flex">
-        <div className="relative w-full">
+      <div className="flex">        
+        <div className="relative w-full shadow-[0_4px_6px_rgba(0,0,0,0.1)] rounded-lg border border-blue-300">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"
@@ -62,7 +62,7 @@ const Step1: React.FC<Step1Props> = ({
       </div>
 
       {/* Lista de servicios */}
-      <div className="flex flex-col pb-8 pt-4 px-8 mt-4 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
+      <div className="flex flex-col pb-8 pt-6 px-4 tablet:px-8 xl:px-12 mt-4 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
         <h6 className='mb-4'>Más recientes</h6>
         <hr className="border-t-1 border-crearCuentaLogin" />
         {isLoading ? (
@@ -72,20 +72,27 @@ const Step1: React.FC<Step1Props> = ({
         ) : (
           filteredServices.map((service, index) => (
             <div key={service.id}>
-              <div className="flex items-center justify-between px-4 py-2">
-                <div className="flex items-center gap-4">
-                  <Image
-                    src={getLogoForService(service.name)}
-                    alt={`${service.name} logo`}
-                    width={80}
-                    height={80}
-                    className="object-contain h-10"
-                    priority
-                  />
-                  <span className="text-gray-700 font-medium pl-4">{service.name}</span>
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center gap-4 sm:gap-8 lg:gap-16">
+                  <div className="w-20 h-10 flex items-center justify-center">
+                    <Image
+                      src={getLogoForService(service.name)}
+                      alt={`${service.name} logo`}
+                      width={80}
+                      height={80}
+                      className="object-contain h-full"
+                      priority
+                    />
+                  </div>
+                  {/* Contenedor del nombre del servicio con tamaño fijo */}
+                  <div className="flex-1">
+                    <span className="block text-gray-700 font-medium">
+                      {service.name}
+                    </span>
+                  </div>
                 </div>
                 <Button onClick={() => handleSelectService(service)} className="text-black">
-                  <h5>Seleccionar</h5>
+                  <p className='font-bold'>Seleccionar</p>
                 </Button>
               </div>
               <hr className="border-t-1 border-crearCuentaLogin" />

@@ -86,7 +86,7 @@ const Navbar = ({ backgroundColor, logo, showLoginButton, showRegisterButton, lo
                         style={{ maxWidth: "300px" }}
                         onClick={(e) => e.stopPropagation()} // Evitar cierre al hacer clic dentro del menú
                     >
-                        <MenuLateral />
+                        <MenuLateral closeMenu={closeMenu}/>
                         <Button
                             onClick={toggleMenu}
                             className="absolute top-2 right-2"

@@ -13,12 +13,14 @@ import { setSearchTerm } from '@/store/dashboardSlice';
 import { RootState } from '@/store/store';
 import Button from '../ui/Button';
 import Filters from '@/Components/dashboard/Filters';
+import { usePathname } from 'next/navigation';
 
-interface ActivityProps {
-    isDashboard?: boolean;
-}
+// interface ActivityProps {
+//     isDashboard?: boolean;
+// }
 
-const Activity = ({ isDashboard = false }: ActivityProps) => {
+// const Activity = ({ isDashboard = false }: ActivityProps) => {
+const Activity = () => {
     const [activities, setActivities] = useState<ResponseActivityType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -29,6 +31,8 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
     const router = useRouter();
     const token = useSelector((state: RootState) => state.dashboard.token);
     const searchTerm = useSelector((state: RootState) => state.dashboard.searchTerm);
+    const [isDashboard, setIsDashboard] = useState<boolean>(false);
+    const pathname = usePathname();
 
     const [filterPeriod, setFilterPeriod] = useState('');
     const [filterType, setFilterType] = useState('');
@@ -36,6 +40,14 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
     const [filterAmountRange, setFilterAmountRange] = useState('');
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (pathname === '/dashboard') {
+            setIsDashboard(true);
+        } else {
+            setIsDashboard(false);
+        }
+    }, [pathname]);
 
     const handleSearchChange = (newSearchTerm: string) => {
         dispatch(setSearchTerm(newSearchTerm));
@@ -151,8 +163,7 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
         : activities.filter(applyFilters);
 
     // Paginación
-    const totalPages = Math.ceil((isDashboard ? filteredActivities.length : activities.length) / itemsPerPage
-    );
+    const totalPages = Math.ceil((isDashboard ? filteredActivities.length : activities.length) / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentActivities = filteredActivities.slice(indexOfFirstItem, indexOfLastItem);
@@ -182,11 +193,20 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
 
     return (
         <>
-            <main className="flex-grow py-8 px-0 tablet:px-16 bg-[#EEEAEA]">
+            {/* <main className="flex-grow min-h-screen py-8 px-4 tablet:px-16 bg-[#EEEAEA]"> */}
+
+            {/* <main className="flex-grow min-h-screen bg-[#EEEAEA]"> */}
+            <main className="flex flex-col flex-grow ">
+                {!isDashboard && (
+                    <div className="flex items-center mb-6 sm:hidden">
+                        <FontAwesomeIcon icon={faArrowRight} className="text-gray-700" style={{ transform: 'scaleX(1.4)' }} />
+                        <p className="pl-2 text-sm font-medium underline text-black">Tu actividad</p>
+                    </div>
+                )}
                 {/* Buscador y mensajes de estado*/}
 
-                <div className="flex">
-                    <div className="relative w-full shadow-md rounded-lg border border-blue-300">
+                <div className="flex justify-center">
+                    <div className="relative w-full shadow-[0_4px_6px_rgba(0,0,0,0.1)] rounded-lg border border-blue-300 sm:border-none">
                         <FontAwesomeIcon
                             icon={faMagnifyingGlass}
                             className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"
@@ -203,14 +223,14 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                     {!isDashboard && (
                         <Button
                             onClick={() => setShowFilters(!showFilters)}
-                            className="flex items-center gap-2 bg-crearCuentaNavbar text-black py-4 px-4 ml-4 rounded-lg"
+                            className="hidden sm:flex items-center gap-2 bg-crearCuentaNavbar text-black py-4 px-4 ml-4 rounded-lg shadow-md"
                         >
                             <h5 className="pr-6">Filtrar</h5>
                             <FontAwesomeIcon icon={faSliders} />
                         </Button>
                     )}
                 </div>
-                <div className="flex flex-col mb-4">
+                <div className="flex items-center flex-col">
                     {isLoading ? <div>Cargando...</div> : error ? <div>{error}</div> : null}
                 </div>
 
@@ -233,80 +253,82 @@ const Activity = ({ isDashboard = false }: ActivityProps) => {
                 )}
 
 
-                <div className="flex flex-col pt-6 pb-8 px-4 sm:py-8 sm:px-8 mt-4 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
-                    <h5 className='mb-8 sm:mb-2'>Tu actividad</h5>
+                <div className="flex flex-col pt-6 pb-8 px-4 sm:py-8 sm:px-8 tablet:py-12 mt-4 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
+
+                    {/* Contenedor para "Tu actividad" y el botón "Filtrar" en pantallas pequeñas */}
+                    <div className="flex items-center justify-between mb-8 sm:mb-2 tablet:mb-4">
+                        <h5>Tu actividad</h5>
+
+                        {!isDashboard && (
+                            <Button
+                                onClick={() => setShowFilters(!showFilters)}
+                                className="sm:hidden flex items-center gap-2 bg-transparent underline text-black py-4 pl-4 ml-4 rounded-lg"
+                            >
+                                <h5 className="pr-6">Filtrar</h5>
+                                <FontAwesomeIcon icon={faSliders} />
+                            </Button>
+                        )}
+                    </div>
                     <div className="hidden sm:block">
                         <hr className="border-t-1 border-black mb-4" />
                     </div>
 
+                    <div className="flex flex-col flex-grow">
+                        {/* Mostrar las actividades paginadas */}
+                        {displayedActivities.length > 0 ? (
+                            displayedActivities.map((activity, index) => {
+                                // Mapeamos la descripción, usando el mapa si es necesario
+                                const translatedDescription = descriptionMap[activity.type] || activity.description;
 
-                    {/* Mostrar las actividades paginadas */}
-                    {displayedActivities.length > 0 ? (
-                        displayedActivities.map((activity, index) => {
-                            // Mapeamos la descripción, usando el mapa si es necesario
-                            const translatedDescription = descriptionMap[activity.type] || activity.description;
-
-                            return (
-                                <div key={index}>
-                                    <div
-                                        className="flex items-center justify-between mb-4 cursor-pointer"
-                                        onClick={() => handleActivityClick(activity.id)}  // Volvemos a agregar el clic
-                                    >
-                                        <div className="flex items-center">
-                                            <div className="w-4 h-4 bg-crearCuentaNavbar rounded-full mr-2"></div>
-                                            <span>
-                                                {translatedDescription}
-                                                {activity.type === 'Deposit'
-                                                    ? ''
-                                                    : activity.type === 'Transfer'
-                                                        ? ` ${activity.destination || ''}`
-                                                        : ` ${activity.description || ''}`}
+                                return (
+                                    <div key={index}>
+                                        <div
+                                            className="flex items-center justify-between mb-4 cursor-pointer"
+                                            onClick={() => handleActivityClick(activity.id)}  // Volvemos a agregar el clic
+                                        >
+                                            <div className="flex items-center">
+                                                <div className="w-4 h-4 bg-crearCuentaNavbar rounded-full mr-2"></div>
+                                                <span>
+                                                    {translatedDescription}
+                                                    {activity.type === 'Deposit'
+                                                        ? ''
+                                                        : activity.type === 'Transfer'
+                                                            ? ` ${activity.destination || ''}`
+                                                            : ` ${activity.description || ''}`}
+                                                </span>
+                                            </div>
+                                            <span className="font-semibold">
+                                                ${activity.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                             </span>
                                         </div>
-                                        <span className="font-semibold">
-                                            ${activity.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                        </span>
+                                        <hr className="border-t-0.5 sm:border-t-1 border-gray-300 sm:border-black mb-4" />
                                     </div>
-                                    <hr className="border-t-0.5 sm:border-t-1 border-gray-300 sm:border-black mb-4" />
-                                </div>
-                            );
-                        })
-                    ) : searchTerm ? (
-                        <div className="text-error">No se encontró ninguna actividad que corresponda al valor ingresado.</div>
-                    ) : (
-                        <div className="text-gray-500">No hay actividades registradas.</div>
-                    )}
+                                );
+                            })
+                        ) : searchTerm ? (
+                            <div className="text-error">No se encontró ninguna actividad que corresponda al valor ingresado.</div>
+                        ) : (
+                            <div className="text-gray-500">No hay actividades registradas.</div>
+                        )}
 
-                    {/* Paginación (solo si no es Dashboard) */}
+                    </div>
+
                     {!isDashboard && (
-                        <div className="flex items-center justify-between mb-4">
-                            <button
-                                onClick={handlePreviousPage}
-                                disabled={currentPage === 1}
-                                className="flex items-center text-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <FontAwesomeIcon icon={faArrowLeft} className="w-5 h-5 mr-2" />
-                                Anterior
-                            </button>
-                            <div className="flex items-center gap-2">
-                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                        <div className="flex justify-center mt-8">
+                            {/* Contenedor con scroll horizontal */}
+                            <div className="flex items-center overflow-x-scroll no-scrollbar space-x-2">
+                                {/* Números de página */}
+                                {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
                                     <button
-                                        key={page}
-                                        onClick={() => handlePageClick(page)}
-                                        className={`px-3 py-1 rounded-md ${page === currentPage ? 'font-bold text-black' : 'text-gray-500'}`}
+                                        key={pageNumber}
+                                        onClick={() => handlePageClick(pageNumber)}
+                                        className={`px-4 py-2 text-gray-700 rounded-lg 
+                        ${currentPage === pageNumber ? 'bg-gray-400 text-white font-bold' : 'hover:bg-gray-100'}`}
                                     >
-                                        {page}
+                                        {pageNumber}
                                     </button>
                                 ))}
                             </div>
-                            <button
-                                onClick={handleNextPage}
-                                disabled={currentPage === totalPages}
-                                className="flex items-center text-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                Siguiente
-                                <FontAwesomeIcon icon={faArrowRight} className="w-5 h-5 ml-2" />
-                            </button>
                         </div>
                     )}
 

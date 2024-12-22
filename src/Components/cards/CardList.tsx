@@ -7,9 +7,8 @@ interface CardListProps {
 }
 
 const CardList = ({ cards, selectedCardId, onSelectCard }: CardListProps) => (
-    <div className="flex flex-col py-8 px-8 my-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
-        <h5 className="mb-4">Tus tarjetas</h5>
-        <hr className="border-t-1 border-black mb-4" />
+    <div className="flex flex-col py-4 px-6 my-4 py-4 tablet:px-8 tablet:my-8 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
+        <h5 className="mb-4 mt-2 xl:mt-4">Tus tarjetas</h5>
         {cards.length > 0 ? (
             cards.map((card, index) => (
                 <div key={index}>
@@ -24,7 +23,7 @@ const CardList = ({ cards, selectedCardId, onSelectCard }: CardListProps) => (
                             onClick={() => onSelectCard(card.id)}
                         ></div>
                     </div>
-                    <hr className="border-t-1 border-black mb-4" />
+                    <hr className="border-t-1 border-gray-300 lg:border-black mb-4" />
                 </div>
             ))
         ) : (

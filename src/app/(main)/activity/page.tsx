@@ -1,23 +1,12 @@
-
 'use client';
 import Activity from '../../../Components/dashboard/Activity';
-import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-
 
 const ActivityPage = () => {
-    const [isDashboard, setIsDashboard] = useState<boolean>(false);
-    const pathname = usePathname(); 
-
-    useEffect(() => {
-        if (pathname === '/dashboard') {
-            setIsDashboard(true);
-        } else {
-            setIsDashboard(false);
-        }
-    }, [pathname]);
-
-    return <Activity isDashboard={isDashboard} />;
+    return (
+        <div className="flex-grow min-h-full py-8 px-4 sm:w-[70vw] menu:w-[calc(100vw-16rem)] tablet:px-8 tablet:py-8 lg:py-16 lg:px-16 bg-[#EEEAEA]">
+            <Activity />
+        </div>
+    );
 };
 
 export default ActivityPage;

@@ -11,6 +11,7 @@ import Button from '../../../Components/ui/Button'
 import { useRouter } from "next/navigation";
 import jsPDF from 'jspdf';
 import userApi from '@/services/users/users.service';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
 const ActivityDetail = () => {
@@ -306,15 +307,36 @@ const ActivityDetail = () => {
     };
 
     return (
-        <main className="flex-grow min-h-screen py-8 px-16 bg-[#EEEAEA]">
-            <div className="bg-black py-6 px-16 rounded-lg w-full">
-                <div className='flex justify-between align-center'>
-                    <div className="flex items-center text-crearCuentaNavbar rounded-t-lg">
+        <main className="flex-grow min-h-screen sm:w-[70vw] menu:w-[calc(100vw-16rem)] py-8 px-8 xl:px-16 xl:py-16 bg-[#EEEAEA]">
+            {/* Encabezado visible solo en pantallas pequeñas */}
+            <div className="flex items-center mb-6 sm:hidden">
+                <FontAwesomeIcon icon={faArrowRight} className="text-gray-700" style={{ transform: 'scaleX(1.4)' }} />
+                <p className="pl-2 text-sm font-medium underline text-black">Tu actividad</p>
+            </div>
+            <div className="bg-black py-6 px-6 sm:px-2 md:px-4 lg:px-16 rounded-lg w-full">
+                {/* Grupo 2: Fecha y hora en pantallas medianas*/}
+                <div className='flex items-center mt-2 sm:mt-0 mb-4 sm:mt-4 hidden sm:block xl:hidden '>
+                    <h5 className="text-white text-right text-xxs sm:text-xs">{new Date(activity.dated).toLocaleDateString('es-ES', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                    })} a las {new Date(activity.dated).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })} </h5>
+                </div>
+                <div className='flex flex-col sm:items-center sm:flex-row sm:justify-between'>
+                    {/* Grupo 1: Icono y título */}
+                    <div className="flex items-center text-crearCuentaNavbar rounded-t-lg sm:order-1 order-1">
                         <span className='mr-2'><FontAwesomeIcon className="w-8 h-8" icon={faCircleCheck} /></span>
                         <h4>Aprobada</h4>
                     </div>
-                    <div className='flex items-center'>
-                        <h5 className="text-white">{new Date(activity.dated).toLocaleDateString('es-ES', {
+                    {/* <hr> para pantallas pequeñas debajo de "Aprobada" */}
+                    <hr className="border-t-1 border-crearCuentaLogin mt-4 -mx-2 sm:hidden order-2" />
+
+                    {/* Grupo 2: Fecha y hora */}
+                    <div className='flex items-center mt-2 sm:mt-0 mb-4 sm:mt-4 sm:order-2 order-3 block sm:hidden xl:block '>
+                        <h5 className="text-white text-xxs sm:text-md">{new Date(activity.dated).toLocaleDateString('es-ES', {
                             day: '2-digit',
                             month: 'long',
                             year: 'numeric'
@@ -324,10 +346,11 @@ const ActivityDetail = () => {
                         })} </h5>
                     </div>
                 </div>
-                <hr className="border-t-1 border-crearCuentaLogin mb-4" />
+                {/* <hr> separado para pantallas grandes */}
+                <hr className="border-t-1 border-crearCuentaLogin mb-4 hidden sm:block sm:order-3 mt-4" />
                 <div className="flex flex-col">
                     <div className='pt-2'>
-                        <h5 className="text-white">{activityDescription}</h5>
+                        <h5 className="text-white font-medium text-sm sm:font-bold sm:text-md">{activityDescription}</h5>
                     </div>
                     <div>
                         <h4 className="text-crearCuentaNavbar">${Math.abs(activity.amount).toFixed(2)}</h4>
@@ -347,17 +370,17 @@ const ActivityDetail = () => {
                 </div>
             </div>
 
-            <div className="flex justify-end mt-4">
+            <div className="flex flex-col items-center sm:flex-row justify-end mt-4">
                 <Button
                     type="button"
-                    className="w-64 h-12 mr-4 bg-[#CECECE] hover:bg-hoverButtonGreen"
+                    className="w-full !py-8 lg:w-1/4 sm:px-0 h-12 mb-4 sm:mb-0 sm:mr-4  bg-[#CECECE] hover:bg-hoverButtonGreen"
                     onClick={() => router.push('/dashboard')}
                 >
                     Ir al inicio
                 </Button>
                 <Button
                     type="button"
-                    className="w-64 h-12 bg-crearCuentaNavbar hover:bg-hoverButtonGreen"
+                    className="w-full !py-8 lg:w-1/4 sm:px-0 h-12 bg-crearCuentaNavbar hover:bg-hoverButtonGreen"
                     onClick={handleDownload}
                 >
                     Descargar comprobante
