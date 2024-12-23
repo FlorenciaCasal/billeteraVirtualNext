@@ -21,10 +21,16 @@ const ProfileLayout = async ({ children }: ProfileLayoutProps) => {
                 loggedEmailCookie={loggedEmailCookie}
                 firstname={user.firstname}
                 lastname={user.lastname}
+                showInitialBurger={true}
             />
-            <div className="flex w-full bg-cover bg-center flex-grow">
-                <MenuLateral />
-                {children}
+            <div className="flex w-full bg-cover bg-center flex-grow overflow-hidden">
+                {/* MenuLateral solo se renderiza en pantallas medianas-grandes */}
+                <div className="hidden sm:block">
+                    <MenuLateral />
+                </div>
+                <div className="w-full bg-[#EEEAEA]">
+                    {children}
+                </div>
             </div>
         </>
 

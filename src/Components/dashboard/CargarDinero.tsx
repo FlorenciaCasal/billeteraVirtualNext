@@ -121,7 +121,7 @@ const CargarDinero: React.FC<CargarDineroProps> = ({ token }) => {
                 />
                 {depositError && <p className="text-red-500">{depositError}</p>}
                 <Button onClick={handleDeposit} className='align-center text-xs text-bold'>
-                    Cargar dinero
+                    Ingresar dinero
                 </Button>
             </div>
         </>

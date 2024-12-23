@@ -4,11 +4,30 @@ import { AccessDeniedError } from "./http.errors";
 export class HttpBaseAPI {
     protected privateEndpoint: string;
     protected publicEndpointSuffix: string;
+    protected secondaryEndpoint?: string;
 
-    constructor(privateEndpoint: string, publicEndpointSuffix: string) {
+    constructor(privateEndpoint: string, publicEndpointSuffix: string, secondaryEndpoint?: string) {
         this.privateEndpoint = privateEndpoint;
         this.publicEndpointSuffix = publicEndpointSuffix;
+        this.secondaryEndpoint = secondaryEndpoint;
     }
+
+    async httpGetFromSecondary<T>(endpointSuffix: string, params?: URLSearchParams,  customHeaders?: Record<string, string>, token?: string): Promise<T> {
+        console.log(`Fetching URL from secondary endpoint: ${this.secondaryEndpoint}${endpointSuffix}`)
+        const res = await fetch(`${this.secondaryEndpoint}${endpointSuffix}${params ? `?${params}` : ''}`, {
+            cache: 'no-cache',
+            headers: !token ? { 'Content-Type': 'application/json' } : {
+                'Content-Type': 'application/json',
+                'Authorization': token,
+                ...customHeaders,
+            },
+        });
+        if (!res.ok) {
+            console.log(`${res.status} - ${res.statusText}`)
+            throw new Error("Failed to retrieve from secondary: " + endpointSuffix);
+        }
+        return res.json();
+    };
 
     async httpGet<T>(endpointSuffix: string, params?: URLSearchParams, token?: string): Promise<T> {
         console.log(`Fetching URL: ${this.privateEndpoint}${endpointSuffix}`);

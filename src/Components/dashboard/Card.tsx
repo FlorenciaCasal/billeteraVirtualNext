@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
+import Button from "../ui/Button";
 
 
 interface CardProps {
@@ -66,13 +67,17 @@ const Card = ({ token }: CardProps) => {
         }
     };
 
-    if (isLoading) return <div>Cargando tarjetas...</div>;
+    if (isLoading) return (
+        <div className="flex justify-center items-center h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-500 border-opacity-75"></div>
+        </div>
+    );
     if (error) return <div>{error}</div>;
 
     return (
         <>
-            <div className='flex flex-col py-8 px-8 w-full bg-backgroundNavbar rounded-lg'>
-                <p className="font-bold text-white pb-8">Agregá tu tarjeta de débito o crédito</p>
+            <div className='flex flex-col pt-4 pb-8 px-4 md:py-16 md:px-8 md:mb-12 lg:py-8 my-4 w-full bg-backgroundNavbar rounded-lg'>
+                <p className="block md:hidden lg:block font-bold text-white pb-8">Agregá tu tarjeta de débito o crédito</p>
                 <div
                     className={`flex items-center justify-between cursor-pointer ${cards.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={handleCreateCard}
@@ -90,26 +95,27 @@ const Card = ({ token }: CardProps) => {
                 )}
             </div>
 
-            <div className="flex flex-col py-8 px-8 mt-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 hover:shadow-md transition-shadow duration-300">
+            <div className="flex flex-col py-4 px-4 md:py-8 md:px-8 mt-6 w-full bg-white text-gray-700 rounded-lg focus:outline-none focus:border-black placeholder:text-gray-500 shadow-none md:shadow-md lg:shadow-none hover:shadow-md transition-shadow duration-300">
                 <h5 className="mb-4">Tus tarjetas</h5>
+                <hr className="hidden md:block lg:hidden border-t-1 border-black mb-4" />
                 {cards.length > 0 ? (
                     cards.map((card, index) => (
                         <div key={index}>
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center">
                                     {/* Icono de tarjeta */}
-                                    <div className="w-4 h-4 bg-crearCuentaNavbar rounded-full mr-2"></div>
+                                    <div className="w-4 h-4 md:w-6 md:h-6 bg-crearCuentaNavbar rounded-full mr-2"></div>
                                     <span>Terminada en {card.number_id.toString().slice(-4)}</span>
                                 </div>
                                 {/* Botón de eliminar */}
-                                <button
+                                <Button
                                     onClick={() => handleDelete(card.id)}
                                     className="flex items-center text-backgroundNavbar hover:text-red-700 transition-colors"
                                 >
                                     Eliminar
-                                </button>
+                                </Button>
                             </div>
-                            <hr className="border-t-1 border-black mb-4" />
+                            <hr className="border-t-1 border-transparent sm:border-gray-300 mb-4" />
                         </div>
                     ))
                 ) : (

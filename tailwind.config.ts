@@ -15,8 +15,13 @@ const config: Config = {
       },
       screens: {
         'xs': '375px',
+        's': '492px',
+        'tablet': '830px',
+        'menu': '853px'
       },
-
+      spacing: {
+        114: '28.5rem'
+      },
       colors: {
         'crearCuentaNavbar': '#C1FD35',
         'hoverButtonGreen': '#A0E529',
@@ -30,6 +35,7 @@ const config: Config = {
         sans: ['Open Sans', 'sans-serif'],
       },
       fontSize: {
+        xxs: '12px',
         xs: '14px',
         'msj': '15px',
         sm: '16px',

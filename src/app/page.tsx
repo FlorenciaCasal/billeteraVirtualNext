@@ -14,6 +14,7 @@ export default function Home() {
         showLoginButton={true}
         showRegisterButton={true}
         loggedEmailCookie = {loggedEmailCookie}
+        showInitialBurger = {false}
       />
       <section className="relative bg-fondo-home-mobile w-full sm:bg-fondo-home bg-cover bg-[center_40%] sm:bg-[40%_center] xl:bg-[center_10%] flex-grow flex flex-col justify-between">
 

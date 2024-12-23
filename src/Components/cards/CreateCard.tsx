@@ -8,6 +8,8 @@ import cardApi from '@/services/card/card.api';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import CardPreview from './CardPreview';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 interface CreateCardProps {
     token: string;
@@ -58,8 +60,13 @@ const CreateCard: React.FC<CreateCardProps> = ({ token, account_id }) => {
     };
 
     return (
-        <main className="flex-grow py-8 px-16 bg-[#EEEAEA] flex justify-center items-center">
-            <div className="bg-white w-full rounded-lg py-6 px-16 shadow-md">
+        <main className="flex-grow sm:w-[70vw] menu:w-[calc(100vw-16rem)] py-8 px-4 md:px-8 md:pt-12 xl:px-16 xl:pt-8 bg-[#EEEAEA]">
+            {/* Encabezado visible solo en pantallas pequeñas */}
+            <div className="flex items-center mb-6 sm:hidden">
+                <FontAwesomeIcon icon={faArrowRight} className="text-gray-700" style={{ transform: 'scaleX(1.4)' }} />
+                <p className="pl-2 text-sm font-medium underline text-black">Tarjetas</p>
+            </div>
+            <div className="bg-white w-full rounded-lg pt-6 pb-4 px-4 s:px-8 tablet:px-16 md:py-8 tablet:pt-14 tablet:pb-12 lg:px-20 xl:px-24 shadow-md">
                 <div className="flex justify-center mb-6">
                     <CardPreview
                         number_id={isConfirmed && cardData ? cardData.number_id : "**** **** **** ****"}
@@ -69,57 +76,57 @@ const CreateCard: React.FC<CreateCardProps> = ({ token, account_id }) => {
                     />
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-2 gap-x-12">
-                    <div className="col-span-1">
+                <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-y-0 gap-x-6 lg:gap-x-12 lg:gap-y-2 ">
+                    <div className="col-span-2 lg:col-span-1">
                         <Input
                             newType="number"
                             newPlaceholder="Número de la tarjeta"
                             register={register}
                             errors={errors}
                             fieldName="number_id"
-                            className="!border-[#D2ffec] !border-0.25 w-full rounded focus:outline-none focus:border-gray-500 shadow-md"
+                            className="!border-[#D2ffec] !border-0.25 w-full tablet:!h-14 rounded focus:outline-none focus:border-gray-500 shadow-md"
                             onChange={handleCardNumberChange}
                         />
                     </div>
 
-                    <div className="col-span-1">
-                        <Input
-                            newType="text"
-                            newPlaceholder="Fecha de vencimiento"
-                            register={register}
-                            errors={errors}
-                            fieldName="expiration_date"
-                            className="!border-[#D2ffec] !border-0.25 w-full rounded focus:outline-none focus:border-gray-500 shadow-md"
-                        />
-                    </div>
-
-                    <div className="col-span-1">
+                    <div className="col-span-2 lg:col-span-1">
                         <Input
                             newType="text"
                             newPlaceholder="Nombre y Apellido"
                             register={register}
                             errors={errors}
                             fieldName="first_last_name"
-                            className="!border-[#D2ffec] !border-0.25 w-full rounded focus:outline-none focus:border-gray-500 shadow-md"
+                            className="!border-[#D2ffec] !border-0.25 w-full tablet:!h-14 rounded focus:outline-none focus:border-gray-500 shadow-md"
                         />
                     </div>
 
-                    <div className="col-span-1">
+                    <div className="col-span-2 md:col-span-1">
+                        <Input
+                            newType="text"
+                            newPlaceholder="Fecha de vencimiento"
+                            register={register}
+                            errors={errors}
+                            fieldName="expiration_date"
+                            className="!border-[#D2ffec] !border-0.25 w-full tablet:!h-14 rounded focus:outline-none focus:border-gray-500 shadow-md"
+                        />
+                    </div>
+
+                    <div className="col-span-2 md:col-span-1">
                         <Input
                             newType="number"
                             newPlaceholder="Código de seguridad"
                             register={register}
                             errors={errors}
                             fieldName="cod"
-                            className="!border-[#D2ffec] !border-0.25 w-full rounded focus:outline-none focus:border-gray-500 shadow-md"
+                            className="!border-[#D2ffec] !border-0.25 w-full tablet:!h-14 rounded focus:outline-none focus:border-gray-500 shadow-md"
                         />
                     </div>
 
                     <div className="col-span-1"></div>
-                    <div className="col-span-1">
+                    <div className="col-span-2 lg:col-span-1 mt-4 xl:mt-2">
                         <Button
                             type="submit"
-                            className={`h-12 px-4 rounded w-full ${isConfirmed ? 'bg-crearCuentaNavbar' : 'bg-crearCuentaLogin text-[#000]'}`}
+                            className={`h-12 px-4 tablet:h-14 xl:h-16 rounded w-full !text-sm sahdow-md ${isConfirmed ? 'bg-crearCuentaNavbar' : 'bg-crearCuentaLogin text-[#000]'}`}
                         >
                             {isConfirmed ? 'Continuar' : 'Continuar'}
                         </Button>

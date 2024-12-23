@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import authApi from '@/services/auth/auth.api';
 import { LoginResponseType } from '@/types/auth.types';
 import { AccessDeniedError } from '@/services/common/http.errors';
-// import { setAmount } from '@/store/amountSlice';
-import userApi from '@/services/users/users.service';
 
 interface AuthState {
   user: { email: string } | null,

@@ -84,7 +84,11 @@ const LoadMoneyCard = ({ token, me }: loadMoneyCardPageProps) => {
         setEnteredAmount(null); // Limpia el monto ingresado
     };
 
-    if (isLoading) return <div>Cargando tarjetas...</div>;
+    if (isLoading) return (
+        <div className="flex justify-center items-center h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-500 border-opacity-75"></div>
+        </div>
+    );
     if (error) return <div>{error}</div>;
 
 

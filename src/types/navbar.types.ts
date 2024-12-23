@@ -9,4 +9,5 @@ export type NavbarType = {
     loggedEmailCookie?: string;
     firstname?: string | undefined;
     lastname?: string | undefined;
+    showInitialBurger: boolean;
 }
