@@ -60,7 +60,7 @@ const Step2 = () => {
           Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
             httpOnly: false,
             secure: true,
-            domain: process.env.NEXT_PUBLIC_API_URL,
+          //  domain: process.env.NEXT_PUBLIC_API_URL,
             path: '/',
           });
         } else {
