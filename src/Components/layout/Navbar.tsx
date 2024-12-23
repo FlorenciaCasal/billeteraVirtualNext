@@ -20,7 +20,7 @@ const Navbar = ({ backgroundColor, logo, showLoginButton, showRegisterButton, lo
 
     const initials = firstname && lastname
         ? `${firstname.charAt(0).toUpperCase()}${lastname.charAt(0).toUpperCase()}`
-        : 'NN';
+        : '';
 
     const toggleMenu = () => {
         setMenuVisible((prev) => !prev); // Alternar entre visible y no visible
