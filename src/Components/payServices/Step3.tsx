@@ -237,7 +237,9 @@ const Step3 = ({ token, selectedService, onConfirm, onSelectCard, onSelectAccoun
             <div className="flex flex-col bg-backgroundNavbar rounded-lg py-6 px-6 md:px-10 xl:px-16">
               {/* {renderError()} */}
               {loading ? (
-                <div>Cargando servicio...</div> // Aquí puedes mostrar un loader mientras se cargan los datos
+                <div className="flex justify-center items-center h-screen">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-500 border-opacity-75"></div>
+                </div>
               ) : (
                 selectedService && (
                   <>

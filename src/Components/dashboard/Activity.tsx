@@ -193,9 +193,6 @@ const Activity = () => {
 
     return (
         <>
-            {/* <main className="flex-grow min-h-screen py-8 px-4 tablet:px-16 bg-[#EEEAEA]"> */}
-
-            {/* <main className="flex-grow min-h-screen bg-[#EEEAEA]"> */}
             <main className="flex flex-col flex-grow ">
                 {!isDashboard && (
                     <div className="flex items-center mb-6 sm:hidden">
@@ -231,7 +228,9 @@ const Activity = () => {
                     )}
                 </div>
                 <div className="flex items-center flex-col">
-                    {isLoading ? <div>Cargando...</div> : error ? <div>{error}</div> : null}
+                    {isLoading ? <div className="flex justify-center items-center h-screen">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-500 border-opacity-75"></div>
+                    </div> : error ? <div>{error}</div> : null}
                 </div>
 
                 {/* Filtros */}

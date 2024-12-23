@@ -34,9 +34,9 @@ const DashboardClient: React.FC<DashboardClientProps> = ({ initialBalance, token
     }, [token, initialBalance, dispatch]);
 
     return (
-        <main className="flex-grow min-h-screen bg-[#EEEAEA]">
+        <main className="flex-grow bg-[#EEEAEA]">
             <section>
-                <div className='flex flex-col py-6 px-4 md:px-6 tablet:py-8 lg:px-8 w-full bg-backgroundNavbar rounded-lg'>
+                <div className='flex flex-col py-6 px-4 md:px-6 tablet:py-8 w-full bg-backgroundNavbar rounded-lg'>
                     <div className="flex justify-end pb-8 tablet:pb-6">
                         <Link href="/card">
                             <h5 className='text-white px-4 underline font-semibold'>Ver tarjetas</h5>

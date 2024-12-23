@@ -1,4 +1,4 @@
-"use client"; // Esto convierte todo el componente en un Client Component
+"use client"; 
 
 import "./globals.css";
 import Footer from "../Components/layout/Footer";

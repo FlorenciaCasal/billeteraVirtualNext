@@ -45,7 +45,7 @@ const Step1: React.FC<Step1Props> = ({
   return (
     <main >
       {/* Buscador */}
-      <div className="flex">        
+      <div className="flex">
         <div className="relative w-full shadow-[0_4px_6px_rgba(0,0,0,0.1)] rounded-lg border border-blue-300">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
@@ -66,7 +66,9 @@ const Step1: React.FC<Step1Props> = ({
         <h6 className='mb-4'>Más recientes</h6>
         <hr className="border-t-1 border-crearCuentaLogin" />
         {isLoading ? (
-          <p className="py-4 text-center">Cargando servicios...</p>
+          <div className="flex justify-center items-center h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-500 border-opacity-75"></div>
+          </div>
         ) : error ? (
           <p className="py-4 text-center text-red-600">{error}</p>
         ) : (

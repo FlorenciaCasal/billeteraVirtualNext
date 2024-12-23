@@ -18,8 +18,6 @@ const MenuLateral = ({ closeMenu }: { closeMenu?: () => void }) => {
 
     return (
         <>
-            {/* Menú lateral: visible en pantallas grandes, controlado por el menú hamburguesa en pantallas pequeñas */}
-            {/* <nav className="w-64 bg-crearCuentaNavbar min-h-full text-md py-12 px-8 "> */}
             <nav className="w-[50vw] sm:w-[30vw] menu:w-64 bg-crearCuentaNavbar min-h-full text-md py-12 px-8 ">
                 <ul>
                     <li className="pb-3">

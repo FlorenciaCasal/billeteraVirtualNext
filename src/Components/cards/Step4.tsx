@@ -252,12 +252,12 @@ const Step4 = ({ enteredAmount, cvu, transactionId, accountId, token }: Step4Pro
 
     return (
         // <div className="flex flex-col sm:px-4 w-full">
-        <div className="flex flex-col min-h-full sm:px-4 w-full">
-            <div className="bg-crearCuentaNavbar text-center py-6 lg:py-8 rounded-t-lg">
+        <div className="flex flex-col sm:px-4 w-full">
+            <div className="bg-crearCuentaNavbar text-center py-6 lg:py-6 rounded-t-lg">
                 <FontAwesomeIcon className="w-10 h-10 tablet:w-14 tablet:h-14" icon={faCircleCheck} />
                 <h5 className="text-black">Ya cargamos el dinero en tu cuenta</h5>
             </div>
-            <div className="bg-backgroundNavbar pt-6 pb-8 px-4 sm:py-6 sm:px-6 s:px-8 s:py-8 tablet:pb-8 tablet:pt-12 tablet:px-12 mt-4 lg:mt-6 rounded-lg">
+            <div className="bg-backgroundNavbar pt-6 pb-8 px-4 sm:py-6 sm:px-6 s:px-8 s:py-8 tablet:pb-8 tablet:pt-12 tablet:px-12 lg:pt-8 mt-4 rounded-lg">
                 <div className="block sm:hidden">
                     <h4 className="text-crearCuentaNavbar mb-6">Revisá que está todo bien</h4>
                     <hr className="border-t-1 border-gray-300 mb-4" />
@@ -277,7 +277,7 @@ const Step4 = ({ enteredAmount, cvu, transactionId, accountId, token }: Step4Pro
                 <p className="text-white mt-4">Brubank</p>
                 <p className="text-white">CVU {cvu}</p>
             </div>
-            <div className="flex flex-col tablet:flex-row tablet:justify-end mt-4 lg:mt-6">
+            <div className="flex flex-col tablet:flex-row tablet:justify-end mt-4">
                 <Button
                     type="button"
                     className="w-full mb-4 h-12 tablet:w-1/2 xl:w-1/4 tablet:h-16 tablet:mr-4 bg-[#CECECE] hover:bg-hoverButtonGreen"

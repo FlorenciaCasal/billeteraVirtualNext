@@ -109,7 +109,7 @@ const PayServicesPage = () => {
   };
 
   return (
-    <main className="flex-grow min-h-screen sm:w-[70vw] menu:w-[calc(100vw-16rem)] py-8 px-4 sm:px-10 sm:py-12 md:px-12 md:py-16 xl:px-20 xl:py-16 bg-[#EEEAEA]">
+    <main className="flex-grow sm:w-[70vw] menu:w-[calc(100vw-16rem)] py-8 px-4 sm:px-10 sm:py-12 md:px-12 md:py-16 xl:px-20 xl:py-16 bg-[#EEEAEA]">
       {/* Encabezado visible solo en pantallas pequeñas */}
       <div className="flex items-center mb-6 sm:hidden">
         <FontAwesomeIcon icon={faArrowRight} className="text-gray-700" style={{ transform: 'scaleX(1.4)' }} />

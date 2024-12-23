@@ -28,7 +28,7 @@ const ProfileLayout = async ({ children }: ProfileLayoutProps) => {
                 <div className="hidden sm:block">
                     <MenuLateral />
                 </div>
-                <div className="w-full">
+                <div className="w-full bg-[#EEEAEA]">
                     {children}
                 </div>
             </div>

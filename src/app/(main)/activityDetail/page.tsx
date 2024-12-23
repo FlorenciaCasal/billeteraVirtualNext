@@ -82,7 +82,12 @@ const ActivityDetail = () => {
         handleFetchActivityDetail();
     }, [transactionId, accountId, token]);
 
-    if (isLoading) return <div>Cargando...</div>;
+    // if (isLoading) return <div>Cargando...</div>;
+    if (isLoading) return (
+        <div className="flex justify-center items-center h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-500 border-opacity-75"></div>
+        </div>
+    );
     if (error) return <div>{error}</div>;
     if (!activity) return <div>Actividad no encontrada</div>;
 
@@ -307,7 +312,7 @@ const ActivityDetail = () => {
     };
 
     return (
-        <main className="flex-grow min-h-screen sm:w-[70vw] menu:w-[calc(100vw-16rem)] py-8 px-8 xl:px-16 xl:py-16 bg-[#EEEAEA]">
+        <main className="flex-grow sm:w-[70vw] menu:w-[calc(100vw-16rem)] py-8 px-8 xl:px-16 xl:py-16 bg-[#EEEAEA]">
             {/* Encabezado visible solo en pantallas pequeñas */}
             <div className="flex items-center mb-6 sm:hidden">
                 <FontAwesomeIcon icon={faArrowRight} className="text-gray-700" style={{ transform: 'scaleX(1.4)' }} />
