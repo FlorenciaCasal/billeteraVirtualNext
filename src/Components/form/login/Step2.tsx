@@ -46,12 +46,21 @@ const Step2 = () => {
         const accountIdResponse = await fetch(`/api/getAccountId?email=${email}`);
         const accountIdData = await accountIdResponse.json();
 
+        // if (accountIdData && accountIdData.account_id) {
+        //   // Guardar la cookie con el account_id obtenido
+        //   Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
+        //     httpOnly: false,
+        //     secure: true,
+        //     domain: 'localhost',
+        //     path: '/',
+        //   });
+        // } else {
         if (accountIdData && accountIdData.account_id) {
           // Guardar la cookie con el account_id obtenido
           Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
             httpOnly: false,
             secure: true,
-            domain: 'localhost',
+            //  domain: process.env.NEXT_PUBLIC_API_URL,
             path: '/',
           });
         } else {
@@ -65,7 +74,7 @@ const Step2 = () => {
       }
     }
   };
-  
+
 
   return (
     <>
