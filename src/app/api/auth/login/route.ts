@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
             expires: loginResponse.expireAt,
             httpOnly: true,
             secure: true,
-            // domain: process.env.NEXT_PUBLIC_API_URL,
+             domain: process.env.NEXT_PUBLIC_API_URL,
             path: '/'
         })
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
             expires: loginResponse.expireAt,
             httpOnly: false,
             secure: true,
-            // domain: process.env.NEXT_PUBLIC_API_URL,
+            domain: process.env.NEXT_PUBLIC_API_URL,
             path: '/'
         })
 
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
             cookies().set('digitalMoneyAccountID', account_id.toString(), {
                 httpOnly: false,
                 secure: true,
-                // domain: process.env.NEXT_PUBLIC_API_URL,
+                domain: process.env.NEXT_PUBLIC_API_URL,
                 path: '/',
             });
         } else {

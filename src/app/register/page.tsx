@@ -91,7 +91,7 @@ const RegisterPage = () => {
           Cookies.set('digitalMoneyAccountID', account_id, {
             httpOnly: false,
             secure: true,
-            // domain: process.env.NEXT_PUBLIC_API_URL,
+            domain: process.env.NEXT_PUBLIC_API_URL,
             path: '/',
           });
           console.log('Cookie set with account_id:', account_id);
