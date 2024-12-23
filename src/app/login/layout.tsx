@@ -11,6 +11,7 @@ const LoginLayout = ({ children }: LoginLayoutProps) => {
             showLoginButton={false}
             showRegisterButton={false}
             loggedEmailCookie = ''
+            showInitialBurger ={false}
         />
         {children}
     </>
