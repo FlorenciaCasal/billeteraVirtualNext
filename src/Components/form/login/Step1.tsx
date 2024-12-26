@@ -31,7 +31,7 @@ const Step1: React.FC<Step1Props> = ({ onContinue }) => {
   return (
     <>
       <section className="flex flex-col items-center justify-center">
-        <p className="text-[#FFF] font-bold mb-4">¡Hola! Ingresá tu e-mail</p>
+        <h4 className="text-[#FFF] mb-4">¡Hola! Ingresá tu e-mail</h4>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center">
           <input
             className={`w-64 h-12 mb-4 px-4 text-black border border-gray-500 rounded-lg focus:outline-none ${errors.email ? "border-red-500" : ""}`}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@/Components/ui/Button"
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -42,19 +42,9 @@ const Step2 = () => {
         await dispatch(loginUser({ email, password })).unwrap();
         console.log(`Email used in API call: ${email}`);
 
-        // Después del login exitoso, obtener el account_id
         const accountIdResponse = await fetch(`/api/getAccountId?email=${email}`);
         const accountIdData = await accountIdResponse.json();
 
-        // if (accountIdData && accountIdData.account_id) {
-        //   // Guardar la cookie con el account_id obtenido
-        //   Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
-        //     httpOnly: false,
-        //     secure: true,
-        //     domain: 'localhost',
-        //     path: '/',
-        //   });
-        // } else {
         if (accountIdData && accountIdData.account_id) {
           // Guardar la cookie con el account_id obtenido
           Cookies.set('digitalMoneyAccountID', accountIdData.account_id, {
@@ -79,7 +69,7 @@ const Step2 = () => {
   return (
     <>
       <section className="flex flex-col items-center justify-center">
-        <p className="text-[#FFF] font-bold mb-4">Ingresá tu contraseña</p>
+        <h4 className="text-[#FFF] mb-4">Ingresá tu contraseña</h4>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center">
           <input
             className={`w-64 h-12 mb-4 px-4 text-black border border-gray-500 rounded-lg focus:outline-none ${errors.password ? "border-red-500" : ""
@@ -89,8 +79,8 @@ const Step2 = () => {
             {...register("password")}
             autoFocus
             onChange={(e) => {
-              register("password").onChange(e); // Ejecutar el onChange de RHF
-              trigger("password"); // Disparar validación en tiempo real
+              register("password").onChange(e); 
+              trigger("password");
             }}
           />
           {errors.password && (
