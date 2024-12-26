@@ -66,8 +66,8 @@ const Step1: React.FC<Step1Props> = ({
         <h6 className='mb-4'>Más recientes</h6>
         <hr className="border-t-1 border-crearCuentaLogin" />
         {isLoading ? (
-          <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-500 border-opacity-75"></div>
+          <div className="flex justify-center items-center h-48">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-crearCuentaNavbar border-opacity-75"></div>
           </div>
         ) : error ? (
           <p className="py-4 text-center text-red-600">{error}</p>

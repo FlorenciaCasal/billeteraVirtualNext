@@ -68,8 +68,8 @@ const Card = ({ token }: CardProps) => {
     };
 
     if (isLoading) return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-500 border-opacity-75"></div>
+        <div className="flex justify-center items-center h-48">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-crearCuentaNavbar border-opacity-75"></div>
         </div>
     );
     if (error) return <div>{error}</div>;
