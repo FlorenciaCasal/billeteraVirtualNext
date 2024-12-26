@@ -21,7 +21,7 @@ const Input: React.FC<InputProps> = ({ newType, newPlaceholder, register, errors
         {...register(fieldName)}
         autoFocus={autoFocus}
       />
-      <p className={`text-msj italic font-sans text-center text-error ${errors[fieldName] ? 'block' : 'invisible'}`}>
+      <p className={`text-msj italic font-sans text-center text-error w-72 ${errors[fieldName] ? 'block' : 'invisible'}`}>
         {errors[fieldName]?.message || 'Placeholder'}
       </p>
     </span>
