@@ -69,5 +69,7 @@ El archivo docker-compose.yml maneja el entorno de desarrollo y producción, y c
 
 ## Enlaces Adicionales
 URL de Jira: https://florenciacasal88fc.atlassian.net/jira/software/projects/DIG/boards/2
+
 URL de Vercel: https://digital-money-house-next.vercel.app
-URL de Google Drive: https://drive.google.com/tu-carpeta-de-testing
+
+URL de Google Drive: https://drive.google.com/drive/folders/1Pu1nvMuoLLWl66Q-FtkigOnPo94AN6DU?usp=drive_link
