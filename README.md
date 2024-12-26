@@ -1,7 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 # Digital Money House
-Este es un proyecto basado en Next.js, utilizando Docker para el desarrollo y Redis para el manejo de sesiones y autenticación de usuarios. El proyecto se conecta con una API externa para manejar el registro y autenticación de usuarios.
+Digital Money House es una aplicación de billetera virtual. Su objetivo es permitir a los usuarios realizar transacciones digitales de manera fácil y segura, gestionando su dinero de forma eficiente a través de una interfaz web. La infraestructura detrás de Digital Money House está pensada para manejar la autenticación de usuarios, el almacenamiento seguro de tokens de sesión, y la interacción con servicios externos.
+Esta aplicación funciona de manera eficiente y segura, utilizando tecnologías modernas como Next.js, Redis, y Docker.
+
 
 ## Requisitos
 Docker
