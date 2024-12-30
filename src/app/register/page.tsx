@@ -21,8 +21,8 @@ const MsjExito = (onRedirect: () => void) => {
     color: '#fff',
     customClass: {
       confirmButton: 'bg-crearCuentaNavbar !pr-[100px] !pl-[100px] text-black',
-      title: 'text-[#fff] text-4xl font-semibold leading-[90px]',
-      popup: 'swal-popup',
+      title: 'text-[#fff] text-2xl md:text-4xl font-semibold leading-[90px]',
+      popup: 'swal-popup pl-16 pr-16 md:pl-0 md:pr-0',
     },
   }).then((result) => {
     if (result.isConfirmed) {
