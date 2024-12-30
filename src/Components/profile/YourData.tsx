@@ -66,14 +66,26 @@ const YourData = ({ user, me, token }: YourDataProps) => {
         try {
             // Crear dataToUpdate asegurando que dni es un número o excluyéndolo si es null
             const dataToUpdate = {
-                ...formData,
+                email: formData.email,
+                firstname: formData.nombre, // Aseguramos que se envíe 'firstname' en lugar de 'nombre'
+                lastname: formData.apellido, // Aseguramos que se envíe 'lastname' en lugar de 'apellido'
                 dni: formData.DNI ? parseInt(formData.DNI.toString(), 10) : undefined, // Excluir `dni` si no es un número
+                phone: formData.teléfono,
                 password: formData.contraseña !== '********' ? formData.contraseña : undefined
             };
+            console.log(dataToUpdate)
+            const updatedUser = await userApi.updateUser(me.user_id, token, dataToUpdate);
+            // Actualización de estado con datos del backend
+            setFormData({
+                email: updatedUser.email,
+                nombre: updatedUser.firstname,
+                apellido: updatedUser.lastname,
+                DNI: updatedUser.dni,
+                teléfono: updatedUser.phone,
+                contraseña: '********', // Reiniciar contraseña
+            });
 
-            await userApi.updateUser(me.user_id, token, dataToUpdate);
-            setEditingField(null);
-            setFormData(prev => ({ ...prev, password: '********' })); // Reiniciar contraseña a asteriscos
+            setEditingField(null); // Desactivar el modo de edición
         } catch (error) {
             console.error("Error updating user:", error);
         }
