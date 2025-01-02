@@ -1,0 +1,69 @@
+[33md4cfbdd[m[33m ([m[1;36mHEAD -> [m[1;32mproduction[m[33m)[m Merge branch 'production' of https://github.com/FlorenciaCasal/billeteraVirtualNext into production
+[33ma2eeaf0[m modifique el tamaño de registro exitoso
+[33mbf2e0e0[m[33m ([m[1;31morigin/production[m[33m)[m Update README.md
+[33m69a7f73[m Update README.md
+[33m6fc169a[m Update README.md
+[33me24fde2[m cambié url de vercel
+[33m81b6c25[m spinner mas pequeño
+[33m9e1061c[m últimos detalles de estilo
+[33m4d6e5b5[m Estilos
+[33m46a5f9a[m un solo .env
+[33mb3b1a20[m modificando los archivos .env...
+[33m2a6704c[m borré los domains
+[33m959a933[m descomente el domain con NEXT_PUBLIC_API_URL
+[33m9652b14[m showInitialBurger opcional
+[33m226f4f1[m borre el NN del login/layout y el true del navbar
+[33m7e93e4d[m .env modificado
+[33mdaf413b[m cambios para vercel
+[33m1fc7857[m cambios para vercel
+[33mba89617[m Fusioné la rama main en production: conflictos resueltos
+[33m069d9f3[m agregando spinners
+[33ma2bff98[m Terminado todo el responsivegit add .git add .!
+[33mde8f7af[m Responsive page dashboard
+[33me112971[m archivos descargables tanto para activity detail, como para pay services y cards
+[33m191a13b[m detalles sprint4
+[33m115803a[m Elección tarjeta o dinero en cuenta, no las dos simultaneamente
+[33m3fe4262[m pagar servicios, desde dinero en cuenta, con tarjeta y nueva tarjeta
+[33mb9360f7[m user story pagar servicios, en proceso
+[33me37a18a[m page pay-services
+[33m7e1588f[m comenzando Sprint4
+[33m6921966[m docker para production
+[33mfb78e87[m docker compose para production
+[33m71e60c2[m .env para production
+[33m7a3f61c[m modificando cuestiones de redis en production
+[33mbbfe0e7[m modificando cuestiones de redis en production
+[33md58a6cc[m .env comentado
+[33mda64d8c[m .env comentado
+[33m05baa2e[m redis en aws
+[33m1a54457[m Configuración para desarrollo
+[33m97b85e0[m modifique  enviroment
+[33m1dd99b2[m corrigiendo components a Components en loadMoneyCard y users
+[33m0bdf372[m Ajustes en referencias de rutas y otros cambios relacionados
+[33m5394a55[m Actualizando carpeta components a Components
+[33m64bf8c1[m Components - components
+[33mc21e54d[m Reorganización de componentes: movidos a src/components
+[33mf67babb[m Renombré temp_components a components
+[33m452a10c[m Renamed Components to temp_components
+[33mb53e3d9[m modificando import de  components
+[33m4f6e14b[m listo para deployar
+[33m43721da[m configuración del entorno de producción
+[33m932b709[m cerrando Sprint3, barra de busqueda y actividades con distinto comportamiento segun esté en activity o en dashboard
+[33ma76f8bf[m filtar actividades por rango de montos
+[33mb454531[m filtro por período y por tipo de operación
+[33m6671086[m Actividades desde menú lateral
+[33mc7c48df[m Actualizar configuraciones y componentes
+[33mf8fa511[m Agregar dinero sprint3
+[33m6fc8c4f[m cerrando sprint 2 devs
+[33m51fea64[m Agregar tarjetas y renderizarlas segun sean mastercard, visa o amex
+[33m8b6ec30[m funcionando actividades y campo de busqueda por descripción o monto
+[33m63029ca[m funcionando traer actividades sprint 2
+[33mef16d08[m comenzando sprint2
+[33me6ee684[m logout del primer sprint terminado
+[33md4038cd[m formatear readme
+[33m2e2b9c3[m rehice el readme, que se había borrado!!
+[33mb4adfdc[m validaciones en el login y home responsive
+[33md775cdb[m middleware agregado, error en /profile
+[33me8fdcb8[m agregando middleware y solucionado el error 500 en el login
+[33m0d7e409[m Dockerfile, docker-compose, autenticación con redis
+[33mbeb52dd[m Agregando el proyecto al repositorio remoto
+[33md0127ea[m Initial commit from Create Next App
