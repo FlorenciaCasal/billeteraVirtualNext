@@ -1,7 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-# Digital Money
-Este es un proyecto basado en Next.js, utilizando Docker para el desarrollo y Redis para el manejo de sesiones y autenticación de usuarios. El proyecto se conecta con una API externa para manejar el registro y autenticación de usuarios.
+# Digital Money House
+Digital Money House es una aplicación de billetera virtual. Su objetivo es permitir a los usuarios realizar transacciones digitales de manera fácil y segura, gestionando su dinero de forma eficiente a través de una interfaz web. La infraestructura detrás de Digital Money House está pensada para manejar la autenticación de usuarios, el almacenamiento seguro de tokens de sesión, y la interacción con servicios externos.
+Esta aplicación funciona de manera eficiente y segura, utilizando tecnologías modernas como Next.js, Redis, y Docker.
+
 
 ## Requisitos
 Docker
@@ -67,21 +69,9 @@ El Dockerfile utilizado para este proyecto incluye configuraciones tanto para de
 ## Docker Compose
 El archivo docker-compose.yml maneja el entorno de desarrollo y producción, y configura tanto el servicio web como el de Redis.
 
+## Enlaces Adicionales
+URL de Jira: https://florenciacasal88fc.atlassian.net/jira/software/projects/DIG/boards/2
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+URL de Vercel: https://digital-money-house-next.vercel.app
 
---------------------------------------------------------------------
-
-URL de Trello: https://trello.com/b/2eHn3QUM/digital-money
-
-URL Figma sprint 1: https://www.figma.com/design/97PL2osKArAZLEvUjjtEt5/FRONT---SPRINT-1--Digital-Money-House?node-id=1316-6225&t=RucWLNVQJeHNuOEG-0
-
-URL Figma sprint 2: https://www.figma.com/design/hrzb9zdwHR7jNphUuNiM1q/FRONT---SPRINT-2--Digital-Money-House?node-id=1316-6225&t=G48LaDcv6Io11IoB-0
-
-URL Figma sprint 3: https://www.figma.com/design/qkyOYyOi1RCw6lT43ICUM7/FRONT---SPRINT-3--Digital-Money-House?node-id=1316-6225&t=ihYpzErokQ7u9Kqy-0
-
-URL Figma sprint 4: https://www.figma.com/design/ZI7xSzYquZc6CowjMGb8wj/FRONT---SPRINT-4--Digital-Money-House?node-id=1316-6225&t=6gPQHAtw9F0tKItW-0
-
-Desktop: 1440 x 764
-Tablet: 834 x 1194
-Mobile: 390 x 905
+URL de Google Drive: https://drive.google.com/drive/folders/1Pu1nvMuoLLWl66Q-FtkigOnPo94AN6DU?usp=drive_link
